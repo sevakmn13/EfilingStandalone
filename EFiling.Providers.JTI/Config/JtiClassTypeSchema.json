@@ -1,0 +1,740 @@
+{
+  "version": "2.0",
+  "schemaSlice": "classTypes",
+  "provider": "JTI",
+  "description": "JTI classType shape definitions. Derived from WSDL `DocumentFilingMetaDataItem` (19 fields) + catalog §3.0-§3.20 wire evidence. Authoritative for UI field rendering, builder xmlPath dispatch, and parser reverse-mapping. Open-string contract: consumers MUST fail-closed on classType values not in this file, per §3.0 observation #3.",
+  "catalogRef": "docs/JTI_SUBSEQUENT_FILING_CATALOG.md §3",
+  "planRef": "docs/EFILING_SUBSEQUENT_FILING_REIMPLEMENTATION_PLAN.md §T-3a",
+  "wsdlRef": "src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs:11397 (DocumentFilingMetaDataItem). 19 classType fields occupy XmlElement Order 1-10 and 12-20; Order=11 is `idReferences` (shared existing-data wrapper, NOT a classType).",
+  "evidenceLevels": {
+    "V0": "Evidence-backed, baseline-sample-verified, Tier B live-green on Madera. Production-ready.",
+    "V1": "Evidence-backed (baseline samples), Tier A green, Tier B partial. Production-ready with known gaps.",
+    "V2": "Layer A (JTI HTML docs) only OR Layer B (per-court variant outside baseline). Not baseline-observed. Fail-closed unless court policy declares it.",
+    "V3": "WSDL-declared only. No Layer A/B/C evidence yet. Fail-closed until first-sample evidence promotes to V2+."
+  },
+  "classTypes": {
+    "caseParticipant": {
+      "description": "Party on the case (person or organization). Most-used classType — gates 26/26 baseline SF scenarios.",
+      "catalogSection": "§3.2",
+      "renderHint": "compositeCard",
+      "variantSelector": {
+        "type": "radio",
+        "values": ["person", "organization"],
+        "default": "person",
+        "uxLabel": "Party type"
+      },
+      "evidence": { "level": "V0", "baselineSampleCount": 26, "tierBLiveVerified": true },
+      "wsdl": {
+        "field": "caseParticipantValue",
+        "clrType": "CaseParticipantExtType[]",
+        "xsdOrder": 9,
+        "referenceLine": 11586
+      },
+      "wire": {
+        "wrapperElement": "caseParticipantValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "ECF 4.0 CaseParticipantType extended to CaseParticipantExtType; wraps nc:EntityPerson / nc:EntityOrganization + ContactInformation + CaseParticipantRoleCode"
+      },
+      "valueRestrictions": {
+        "existingData": {
+          "supported": true,
+          "wire": "<idReferences><id>{primaryId}</id></idReferences>",
+          "notes": "References an existing party on the case by primaryId (from GetCase response)."
+        },
+        "newData": {
+          "supported": true,
+          "wire": "<caseParticipantValue> with full nc:EntityPerson / nc:EntityOrganization + role + contact",
+          "notes": "Inline new-party data. Audit H-1 confirmed the wire shape — prior builder dropped new-party names silently."
+        }
+      },
+      "variants": {
+        "person": {
+          "description": "Natural person. Uses nc:EntityPerson.",
+          "notSurfacedWsdlFields": [
+            { "path": "nc:EntityPerson/nc:PersonName/nc:PersonNamePrefixText", "reason": "UX simplification — rarely used; per-court promotion possible if a court requests prefix support." },
+            { "path": "nc:EntityPerson/nc:PersonName/nc:PersonMaidenName", "reason": "UX simplification — rarely needed in CA civil filings; promote per-court if Probate / Family demands it." },
+            { "path": "nc:EntityPerson/nc:PersonName/nc:PersonFullName", "reason": "Derived field — composed from given+middle+surname on the server side; never a filer-entered value." },
+            { "path": "nc:EntityPerson/nc:PersonName/nc:PersonNameCommentText", "reason": "UX simplification — not a filer-facing concept; reserved for clerk annotations." }
+          ],
+          "notSurfacedWsdlFieldsSource": "WSDL-grounded against PersonNameType at @c:/Users/sevak/workspace/test/src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs:5475 (verified 2026-05-17 in pre-T-4 audit).",
+          "fields": [
+            { "name": "partyType", "label": "Party Type", "type": "dropdown", "required": true, "source": "PARTY_TYPE", "xmlPath": "CaseParticipantRoleCode" },
+            { "name": "personGivenName", "label": "First Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonGivenName" },
+            { "name": "personMiddleName", "label": "Middle Name", "type": "text", "required": false, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonMiddleName" },
+            { "name": "personSurName", "label": "Last Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonSurName" },
+            { "name": "personNameSuffixText", "label": "Suffix", "type": "text", "required": false, "maxLength": 20, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonNameSuffixText" }
+          ]
+        },
+        "organization": {
+          "description": "Corporate / governmental entity. Uses nc:EntityOrganization.",
+          "notSurfacedWsdlFields": [],
+          "auditNote": "WSDL field enumeration pending against nc:EntityOrganizationType — surfaced set is baseline-sample-driven (just OrganizationName). Per-court promotion path: add OrganizationIdentification / OrganizationDoingBusinessAsName as discovered.",
+          "fields": [
+            { "name": "partyType", "label": "Party Type", "type": "dropdown", "required": true, "source": "PARTY_TYPE", "xmlPath": "CaseParticipantRoleCode" },
+            { "name": "organizationName", "label": "Organization Name", "type": "text", "required": true, "maxLength": 200, "xmlPath": "nc:EntityOrganization/nc:OrganizationName" }
+          ]
+        }
+      },
+      "additionalInfoTagsNote": "Observed tags: E_SERVICE (self-rep), EFSP_EMAIL (with E_SERVICE), FEE_EXEMPTION, EFSP_FIRST_APPEARANCE_PAID. See catalog §4."
+    },
+
+    "caseAssignment": {
+      "description": "Attorney assignment on a case. Gates 14/26 baseline SF scenarios (attorney add/remove).",
+      "catalogSection": "§3.3",
+      "renderHint": "compositeCard",
+      "evidence": { "level": "V0", "baselineSampleCount": 14, "tierBLiveVerified": true },
+      "wsdl": {
+        "field": "caseAssignmentValue",
+        "clrType": "CaseAssignmentType[]",
+        "xsdOrder": 19,
+        "referenceLine": 11726
+      },
+      "wire": {
+        "wrapperElement": "caseAssignmentValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "JTI CaseAssignmentType (ecf:extension:CaseAssignmentType). Wraps nc:EntityPerson (attorney name + bar via PersonOtherIdentification) + nc:EntityOrganization (firm) + ContactInformation + AssignmentRole."
+      },
+      "valueRestrictions": {
+        "existingData": {
+          "supported": true,
+          "wire": "<idReferences><id>{primaryId}</id></idReferences>",
+          "notes": "References an existing attorney on the case by primaryId."
+        },
+        "newData": {
+          "supported": true,
+          "wire": "<caseAssignmentValue> with EntityPerson + bar + firm + contact + AssignmentRole",
+          "notes": "Audit C-1 fixed controller silent-drop of new-data caseAssignment."
+        }
+      },
+      "variants": {
+        "attorney": {
+          "description": "Attorney representation. AssignmentRole=ATT.",
+          "notSurfacedWsdlFields": [],
+          "auditNote": "WSDL field enumeration pending against CaseAssignmentType (extends CaseParticipantExtType) at @c:/Users/sevak/workspace/test/src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs:17396 — surfaced set is baseline-sample-driven (bar + name + firmName). AssignmentRole + nested contact fields may surface as separate primitives.",
+          "fields": [
+            { "name": "barNumber", "label": "Bar Number", "type": "text", "required": true, "maxLength": 20, "xmlPath": "nc:EntityPerson/nc:PersonOtherIdentification/nc:IdentificationID" },
+            { "name": "personGivenName", "label": "First Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonGivenName" },
+            { "name": "personMiddleName", "label": "Middle Name", "type": "text", "required": false, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonMiddleName" },
+            { "name": "personSurName", "label": "Last Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonSurName" },
+            { "name": "personNameSuffixText", "label": "Suffix", "type": "text", "required": false, "maxLength": 20, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonNameSuffixText", "addedNote": "Added 2026-05-17 (Step #12 prep). Was on caseParticipant.person variant (line 66) but missing from caseAssignment.attorney + attorney alias variants — pre-fix the T-4 attorney composite would silently drop suffix even though SF's hand-coded markup emitted `.att-suffix` and the wire model carries CaseAssignmentData.NameSuffix end-to-end (Step #8 closure)." },
+            { "name": "firmName", "label": "Firm Name", "type": "text", "required": false, "maxLength": 200, "xmlPath": "nc:EntityOrganization/nc:OrganizationName" }
+          ]
+        }
+      },
+      "additionalInfoTagsNote": "Audit C-3b/c — tags on caseAssignment existing-data / new-data branches were silently dropped pre-fix. Allowed tags TBD per court policy."
+    },
+
+    "contact": {
+      "description": "Contact information (address + phone + email). Used for 5/26 baseline SF scenarios.",
+      "catalogSection": "§3.4",
+      "renderHint": "compositeCard",
+      "evidence": { "level": "V1", "baselineSampleCount": 5, "tierBLiveVerified": true },
+      "wsdl": {
+        "field": "contactValue",
+        "clrType": "ContactValue",
+        "xsdOrder": 17,
+        "referenceLine": 11698
+      },
+      "wire": {
+        "wrapperElement": "contactValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "childrenNamespacePrefix": "ns10",
+        "childrenNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:ContactValue",
+        "niemGrounding": "JTI ContactValue extension. NOT niem-core nc:ContactInformation — distinct namespace per audit C-2 Bug B fix."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false, "notes": "Contact is always inline; no idReferences shape." },
+        "newData": { "supported": true, "wire": "<contactValue> with address1/city/state/zip/phone/email children in ns10 namespace" }
+      },
+      "variants": {
+        "default": {
+          "description": "Standard contact card with mailing address + optional phone/email.",
+          "notSurfacedWsdlFields": [],
+          "auditNote": "WSDL field enumeration pending against JTI ContactValue extension at @c:/Users/sevak/workspace/test/src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs:22576 — surfaced set covers the 10 fields baseline-sample-observed. Extra fields (e.g., second telephone, fax) may exist; promote per-court evidence.",
+          "sourceLiveVerified": "2026-05-17 against Madera Court Policy via /api/codelist endpoint. STATE returned [] (wrong); US_STATE returned 50 entries. PHONE_TYPE returned [] (wrong); TELEPHONE_TYPE returned 5 entries. COUNTRY returned 797 bytes; ADDRESS_COUNTRY returned 4814 bytes (richer, per memory 8fc21aaf JTI EFM core requirements). ADDRESS_TYPE returned 675 bytes (correct).",
+          "fields": [
+            { "name": "address1", "label": "Street Address", "type": "text", "required": true, "maxLength": 200, "xmlPath": "ns10:address1" },
+            { "name": "address2", "label": "Street Address 2", "type": "text", "required": false, "maxLength": 200, "xmlPath": "ns10:address2" },
+            { "name": "city", "label": "City", "type": "text", "required": true, "maxLength": 100, "xmlPath": "ns10:city" },
+            { "name": "state", "label": "State", "type": "dropdown", "required": true, "source": "US_STATE", "sourceCorrectionNote": "Was 'STATE' until 2026-05-17. Live verification against Madera proved STATE returns empty array; US_STATE returns 50 entries. Incumbent SF view always used 'US_STATE'.", "xmlPath": "ns10:state" },
+            { "name": "zip", "label": "Zip Code", "type": "text", "required": true, "maxLength": 10, "xmlPath": "ns10:zip" },
+            { "name": "country", "label": "Country", "type": "dropdown", "required": false, "source": "ADDRESS_COUNTRY", "sourceCorrectionNote": "Was 'COUNTRY' until 2026-05-17. Both names work but ADDRESS_COUNTRY is the canonical JTI name (per memory 8fc21aaf) and returns the comprehensive list (4814 vs 797 bytes on Madera).", "default": "US", "xmlPath": "ns10:country" },
+            { "name": "addressType", "label": "Address Type", "type": "dropdown", "required": false, "source": "ADDRESS_TYPE", "xmlPath": "ns10:addressType" },
+            { "name": "telephoneType", "label": "Phone Type", "type": "dropdown", "required": false, "source": "TELEPHONE_TYPE", "sourceCorrectionNote": "Was 'PHONE_TYPE' until 2026-05-17. Live verification against Madera proved PHONE_TYPE returns empty array; TELEPHONE_TYPE returns 5 entries.", "xmlPath": "ns10:telephoneType" },
+            { "name": "telephoneNumber", "label": "Phone", "type": "tel", "required": false, "maxLength": 20, "xmlPath": "ns10:telephoneNumber" },
+            { "name": "email", "label": "Email", "type": "email", "required": false, "maxLength": 100, "xmlPath": "ns10:email" }
+          ]
+        }
+      },
+      "knownBugs": [
+        "Phantom `<telephoneNumber>` emission — deferred per §3.4, evidence-negative."
+      ]
+    },
+
+    "codeList": {
+      "description": "Dropdown selection from a court-declared code list (MOTION_TYPE, CAUSE_OF_ACTION, DEFERRED_PAYMENT, IS_WITH_HEARING, etc.).",
+      "catalogSection": "§3.5",
+      "renderHint": "dropdown",
+      "evidence": { "level": "V1", "baselineSampleCount": 2, "tierBLiveVerified": true, "layerAEvidence": "JTI HTML docs: LASC IS_WITH_HEARING, IS_STIP, JUDSIGN, ACCOMMODATIONS, DEFERRED_PAYMENT" },
+      "wsdl": {
+        "field": "codeValue",
+        "clrType": "string",
+        "xsdOrder": 13,
+        "referenceLine": 11642
+      },
+      "wire": {
+        "wrapperElement": "codeValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "No NIEM analogue — pure JTI concept. Wire element wraps a simple string."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": true, "notes": "Rare — code is its own identity; usually emitted as new-data." },
+        "newData": { "supported": true, "wire": "<codeValue>{codeString}</codeValue>" }
+      },
+      "variants": {
+        "default": {
+          "description": "Single-value dropdown sourced dynamically from court policy (`selectedCode` drives the choice).",
+          "fields": [
+            { "name": "selectedCode", "label": "Selection", "type": "dropdown", "required": true, "source": "dynamic", "xmlPath": "." }
+          ]
+        }
+      },
+      "additionalInfoTagsNote": "None observed. The codeValue itself IS the value; tags would be redundant."
+    },
+
+    "date": {
+      "description": "Date/datetime value. Used for Proof-of-Service dates (CIV-SUB-016/017) among others.",
+      "catalogSection": "§3.6",
+      "renderHint": "scalar",
+      "evidence": { "level": "V1", "baselineSampleCount": 2, "tierBLiveVerified": true },
+      "wsdl": {
+        "field": "dateValue",
+        "clrType": "DateType",
+        "xsdOrder": 5,
+        "referenceLine": 11516
+      },
+      "wire": {
+        "wrapperElement": "dateValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "innerChild": "nc:DateTime",
+        "innerChildNamespacePrefix": "ns1",
+        "innerChildNamespaceUri": "http://niem.gov/niem/niem-core/2.0",
+        "niemGrounding": "niem-core nc:DateType with nc:DateTime child (ISO 8601 datetime, optional timezone). Audit D-1 confirmed <DateTime> not <Date>."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false, "notes": "Dates are always inline scalar values." },
+        "newData": { "supported": true, "wire": "<dateValue><nc:DateTime>YYYY-MM-DDTHH:mm:ss</nc:DateTime></dateValue>" }
+      },
+      "variants": {
+        "default": {
+          "description": "Date-only or datetime; timezone optional per court configuration.",
+          "fields": [
+            { "name": "dateValue", "label": "Date", "type": "date", "required": true, "xmlPath": "nc:DateTime" }
+          ]
+        }
+      },
+      "openQuestions": [
+        "Timezone offset handling — baseline wire uses `-08:00`; builder currently emits without offset. Deferred pending timezone-configuration story."
+      ]
+    },
+
+    "boolean": {
+      "description": "Yes/No flag. Used for Self-Rep conversion (CIV-SUB-018) and custody flag (FAM-SUB-004).",
+      "catalogSection": "§3.7",
+      "renderHint": "scalar",
+      "evidence": { "level": "V1", "baselineSampleCount": 2, "tierBLiveVerified": true },
+      "wsdl": {
+        "field": "booleanValue",
+        "clrType": "bool",
+        "xsdOrder": 6,
+        "referenceLine": 11530
+      },
+      "wire": {
+        "wrapperElement": "booleanValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "xs:boolean scalar. Baseline wire uses literal `true`/`false`, NOT digit form `1`/`0` (distinct from tagValue encoding — see tag schema for `E_SERVICE` which uses `0`/`1`)."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<booleanValue>true</booleanValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "booleanValue", "label": "Yes", "type": "checkbox", "required": false, "xmlPath": "." }
+          ]
+        }
+      },
+      "labelGroundingNote": "Field label is 'Yes' (not 'Value') because boolean classType is always rendered as a yes/no checkbox where the question lives in the document-metadata's `name` (meta.Name) — e.g., 'Is the petitioner self-represented?' — and the checkbox label is the affirmative answer. Verified against incumbent SF view's inline checkbox UX 2026-05-17 + grounded in 2 baseline samples (CIV-SUB-018, FAM-SUB-004) where the meta.Name carries the question."
+    },
+
+    "text": {
+      "description": "Free-text metadata (e.g., LASC JCCP Number per JTI HTML docs). Not observed in 48 baseline samples.",
+      "catalogSection": "§3.8",
+      "renderHint": "scalar",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V2", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": "JTI HTML: Court Specific Concepts / JCCP Number Sample" },
+      "wsdl": {
+        "field": "textValue",
+        "clrType": "@string (niem-core TextType)",
+        "xsdOrder": 1,
+        "referenceLine": 11460
+      },
+      "wire": {
+        "wrapperElement": "textValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "niem-core TextType / xs:string scalar."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": true, "notes": "Uses shared idReferences when value must come from a pre-defined set (e.g., codelist-backed text)." },
+        "newData": { "supported": true, "wire": "<textValue>{string}</textValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "textValue", "label": "Text", "type": "text", "required": true, "maxLength": 500, "xmlPath": "." }
+          ]
+        }
+      },
+      "promotionCriteria": "First Layer B (per-court variant XML) or Layer C (Madera GetPolicy) sighting of classType=text with actual field constraints."
+    },
+
+    "crsReceiptNumber": {
+      "description": "Calendar Reservation System (CRS) receipt number. Per JTI Document Metadata HTML doc 'Class Types' section: 'String. The calendar reservation number generated by the CRS system.' This is one of the 10 JTI canonical classTypes (alongside attorney, boolean, caseParticipant, contact, currency, date, judgment, text, codelist). Builder arm + parser arm landed Step #46 based on JTI HTML Layer A evidence; same evidence tier as text/currency.",
+      "catalogSection": "§3.9",
+      "renderHint": "scalar",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V2",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": "JTI Document Metadata HTML doc, Class Types section: 'crsReceiptNumber' / 'String. The calendar reservation number generated by the CRS system.' Source file: docs/fileing files/Document Metadata/Document Metadata _ EFM Documentation.html line 626. Same evidence tier as text/currency (HTML doc only, no baseline sample)."
+      },
+      "wsdl": {
+        "field": "crsReceiptNumberValue",
+        "clrType": "string",
+        "xsdOrder": 2,
+        "referenceLine": 11474
+      },
+      "wire": {
+        "wrapperElement": "crsReceiptNumberValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "xs:string scalar. No NIEM wrapper."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false, "notes": "Receipt numbers are scalar identifiers, always new-data." },
+        "newData": { "supported": true, "wire": "<crsReceiptNumberValue>{string}</crsReceiptNumberValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "crsReceiptNumberValue", "label": "CRS Receipt Number", "type": "text", "required": true, "maxLength": 50, "xmlPath": "." }
+          ]
+        }
+      },
+      "promotionCriteria": "PROMOTED Step #46. Future promotion to V1 (Tier B live-verified) waits on either: (a) a real court declaring crsReceiptNumber in its policy/UX, OR (b) a baseline sample capturing the wire shape end-to-end. Until then the builder arm + parser arm exist defensively (if a custom policy ever enables this classType, the builder won't NotImplementedException-throw)."
+    },
+
+    "number": {
+      "description": "Numeric (decimal) scalar value. **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit of the JTI Document Metadata HTML doc (`docs/fileing files/Document Metadata/Document Metadata _ EFM Documentation.html`), the canonical 'Class Types' enumeration lists 10 entries (attorney, boolean, caseParticipant, contact, crsReceiptNumber, currency, date, judgment, text, codelist) — `number` is NOT among them. The wrapper element `<numberValue>` exists in the WSDL but JTI does not expose it as a filer-controllable classType. Likely a reserved/server-populated field or extension type. Builder fail-closes via schema-aware default arm.",
+      "catalogSection": "§3.10",
+      "renderHint": "scalar",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "numberValue",
+        "clrType": "NumericType",
+        "xsdOrder": 3,
+        "referenceLine": 11488
+      },
+      "wire": {
+        "wrapperElement": "numberValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "niem-core nc:NumericType (decimal-backed leaf)."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<numberValue>{decimal}</numberValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "numberValue", "label": "Number", "type": "number", "required": true, "xmlPath": "." }
+          ]
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `number` to the Document Metadata HTML 'Class Types' enumeration (external doc change), OR (b) an observed sample from any court using `<classType>number</classType>`. Until then, considered structurally out-of-scope rather than awaiting-evidence-blocked."
+    },
+
+    "currency": {
+      "description": "Monetary amount with currency code.",
+      "catalogSection": "§3.11",
+      "renderHint": "scalar",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V2", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": "Plan §T-8 declaration only; candidate scenario CIV-INI-013 (Small Claims Jurisdictional Limit) may exercise it." },
+      "wsdl": {
+        "field": "currencyValue",
+        "clrType": "AmountType",
+        "xsdOrder": 4,
+        "referenceLine": 11502
+      },
+      "wire": {
+        "wrapperElement": "currencyValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "innerChild": "nc:Amount",
+        "niemGrounding": "niem-core nc:AmountType. Structured: <nc:Amount currencyCode=\"USD\">123.45</nc:Amount>. Current builder emits decimal as direct leaf — may be wrong, needs Tier A regression once a sample appears."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<currencyValue><nc:Amount currencyCode=\"USD\">{decimal}</nc:Amount></currencyValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "amount", "label": "Amount", "type": "currency", "required": true, "min": 0, "xmlPath": "nc:Amount" },
+            { "name": "currencyCode", "label": "Currency", "type": "text", "required": false, "default": "USD", "maxLength": 3, "xmlPath": "nc:Amount/@currencyCode" }
+          ]
+        }
+      },
+      "knownBugs": [
+        "Builder currently emits `<currencyValue>{decimal}</currencyValue>` directly — suspected wrong per NIEM nc:AmountType structure. Flagged for T-8 cleanup."
+      ],
+      "promotionCriteria": "First sample with classType=currency confirming the nc:Amount wrap."
+    },
+
+    "email": {
+      "description": "Structured email address (beyond contact.email — standalone email-as-metadata). **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `email` is NOT among them. Email is exposed by JTI via the `contact` classType (nested ContactEmailID) which IS in the canonical list. The standalone `<emailValue>` WSDL wrapper appears to be a reserved field, NOT a filer-controllable classType.",
+      "catalogSection": "§3.12",
+      "renderHint": "scalar",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "emailValue",
+        "clrType": "ElectronicMailType",
+        "xsdOrder": 7,
+        "referenceLine": 11558
+      },
+      "wire": {
+        "wrapperElement": "emailValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "niem-core nc:ElectronicMailType — wraps <nc:EmailID> child."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<emailValue><nc:EmailID>{string}</nc:EmailID></emailValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "emailID", "label": "Email", "type": "email", "required": true, "maxLength": 100, "xmlPath": "nc:EmailID" }
+          ]
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `email` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>email</classType>` as a metadata-item classType (NOT the contact.email nested shape, which is already supported). Until then, use the existing `contact` classType for filer email entry."
+    },
+
+    "action": {
+      "description": "Cause-of-action or complaint-line-item within a filing. **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `action` is NOT among them. The `<actionValue>` wrapper is in the WSDL but JTI does not expose it as a filer-controllable classType. Causes of action are typically captured via case-extension level constructs (ECF 4.0 ecf:ComplaintType) not via metadata items.",
+      "catalogSection": "§3.13",
+      "renderHint": "complexDeferred",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "actionValue",
+        "clrType": "ComplaintType",
+        "xsdOrder": 8,
+        "referenceLine": 11572
+      },
+      "wire": {
+        "wrapperElement": "actionValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "ECF 4.0 ecf:ComplaintType or JTI extension. Complex sub-structure — builder likely deferred behind first-observed-sample gate."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<actionValue>...complex ComplaintType content...</actionValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [],
+          "fieldsNote": "Field list deferred — ComplaintType is complex, needs first sample to determine minimal + optional fields."
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `action` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>action</classType>` AS A METADATA ITEM (NOT the case-extension ECF 4.0 ecf:ComplaintType, which lives directly on case extensions and isn't a metadata-item classType). Madera GetPolicy probe (Step #46) yielded no classType declarations of any kind."
+    },
+
+    "attorney": {
+      "description": "Attorney-as-a-classType. SEMANTIC synonym of caseAssignment but distinct wire wrapper. JTI HTML docs use this; baseline samples use caseAssignment.",
+      "catalogSection": "§3.14",
+      "renderHint": "compositeCard",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V2", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": "JTI HTML 'Building a Subsequent Filing Payload' example." },
+      "wsdl": {
+        "field": "attorneyValue",
+        "clrType": "CaseParticipantExtType[]",
+        "xsdOrder": 10,
+        "referenceLine": 11600,
+        "clrTypeNote": "Same CLR type as caseParticipant, different wrapper element. Code MUST dispatch on classType string → wrapper element (§3.0 observation #1). Note both share Order=10/9 adjacency in WSDL."
+      },
+      "wire": {
+        "wrapperElement": "attorneyValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "Same as caseParticipant — nc:EntityPerson + bar + firm + contact + AssignmentRole."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": true, "wire": "<idReferences><id>{primaryId}</id></idReferences>" },
+        "newData": { "supported": true, "wire": "<attorneyValue>...same shape as caseAssignment new-data...</attorneyValue>" }
+      },
+      "variants": {
+        "attorney": {
+          "description": "Alias of caseAssignment.attorney — reuse the same field list.",
+          "aliasOf": "caseAssignment.attorney",
+          "fields": [
+            { "name": "barNumber", "label": "Bar Number", "type": "text", "required": true, "maxLength": 20, "xmlPath": "nc:EntityPerson/nc:PersonOtherIdentification/nc:IdentificationID" },
+            { "name": "personGivenName", "label": "First Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonGivenName" },
+            { "name": "personMiddleName", "label": "Middle Name", "type": "text", "required": false, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonMiddleName" },
+            { "name": "personSurName", "label": "Last Name", "type": "text", "required": true, "maxLength": 100, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonSurName" },
+            { "name": "personNameSuffixText", "label": "Suffix", "type": "text", "required": false, "maxLength": 20, "xmlPath": "nc:EntityPerson/nc:PersonName/nc:PersonNameSuffixText", "addedNote": "Added 2026-05-17 (Step #12 prep). Was on caseParticipant.person variant (line 66) but missing from caseAssignment.attorney + attorney alias variants — pre-fix the T-4 attorney composite would silently drop suffix even though SF's hand-coded markup emitted `.att-suffix` and the wire model carries CaseAssignmentData.NameSuffix end-to-end (Step #8 closure)." },
+            { "name": "firmName", "label": "Firm Name", "type": "text", "required": false, "maxLength": 200, "xmlPath": "nc:EntityOrganization/nc:OrganizationName" }
+          ]
+        }
+      },
+      "knownBugs": [
+        "Builder new-data path shares case \"caseparticipant\": case \"attorney\" fall-through at ReviewFilingXmlBuilder.cs:832-833; new-data emits <caseParticipantValue>, NOT <attorneyValue>. Fix is T-8 branch split."
+      ],
+      "promotionCriteria": "First sample OR Madera policy declaring classType=attorney."
+    },
+
+    "address": {
+      "description": "Structured mailing/physical address as a standalone metadata item (distinct from contact.address nested shape). **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `address` is NOT among them. Addresses are exposed by JTI via the `contact` classType (nested StructuredAddress) which IS in the canonical list. The standalone `<addressValue>` WSDL wrapper is a reserved field, NOT a filer-controllable classType.",
+      "catalogSection": "§3.15",
+      "renderHint": "compositeCard",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "addressValue",
+        "clrType": "StructuredAddressType",
+        "xsdOrder": 12,
+        "referenceLine": 11628
+      },
+      "wire": {
+        "wrapperElement": "addressValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "JTI StructuredAddressExt extension — sta1:StructuredAddress. Field set likely mirrors contact.default minus the phone/email bits."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<addressValue><sta1:StructuredAddress>...</sta1:StructuredAddress></addressValue>" }
+      },
+      "variants": {
+        "default": {
+          "description": "Reuses address-portion of contact fields. Extract helper from BuildContactInformation per T-8 refactor.",
+          "notSurfacedWsdlFields": [],
+          "auditNote": "WSDL field enumeration pending against StructuredAddressType (NIEM-core) at @c:/Users/sevak/workspace/test/src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs:1730 — NIEM type has addressRecipientName, supplementalAddressText, geocoordinates etc. that are deliberately not surfaced for CA-civil filer UX. Per-court promotion possible.",
+          "fields": [
+            { "name": "address1", "label": "Street Address", "type": "text", "required": true, "maxLength": 200, "xmlPath": "sta1:address1" },
+            { "name": "address2", "label": "Street Address 2", "type": "text", "required": false, "maxLength": 200, "xmlPath": "sta1:address2" },
+            { "name": "city", "label": "City", "type": "text", "required": true, "maxLength": 100, "xmlPath": "sta1:city" },
+            { "name": "state", "label": "State", "type": "dropdown", "required": true, "source": "US_STATE", "sourceCorrectionNote": "Was 'STATE' until 2026-05-17. Same fix applied to contact.default (line 161). Live verification against Madera proved STATE returns empty array; US_STATE returns 50 entries.", "xmlPath": "sta1:state" },
+            { "name": "zip", "label": "Zip Code", "type": "text", "required": true, "maxLength": 10, "xmlPath": "sta1:zip" },
+            { "name": "country", "label": "Country", "type": "dropdown", "required": false, "source": "ADDRESS_COUNTRY", "sourceCorrectionNote": "Was 'COUNTRY' until 2026-05-17. Same fix applied to contact.default (line 163). ADDRESS_COUNTRY is the canonical JTI name (per memory 8fc21aaf) and returns 4814 vs 797 bytes on Madera.", "default": "US", "xmlPath": "sta1:country" }
+          ]
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `address` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>address</classType>` as a metadata-item classType (NOT contact.address). Until then, use the existing `contact` / `caseParticipant` classTypes for filer address entry."
+    },
+
+    "document": {
+      "description": "Document-reference-as-metadata (NOT the document being filed — that's coreFilingMessage/DocumentSubmission). **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `document` is NOT among them. The `<documentValue>` wrapper is in the WSDL but JTI does not expose it as a filer-controllable classType. Likely a server-populated cross-reference field.",
+      "catalogSection": "§3.16",
+      "renderHint": "complexDeferred",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "documentValue",
+        "clrType": "CourtEventDocumentTypeExt[]",
+        "xsdOrder": 14,
+        "referenceLine": 11656
+      },
+      "wire": {
+        "wrapperElement": "documentValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "JTI CourtEventDocumentTypeExt extension. Represents a cross-reference to a document associated with a court event."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<documentValue>...CourtEventDocumentTypeExt content...</documentValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [],
+          "fieldsNote": "Field list deferred — CourtEventDocumentTypeExt is complex. Fail-closed until sample surfaces."
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `document` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>document</classType>` AS A METADATA ITEM. Note: Madera GetPolicy probe (Step #46 Path 1) returned NO classType enumeration — the policy structure only enumerates CourtCodelist URIs (CASE_CATEGORY, ADDRESS_TYPE, etc.) and three ECFElementName entries (AttorneyValue, DocumentIdentification → documentList, CourtName → zipCode). `DocumentIdentification` maps to a document-list source for picker UI, NOT to the `document` classType."
+    },
+
+    "scheduledEvent": {
+      "description": "Hearing / trial / calendared event reference. **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `scheduledEvent` is NOT among them. The `<scheduledEventValue>` wrapper is in the WSDL but JTI does not expose it as a filer-controllable classType.",
+      "catalogSection": "§3.17",
+      "renderHint": "complexDeferred",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "scheduledEventValue",
+        "clrType": "CourtEventTypeExt[]",
+        "xsdOrder": 15,
+        "referenceLine": 11670
+      },
+      "wire": {
+        "wrapperElement": "scheduledEventValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "JTI CourtEventTypeExt — hearing / trial / calendared-event."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<scheduledEventValue>...CourtEventTypeExt content...</scheduledEventValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [],
+          "fieldsNote": "Field list deferred — CourtEventTypeExt is complex."
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `scheduledEvent` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>scheduledEvent</classType>`. The Madera GetPolicy probe (Step #46) lists EVENT_TYPE as a CourtCodelist but that's a code-list of event categories, not a classType declaration."
+    },
+
+    "caseSpecialStatus": {
+      "description": "Per-case special status flag (scalar string). **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `caseSpecialStatus` (the metadata-item classType) is NOT among them. **Important distinction:** the LASC `<ns6:CaseSpecialStatus>` at CASE-extension level (e.g., UDCOV19 indicator, documented in Subsequent Filing Court Specific Concepts HTML) is a SEPARATE wire shape from the metadata-item `<caseSpecialStatusValue>` wrapper. The case-level construct IS documented and IS used for LASC COVID-19 stipulations + Bankruptcy indicators; the metadata-item classType is NOT documented and presumably reserved.",
+      "catalogSection": "§3.18",
+      "renderHint": "scalar",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "caseSpecialStatusValue",
+        "clrType": "string",
+        "xsdOrder": 16,
+        "referenceLine": 11684
+      },
+      "wire": {
+        "wrapperElement": "caseSpecialStatusValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "xs:string scalar. No NIEM wrapper."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<caseSpecialStatusValue>{string}</caseSpecialStatusValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "caseSpecialStatusValue", "label": "Case Special Status", "type": "text", "required": true, "maxLength": 100, "xmlPath": "." }
+          ]
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `caseSpecialStatus` (the metadata-item form) to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>caseSpecialStatus</classType>` AS A METADATA ITEM (NOT the CASE-extension level `<CaseSpecialStatus>` already documented in catalog §5.6.3 — that's a different wire shape served by direct CivilCaseTypeExt emission, not via documentFilingMetaDataItem)."
+    },
+
+    "judgment": {
+      "description": "Judgment reference (existing-data: pointer to a pre-existing judgment on the case by id). WSDL wrapper field is PLURAL: <judgments>, not <judgmentValue>. Content element <judgmentId> lives in a DIFFERENT namespace (CourtEventJudgment) than the wrapper (DocumentFilingMetaData) — judgment is the only classType where wrapper + content namespaces split.",
+      "catalogSection": "§3.19",
+      "renderHint": "complexDeferred",
+      "awaitingEvidence": false,
+      "evidence": { "level": "V2", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": "LASC vendor sample 'Example Filing a Writ of Return Sample.xml' (existing-data with <ns10:judgmentId>2562247</ns10:judgmentId>). Note: catalog §3.19 previously cited the Alameda 'Abstract of Judgment - Civil and Small Claims Sample.xml' as Layer B evidence — that citation is misleading; the Alameda sample contains zero judgment metadata. Step #15 audit corrected the citation. Stays V2 (Layer A vendor only) until a canonical SF baseline scenario is captured." },
+      "wsdl": {
+        "field": "judgments",
+        "clrType": "CourtEventJudgmentType[]",
+        "xsdOrder": 18,
+        "referenceLine": 11712,
+        "wireElementNote": "PLURAL — field name is `judgments`, wire element is `<judgments>`. Not `<judgmentValue>`. Content element `<judgmentId>` is in namespace `urn:com.journaltech:ecourt:ecf:extension:CourtEventJudgment` per CourtEventJudgmentType (FilingReview/Reference.cs:22743)."
+      },
+      "wire": {
+        "wrapperElement": "judgments",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "childrenNamespacePrefix": "ns10",
+        "childrenNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:CourtEventJudgment",
+        "niemGrounding": "JTI CourtEventJudgmentType — represents judgment-line items.",
+        "wireExample": "<ns9:judgments><ns10:judgmentId>{id}</ns10:judgmentId></ns9:judgments>"
+      },
+      "valueRestrictions": {
+        "existingData": {
+          "supported": true,
+          "wire": "<ns9:judgments><ns10:judgmentId>{id}</ns10:judgmentId></ns9:judgments>",
+          "wireNote": "Multiple <ns10:judgmentId> children may appear inside one <ns9:judgments> wrapper (WSDL declares CourtEventJudgmentType[] — array). Observed sample only shows 1, but multi-id is wire-spec valid.",
+          "evidence": "LASC Writ of Return Sample (Layer A vendor doc, 2020-03-20)."
+        },
+        "newData": {
+          "supported": true,
+          "awaitingEvidence": true,
+          "wire": "<ns9:judgments>...JudgmentAwardType + JudgmentAwardPartyType content...</ns9:judgments>",
+          "wireNote": "WSDL hosts JudgmentAwardType (FilingReview/Reference.cs:22832) + JudgmentAwardPartyType (FilingReview/Reference.cs:22872) for filing a brand-new judgment with creditor/debtor party refs + amount + date. NO observed sample. Builder throws NotImplementedException for new-data path."
+        }
+      },
+      "variants": {
+        "default": {
+          "fields": [
+            { "name": "judgmentId", "label": "Judgment", "type": "id-reference", "required": true, "xmlPath": "ns9:judgments/ns10:judgmentId", "valueRestriction": "existing-data", "fieldNote": "Existing-data only. Picker source populated by CaseResponseParser.ParseJudgments (Step #48, 2026-05-21) from <CaseCourtEvent xsi:type=CourtEventJudgmentType> elements in the GetCase response. SF.cshtml's `buildJudgmentSection` renders a <select> from the `caseJudgments` JS array. Empty case → disabled select + explanation message." }
+          ]
+        }
+      },
+      "promotionCriteria": "Step #48 — follow-up (1) DONE: frontend caseJudgments loader landed via server-side eager projection. CaseInfo.Judgments populated by CaseResponseParser.ParseJudgments (extracts <CaseCourtEvent xsi:type=CourtEventJudgmentType> using structural discriminator 'has judgmentId child'). SF.cshtml serializes Model.Judgments to a caseJudgments JS array (mirrors caseParties pattern) and the judgment dispatcher arm renders a <select> populated from it. 6 Step48 parser tests lock the LASC HTML wire shape + multi-judgment + empty-state + discriminator (non-judgment CaseCourtEvent ignored) + empty-id-skip + dedupe invariants. **Remaining follow-up (2):** Capture a new-data baseline sample exercising JudgmentAwardType + JudgmentAwardPartyType to flip newData.awaitingEvidence=false — still blocked on baseline sample availability."
+    },
+
+    "relatedCase": {
+      "description": "Cross-reference to another case (related-case designation, consolidation, transfer). **TIER-3 / NOT IN JTI CANONICAL CLASS TYPES LIST** — per Step #46 audit, JTI HTML Document Metadata 'Class Types' enumerates 10 classTypes and `relatedCase` is NOT among them. The `<relatedCaseValue>` wrapper is in the WSDL but JTI does not expose it as a filer-controllable classType.",
+      "catalogSection": "§3.20",
+      "renderHint": "complexDeferred",
+      "awaitingEvidence": true,
+      "evidence": { "level": "V3", "baselineSampleCount": 0, "tierBLiveVerified": false, "layerAEvidence": null },
+      "jtiCanonicalListed": false,
+      "wsdl": {
+        "field": "relatedCaseValue",
+        "clrType": "RelatedCaseType[]",
+        "xsdOrder": 20,
+        "referenceLine": 11740
+      },
+      "wire": {
+        "wrapperElement": "relatedCaseValue",
+        "wrapperNamespacePrefix": "ns9",
+        "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+        "niemGrounding": "JTI RelatedCaseType."
+      },
+      "valueRestrictions": {
+        "existingData": { "supported": false },
+        "newData": { "supported": true, "wire": "<relatedCaseValue>...RelatedCaseType content...</relatedCaseValue>" }
+      },
+      "variants": {
+        "default": {
+          "fields": [],
+          "fieldsNote": "Field list deferred — RelatedCaseType complex."
+        }
+      },
+      "promotionCriteria": "Step #46 re-classification: TIER-3 unblock requires EITHER (a) JTI adding `relatedCase` to the Document Metadata HTML 'Class Types' enumeration, OR (b) an observed sample using `<classType>relatedCase</classType>`. Note: related-case associations DO exist in the WSDL at the case-extension level (RelatedCaseAssociationType in CivilCaseTypeExt) which is a different wire shape from the metadata-item `<relatedCaseValue>` wrapper."
+    }
+  }
+}

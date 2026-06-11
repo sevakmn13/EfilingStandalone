@@ -1,0 +1,31 @@
+{
+  "_comment": "Copy this file to testsettings.json and fill in credentials. Set EFILING_PASSPHRASE env var for encrypted values.",
+  "Courts": {
+    "Madera": {
+      "Environments": {
+        "Staging": {
+          "CourtId": "madera",
+          "DisplayName": "Madera Superior Court",
+          "ProviderType": "JTI",
+          "Environment": "Staging",
+          "SoapEndpoint": "https://aux-pub-efm-madera-ca.ecourt.com/ws/soap/niem/FilingReview/",
+          "RestBaseUrl": "https://aux-pub-efm-madera-ca.ecourt.com/ws/rest/ecourt",
+          "Username": "YOUR_ENCRYPTED_USERNAME_HERE",
+          "Password": "YOUR_ENCRYPTED_PASSWORD_HERE",
+          "IsActive": true
+        },
+        "Production": {
+          "CourtId": "madera",
+          "DisplayName": "Madera Superior Court",
+          "ProviderType": "JTI",
+          "Environment": "Production",
+          "SoapEndpoint": "https://efm-madera-court-prod-pub.ecourt.com/sustain/ws/soap/niem/FilingReview",
+          "RestBaseUrl": "https://efm-madera-court-prod-pub.ecourt.com/sustain/ws/rest/ecourt",
+          "Username": "YOUR_ENCRYPTED_USERNAME_HERE",
+          "Password": "YOUR_ENCRYPTED_PASSWORD_HERE",
+          "IsActive": false
+        }
+      }
+    }
+  }
+}

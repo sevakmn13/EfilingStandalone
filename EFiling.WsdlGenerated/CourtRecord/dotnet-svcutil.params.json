@@ -1,0 +1,15 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": [
+      "../../../../../../OneDrive/Desktop/fileing files/Madera/XSD Definitions/CourtRecordMDEPort.wsdl"
+    ],
+    "namespaceMappings": [
+      "*, EFiling.WsdlGenerated.CourtRecord"
+    ],
+    "outputFile": "Reference.cs",
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}

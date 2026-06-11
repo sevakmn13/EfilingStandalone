@@ -1,0 +1,246 @@
+{
+  "version": "2.0",
+  "schemaSlice": "tags",
+  "provider": "JTI",
+  "description": "JTI additionalInfoTags registry. Derived from catalog §4 evidence (4 tags V0/V1 baseline-observed) + §4.5 unverified hypotheses (5 tags V3). Tags live under <ns9:additionalInfoTags> wrappers with two required children: <ns9:tagType>, <ns9:tagValue>. Multiple tags on the same scope are emitted as SIBLING <additionalInfoTags> wrappers (not multiple children under one wrapper).",
+  "catalogRef": "docs/JTI_SUBSEQUENT_FILING_CATALOG.md §4",
+  "planRef": "docs/EFILING_SUBSEQUENT_FILING_REIMPLEMENTATION_PLAN.md §T-3a",
+  "wsdlRef": "src/EFiling/EFiling.WsdlGenerated/FilingReview/Reference.cs — AdditionalInfoTagType; appears on DocumentFilingMetaDataItem.idReferences.additionalInfoTags[] + CaseValueBase.additionalInfoTags[]",
+  "wireStructure": {
+    "wrapperElement": "additionalInfoTags",
+    "wrapperNamespacePrefix": "ns9",
+    "wrapperNamespaceUri": "urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData",
+    "children": {
+      "tagType": "string (tag identifier)",
+      "tagValue": "string (content — value semantic varies per tagType per this registry)"
+    },
+    "repeatability": "Multiple sibling <ns9:additionalInfoTags> wrappers are allowed inside a single <ns9:idReferences>. Each sibling has exactly one tagType + one tagValue child. Builder MUST emit repeated top-level wrappers; parser MUST iterate all <additionalInfoTags> elements, not just the first.",
+    "scopeLocations": [
+      "<ns9:idReferences>/<ns9:additionalInfoTags> — party-level tags scoped to a referenced entity",
+      "<ns9:caseParticipantValue>/<ns9:additionalInfoTags> — new-data party scope (rare; see §3.2)",
+      "<ns9:caseAssignmentValue>/<ns9:additionalInfoTags> — new-data attorney scope (audit C-3b)"
+    ]
+  },
+  "valueSemanticKinds": {
+    "digit-boolean": "String content MUST be literal '0' (false) or '1' (true). NOT XML-literal 'true'/'false'. Distinct from classType='boolean' which uses XML-literal form.",
+    "string-enum": "String content matches one of a fixed enum. Parser MUST fail-closed on unknown tokens; builder MUST emit only declared enum values.",
+    "free-text": "Arbitrary string content (e.g., email address, identifier).",
+    "email": "RFC 5322-compatible email address as string content. UI validates; wire treats as free-text."
+  },
+  "tags": {
+    "E_SERVICE": {
+      "label": "Consent to Electronic Service",
+      "description": "Party opt-in/opt-out of eService. DUAL ENCODING: for existing-data parties uses this tag; for new-data parties the same semantic is expressed as <ns10:eService>true</ns10:eService> inline under <caseParticipantValue> (XML-literal form).",
+      "catalogSection": "§4.1",
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 8,
+        "tierBLiveVerified": true,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "pairedWith": {
+        "tagType": "EFSP_EMAIL",
+        "condition": "When tagValue='1' (opt-in), EFSP_EMAIL is typically emitted as a sibling tag with the delivery address. Both tags live inside the SAME <idReferences> block."
+      },
+      "sampleUsage": ["CIV-SUB-001", "CIV-SUB-009", "CIV-SUB-012", "CIV-SUB-013", "CIV-SUB-014", "CIV-SUB-016", "FAM-SUB-004", "PRO-SUB-001"],
+      "openQuestions": [
+        "Does JTI tolerate XML-literal 'true'/'false' tagValues? Policy: emit digit form; accept either form on parse; log warning if literal form appears.",
+        "Tag presence when party has no eService opinion — omit or emit '0'? Samples show present for every party with any preference."
+      ]
+    },
+
+    "FEE_EXEMPTION": {
+      "label": "Fee Exemption / Waiver Indicator",
+      "description": "Party-level fee exemption. Audit C-3 fix: single tagType with enum tagValue, NOT a checkbox. Observed values: GOVT_ENTITY (government entity exempt), FEE_WAIVER (fee waiver granted/requested).",
+      "catalogSection": "§4.2",
+      "tagValueKind": "string-enum",
+      "uiType": "dropdown",
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 2,
+        "tierBLiveVerified": true,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "enumValues": ["GOVT_ENTITY", "FEE_WAIVER"],
+      "enumValueLabels": {
+        "GOVT_ENTITY": "Government Entity (fee-exempt)",
+        "FEE_WAIVER": "Fee Waiver Requested/Granted"
+      },
+      "sampleUsage": ["CIV-SUB-002 (GOVT_ENTITY)", "CIV-SUB-003 (FEE_WAIVER)"],
+      "relatedClassTypes": ["contact — CIV-SUB-003 pairs FEE_WAIVER with a companion contact classType (FILING_PARTY_ADDRESS code) for the waiver-requesting party's address"],
+      "auditFindings": [
+        "Audit C-3 (tag-semantics inversion): schema side — type MUST be dropdown with {GOVT_ENTITY, FEE_WAIVER} enum, NOT checkbox. Pre-fix `JtiFieldSchema.json` had type=checkbox."
+      ],
+      "openQuestions": [
+        "Full enum domain: only GOVT_ENTITY and FEE_WAIVER observed. Possibly PRIOR_PAID, DEFERRED, INDIGENT? Check JTI HTML + Madera live.",
+        "Relationship to declared-unverified EFSP_GOVERNMENT_EXEMPT / EFSP_FEE_WAIVER_FILED (§4.5) — duplicates or distinct tagTypes?"
+      ]
+    },
+
+    "EFSP_FIRST_APPEARANCE_PAID": {
+      "label": "First Appearance Fee Already Paid (Self-Certification)",
+      "description": "Filer self-certifies that the first-appearance fee for this party has been paid in a prior filing and should not be charged again. Self-certification — no JTI cross-check observed.",
+      "catalogSection": "§4.3",
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 1,
+        "tierBLiveVerified": true,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "sampleUsage": ["CIV-SUB-004"],
+      "openQuestions": [
+        "Is '0' ever emitted, or is tag omitted when not paid? Only '1' observed — policy-driven (EFSP may only include tag when self-certifying yes).",
+        "Validity scope: self-certified by filer with no backing verification, or JTI cross-checks prior filings?"
+      ]
+    },
+
+    "EFSP_EMAIL": {
+      "label": "EFSP Delivery Email for eService",
+      "description": "Email address for eService delivery. Always paired with E_SERVICE=1 as a sibling tag in the same <idReferences> block. NOT a boolean; NOT an enum.",
+      "catalogSection": "§4.4",
+      "tagValueKind": "email",
+      "uiType": "email",
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 1,
+        "tierBLiveVerified": true,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "pairedWith": {
+        "tagType": "E_SERVICE",
+        "condition": "REQUIRED-WITH-E_SERVICE=1. Never observed standalone; never paired with E_SERVICE=0."
+      },
+      "sampleUsage": ["FAM-SUB-004"],
+      "auditFindings": [
+        "Schema gap pre-T-3a: EFSP_EMAIL was missing entirely from `JtiFieldSchema.json` (§4.4) despite being evidence-backed. Added in this T-3a S2 deliverable."
+      ],
+      "openQuestions": [
+        "Email format validation on JTI side — strict RFC 5322 or permissive?",
+        "Multiple EFSP_EMAIL sibling tags per party (alternate delivery addresses)? No baseline evidence either way."
+      ]
+    },
+
+    "EFSP_GOVERNMENT_EXEMPT": {
+      "label": "Government Entity (Legacy/Unverified)",
+      "description": "UNVERIFIED HYPOTHESIS. Declared in legacy `JtiFieldSchema.json` as checkbox. No baseline evidence in 48 canonical samples. May be a duplicate of FEE_EXEMPTION=GOVT_ENTITY.",
+      "catalogSection": "§4.5",
+      "awaitingEvidence": true,
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "failClosedPolicy": "Builder MUST NOT emit. Parser emits warning log on encounter, proceeds with best-effort mapping to observe live exposure empirically.",
+      "evidencePaths": [
+        "(a) Check Madera GetPolicy for whether both this tagType and FEE_EXEMPTION appear.",
+        "(b) Search JTI HTML docs + per-court variant sample XMLs.",
+        "(c) If Madera only declares FEE_EXEMPTION, delete this entry in a future T-3a maintenance pass."
+      ]
+    },
+
+    "EFSP_FEE_WAIVER_FILED": {
+      "label": "Fee Waiver Filed (Legacy/Unverified)",
+      "description": "UNVERIFIED HYPOTHESIS. Declared in legacy schema as checkbox. No baseline evidence. May be a status tag (distinct from the request tag FEE_EXEMPTION=FEE_WAIVER) or a reply-path-only tag.",
+      "catalogSection": "§4.5",
+      "awaitingEvidence": true,
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "failClosedPolicy": "Builder MUST NOT emit. Parser emits warning log on encounter.",
+      "evidencePaths": [
+        "(a) Determine if status tag vs request tag.",
+        "(b) Madera policy exposure check.",
+        "(c) Consider whether this is a reply-from-court tag the EFSP receives but never sends — if so, response-parser path only, not request-builder."
+      ]
+    },
+
+    "SELF_REPRESENTED": {
+      "label": "Self-Representation (Hypothesis)",
+      "description": "UNVERIFIED HYPOTHESIS. NOT currently in legacy schema. Self-representation is currently modeled via ABSENT caseAssignment reference OR classType='boolean' with code=SELF_REP (see §3.7), NOT via a dedicated tag. Included in this registry only as evidence-gathering breadcrumb.",
+      "catalogSection": "§4.5",
+      "awaitingEvidence": true,
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "failClosedPolicy": "Builder MUST NOT emit. Parser emits warning log on encounter. If Madera live declares SELF_REPRESENTED as a distinct tag, promote to V1 and update builder/parser.",
+      "evidencePaths": [
+        "(a) CIV-SUB-008, CIV-SUB-018 do NOT use this tag — they model self-rep via absent caseAssignment.",
+        "(b) Unless Madera live declares SELF_REPRESENTED as separate, retain as unverified."
+      ]
+    },
+
+    "SEALED": {
+      "label": "Sealed Filing (Hypothesis)",
+      "description": "UNVERIFIED HYPOTHESIS. NOT in current schema. Madera policy ExtraFlags has supportsConditionalSeal=true — hypothesis is that Madera may expose a SEALED tag when a filing is conditionally sealed.",
+      "catalogSection": "§4.5",
+      "awaitingEvidence": true,
+      "tagValueKind": "digit-boolean",
+      "uiType": "checkbox",
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": "Madera policy ExtraFlags.supportsConditionalSeal=true (indirect — declares the capability but does not name the tag)"
+      },
+      "scope": "filing",
+      "failClosedPolicy": "Builder MUST NOT emit. Parser emits warning log on encounter.",
+      "evidencePaths": [
+        "(a) No sealed filings in baseline samples.",
+        "(b) Madera policy check — does it expose 'SEALED' as a tagType string?",
+        "(c) If Madera declares, add to schema + document in catalog §4.6."
+      ]
+    },
+
+    "ERRONEOUSLY_SUED_TRUENAME": {
+      "label": "Erroneously Sued True Name (Hypothesis)",
+      "description": "UNVERIFIED HYPOTHESIS. NOT in current schema. Prior audit §5.2 referenced as free-text. No baseline evidence. Possibly LASC-specific.",
+      "catalogSection": "§4.5",
+      "awaitingEvidence": true,
+      "tagValueKind": "free-text",
+      "uiType": "text",
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "scope": "party",
+      "failClosedPolicy": "Builder MUST NOT emit. Parser emits warning log on encounter.",
+      "evidencePaths": [
+        "(a) Check JTI HTML docs for LASC-specific usage.",
+        "(b) If truly free-text, model as tagValueKind='free-text' with uiType='text'."
+      ]
+    }
+  },
+  "completenessSummary": {
+    "totalTags": 9,
+    "evidenceBacked": 4,
+    "unverifiedHypothesis": 5,
+    "evidenceBackedTags": ["E_SERVICE", "FEE_EXEMPTION", "EFSP_FIRST_APPEARANCE_PAID", "EFSP_EMAIL"],
+    "unverifiedHypothesisTags": ["EFSP_GOVERNMENT_EXEMPT", "EFSP_FEE_WAIVER_FILED", "SELF_REPRESENTED", "SEALED", "ERRONEOUSLY_SUED_TRUENAME"]
+  }
+}

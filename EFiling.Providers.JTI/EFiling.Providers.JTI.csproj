@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFiling.Core\EFiling.Core.csproj" />
+    <ProjectReference Include="..\EFiling.WsdlGenerated\EFiling.WsdlGenerated.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- T-3a: split JtiFieldSchema.json into three authoritative slice files.
+         Loaded by JtiFieldSchemaProvider (legacy API preserved via v2→legacy projection). -->
+    <EmbeddedResource Include="Config\JtiClassTypeSchema.json" />
+    <EmbeddedResource Include="Config\JtiTagSchema.json" />
+    <EmbeddedResource Include="Config\JtiCaseCategoryPolicy.json" />
+    <!-- Step #54: KD-001 Option B closure — per-court CASE_CATEGORY → JCCC mapping
+         file. Sourced by JtiFieldSchemaProvider's court-id-aware resolver. See
+         knownDebt_KD_001_FlatCategoryCodeNamespace block (now resolved) in JtiCaseCategoryPolicy.json. -->
+    <EmbeddedResource Include="Config\JtiCourtCategoryMappings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="EFiling.Tests" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

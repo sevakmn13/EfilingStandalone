@@ -1,0 +1,999 @@
+{
+  "version": "2.0",
+  "schemaSlice": "caseCategoryPolicies",
+  "provider": "JTI",
+  "description": "Per-CA-case-category UX rules and filing policies. Sparse — T-1.D is not yet started (status: ⏳ per PROGRESS.md). This file captures what is already documented in catalog §5 as the initial baseline; richer per-category rules (DOB requirements, redaction awareness, UD disclaimers, etc.) will land incrementally as T-1.D progresses.",
+  "catalogRef": "docs/JTI_SUBSEQUENT_FILING_CATALOG.md §5",
+  "planRef": "docs/EFILING_SUBSEQUENT_FILING_REIMPLEMENTATION_PLAN.md §T-1.D, §T-3a",
+  "ecfGrounding": "ECF 4.0 case-type definitions per `niem.gov/niem/domains/jxdm/4.0`; CA-specific categories align with Judicial Council case category codes.",
+  "awaitingEvidenceOverall": false,
+  "completenessNote": "8 CA case categories declared. 5 are evidence-backed for Madera eFile (CIV, UD, FAM, PRB, MEN). PRB expanded at Step #52 to 20 evidence-backed caseCategoryCodes (Step #49: 2 codes; Step #52: 18 codes covering Trust/Guardianship/Spousal Property/Minor's Claim/Fact-of-Birth/Death/Marriage/Letters-of-Admin/Special-Admin/Determine-Succession/Mgmt-Dispo-Prop-Spouse/Auth-Med-Trtmnt-Adult/Affidavit-Small-Value/Summary-Petition/Ancillary/Probate-of-Wills-Ltrs-of-Admin/Authorization-to-do-Admin + LPS-603110-cross-classified). Step #52 RETRACTED Step #51's '+511110' addition — that was an InfoTrack `Case type:` display-field misinterpretation (the display shows caseTypeCode umbrella, not caseCategoryCode). Direct legalhub probe extracting `var caseCategoryCode` from rendered SF HTML is now the canonical evidence pattern. The remaining 3 categories (JUV, CRI, APP) are STRUCTURALLY BLOCKED AT MADERA EFILE per Step #51 — see `step51EFileReachabilityAudit` block. JUV: zero results for both W&I 300 + W&I 602 searches (likely W&I §827 sealed-record routing). CRI: true criminal codes (911180/911190) absent from the Madera eFile category dropdown entirely. APP: only 'Appeal-flavored' eFile category is Labor Commissioner Appeal which is CIV/Employment-coded; true appellate filings go through a separate state-level appellate eFiling system. The 5/8 figure is the CEILING at Madera. Closing JUV/CRI/APP requires evidence from a non-Madera court (LASC etc.). The overall awaitingEvidenceOverall flag flipped from true → false at Step #49 since the majority of categories are now backed; per-category awaitingEvidence flags for JUV/CRI/APP remain true with the reframed semantics 'awaiting non-Madera-court evidence' per Step #51. Step #56 expanded MEN evidence-backed codes from 2 → 5 via direct legalhub probe (added 604110 WI3050/3051-Narcotics Addict, 605110 PC2966-Commitments, 609110 WI6600-Sexually Violent Predator) plus rebutted the PC-prefix-implies-CRI hypothesis (PC2966 files under MEN umbrella caseTypeCode=611110 at Madera, not CRI), plus documented 5 Madera-non-applicable categories (601110/602110/607110/608110/612110 all returned 0 InfoTrack results), plus surfaced a dev-server stale-build operational risk for the MMH01221 PC1368-Competency re-probe. See step56MenEvidenceAudit block. Step #53 closed post-#52 menu items #15 (Ancillary disambiguation) + #16 (Protect Minor + Lodged Will probes) as Madera-scoped exhaustion: MPR015007 is the ONLY Madera Ancillary docket (cannot disambiguate from codelist Habeas); InfoTrack returns 0 results for Protect Minor + Lodged Will at Madera. All 3 require non-Madera-court evidence — see `step53MaderaEdgeCases` block. Step #53 makes NO changes to any policies[*].knownCategoryCodes (Step #52 20-code ceiling preserved). Step #54 CLOSED KD-001 (flat CASE_CATEGORY codelist namespace assumption) via Option B — codes moved into the new `JtiCourtCategoryMappings.json` slice file with explicit per-court scoping; resolver `FindPolicyByCourtCategoryCode` now takes `(courtId, code)`. See `resolvedKnownDebt_KD_001_FlatCategoryCodeNamespace` for the closure record. Step #57 shifted the canonical evidence methodology from InfoTrack-mediated probing (Steps #52, #56) to direct CMS list-query via the now-exposed `SearchCase.cshtml` category dropdown (backend always supported the filter; UI/controller wire-through is new at #57). Exhaustive Madera category probe over all 38 mapped codes + 21 hypothesized unmapped codes promoted 4 new evidence-backed entries: 411100 (CIV, 8 cases, MCV039455), 213110 (FAM, 25 cases, MFL005686), 606110 (MEN, 985 cases, MMH00133 — supersedes Step #56 needs-re-probe), 612110 (MEN, 1 case, MMH01159 — supersedes Step #56 Madera-non-applicable). Per-category evidence count Madera: CIV 3→4, FAM 5→6, MEN 5→7, PRB 20 (unchanged), UD 5 (unchanged but 407110 has 0 Madera evidence; retained per CCP statute coverage). Madera mapping count 38→42. The 5/8 evidence-backed-categories headline figure unchanged; what changed is the evidence DEPTH within those 5 categories. See `step57AllMaderaCategoriesAudit` block for full probe results + 5 findings. Step #59 ran the exhaustive UNMAPPED-code probe (all 139 codes not yet in categoryCodeToJccc) via direct CMS list-query AND verified every hit at the GetCase DETAIL level (85/85 evidence codes' detail caseCategoryCode == list-level CaseCategoryText, 0 diverge). 63 codes were promoted (Madera mapping count 42→105: CIV 4→46 incl. Small-Claims 711110, FAM 6→23, PRB 20→23 incl. the Step #59-restored 511110/532110/561310, MEN 7→8). The 5/8 evidence-backed-bucket headline is UNCHANGED: 19 searchable CRI criminal codes (e.g. 911190 Felony-Other=10945 cases) + 3 self-typed ADMIN codes (110120 Lodged Will=327, 110210 Sanctions, 120110 Juror OSC) were deliberately NOT promoted — searchability proven but workflow/policy NOT validated, so CRI stays awaitingEvidence. JUV remains structurally blocked (all 14 JUV codes returned 0 via direct CMS, now on authoritative evidence). See `step59UnmappedCategoryPromotionAudit` block for the full evidence table + CRI/ADMIN deferral rationale.",
+  "resolvedKnownDebt_KD_001_FlatCategoryCodeNamespace": {
+    "status": "RESOLVED",
+    "title": "Per-court CASE_CATEGORY codelist namespace was flat (Madera-only assumption) — RESOLVED at Step #54 via Option B (separate mapping file)",
+    "loggedStep": "Step #49.X",
+    "resolvedAtStep": "Step #54",
+    "resolutionOption": "Option B — Separate mapping file (per `preferredOption` field below)",
+    "resolutionSummary": "Codes moved out of `policies[*].knownCategoryCodes` (where they still appear as a redundant cache, overwritten at provider-load time) into the new top-level slice file `JtiCourtCategoryMappings.json` which holds per-court projections `{ courts.<courtId>.categoryCodeToJccc: { code: 'JCCC' } }`. Resolver `JtiFieldSchemaProvider.FindPolicyByCourtCategoryCode` now takes `(courtId, code)`. `UdDisclaimerPolicy.RequiresDisclaimer` and the 5 controller call sites + 2 SearchCase.cshtml call sites all updated to thread `courtId` through. The legacy `policy.KnownCategoryCodes` C# property is preserved as a runtime PROJECTION (union of all courts' codes mapped to that JCCC) so existing Step #49/#52/#53 drift-guard tests continue to work without rewrite. Madera is the bootstrap court entry; adding a non-Madera court now requires only adding a new `courts.<courtId>.categoryCodeToJccc` dictionary — no resolver or call-site changes needed.",
+    "resolutionFilesTouched": [
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCourtCategoryMappings.json (NEW — Madera bootstrap with 35 code mappings across CIV/UD/FAM/PRB/MEN)",
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiSchemaModelsV2.cs (NEW C# models: CourtCategoryMappingSchemaV2 + CourtCategoryMapping)",
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiFieldSchemaProvider.cs (NEW: GetCourtCategoryMappings + courtId-aware FindPolicyByCourtCategoryCode + GetKnownCategoryCodesForCourt + ProjectKnownCategoryCodesFromMappings projection method)",
+      "src/EFiling/EFiling.Providers.JTI/EFiling.Providers.JTI.csproj (NEW EmbeddedResource entry for mapping file)",
+      "src/EFiling/EFiling.Nop/UdDisclaimer/UdDisclaimerPolicy.cs (RequiresDisclaimer now takes courtId)",
+      "src/EFiling/EFiling.Nop/Controllers/EFilingMvcController.cs (5 RequiresDisclaimer call sites updated)",
+      "nopCommerce/src/Presentation/Nop.Web/Views/EFilingMvc/SearchCase.cshtml (2 RequiresDisclaimer call sites updated to pass Model.Search.CourtId)",
+      "src/EFiling/EFiling.Tests/* (Step #42/#43/#44/#49 RequiresDisclaimer + FindPolicyByCourtCategoryCode call sites all migrated to courtId-aware shape)",
+      "src/EFiling/EFiling.Tests/KnownDebt_KD001_FlatCategoryCodeNamespaceTests.cs (renamed assertions: KD001Closure_* prefix, resolver signature now expects 2 params, added round-trip + helper-API positive shape tests)"
+    ],
+    "severity_HISTORICAL": "MUST-FIX-BEFORE-MULTI-COURT-ONBOARDING (pre-#54). Now CLOSED.",
+    "summary_HISTORICAL_PRE54": "The `knownCategoryCodes` arrays on each policy (e.g., UD: ['407100','407110','407200','407210','407300']) are flat string lists with no court-id scoping. The resolver `JtiFieldSchemaProvider.FindPolicyByCourtCategoryCode(string code)` matches on code-only — no `courtId` parameter. This silently assumes all CA courts share a single CASE_CATEGORY codelist namespace, which directly conflicts with JTI's per-court-policy mandate.",
+    "jtiSourceQuote": "The Journal Technologies case management system (CMS) allows each California Court to configure their system to precisely meet their requirements. This means there can be considerable differences between Courts in areas such as code lists, document metadata, workflows, etc. You must assume that EACH Court will have different Court Policy values from each other. For example, Civil Limited case type code for Los Angeles Superior Court is LC while it's 421110 for Placer Superior Court. Similarly, not only are the document list codes in Placer different than Los Angeles, the case category associations for those documents may be different.",
+    "jtiSourceUrl": "JTI EFM Documentation — General Concepts (vendor-mandated per-court-isolation principle)",
+    "whyItWorksToday": "Production currently services Madera only. The codes we declare (e.g., '407100' UD Commercial, '613110' MH Other) are Madera's per-court CASE_CATEGORY codelist values. Within a Madera-only deployment, no collision is possible.",
+    "whyItBreaksOnSecondCourt": "Per the JTI quote above, LASC uses 'LC' (alpha) for Civil Limited where Placer uses '421110' (numeric). For CASE_CATEGORY specifically, two distinct courts could (a) use the same numeric code for different categories — silent misclassification + wrong UX hooks fire — or (b) use court-specific alpha codes (e.g., LASC 'UD') that the current flat resolver would match across all courts indiscriminately.",
+    "knownExposureSurfaces": [
+      "UD §1161.2 disclaimer gate — `UdDisclaimerPolicy.RequiresDisclaimer(string code)` calls `FindPolicyByCourtCategoryCode(code)` with no courtId; misclassification = wrong-court gate fires or fails to fire",
+      "Future MEN W&I §5328 / LPS gate (deferred T-7 follow-on) — same shape will inherit the same bug",
+      "Future JUV redaction hooks — same shape will inherit the same bug"
+    ],
+    "currentScopeJustification": "Madera is the only live court. P-phase work, T-1.D evidence promotion, and T-7 hook wiring all happen against Madera's codelist. Restructuring before second-court evidence exists would be speculative and could lock in the wrong shape.",
+    "fixSketch_OptionA_CourtScopedMap": "`knownCategoryCodes: { 'madera': ['407100',...], 'lasc': ['UD'], 'placer': [...] }`. Resolver becomes `FindPolicyByCourtCategoryCode(courtId, code)`. Smaller diff, keeps mapping co-located with policy.",
+    "fixSketch_OptionB_SeparateMappingFile": "Keep this JSON pure (UX rules + statute, no codes). Add `JtiCourtCategoryMappings.json` with `{ courtId: { courtCode: jcccCategory } }` shape. Cleaner separation; forces explicit per-court declaration.",
+    "preferredOption": "Option B — clean separation between policy (statute/vendor-mandated UX) and mapping (per-court codelist projection). Trigger: first non-Madera onboarding lands or second-court Tier-B evidence becomes available.",
+    "callerInventory": [
+      "EFiling.Providers.JTI/Config/JtiFieldSchemaProvider.cs:160 — FindPolicyByCourtCategoryCode(string code)",
+      "EFiling.Nop/UdDisclaimer/UdDisclaimerPolicy.cs:RequiresDisclaimer(string code) — flows from controller gate + view banner",
+      "EFiling.Nop/Controllers/EFilingMvcController.cs — GateUdAccessAsync + GateUdAccessJsonAsync use the resolved policy",
+      "EFiling.Nop/Views/EFilingMvc/SearchCase.cshtml — per-row UD badge",
+      "EFiling.Tests/Step49_CaseCategoryEvidenceTests.cs — 20 drift-guard tests pin Madera-namespaced codes"
+    ],
+    "driftGuardTest": "EFiling.Tests/KnownDebt_KD001_FlatCategoryCodeNamespaceTests.cs — asserts every `knownCategoryCodes` entry matches the Madera-namespace pattern (^\\d{6}$) AND is present in `scripts/madera_case_category.txt`. If a non-Madera code is added without restructuring, this test fails with a remediation pointer to this `knownDebt_KD_001_FlatCategoryCodeNamespace` block."
+  },
+  "step50ConfidentialityGateAudit": {
+    "title": "Per-category EFSP-side confidentiality-gate audit (closed Step #50, 2026-05-23)",
+    "trigger": "Step #49 promoted MEN to evidence-backed and surfaced an open question: does the JTI EFM doc mandate an MH-specific disclaimer analogous to UD CCP §1161.2 (e.g., W&I §5328 / LPS confidentiality)? User-prompted T-7 follow-on research.",
+    "method": "Grep across all JTI EFM HTML docs under `docs/fileing files/` for the union of patterns: 'Mental Health', 'W&I', '§5328', 'LPS', 'confidential', 'disclaimer', 'access.*limit', 'gate', 'attestation'. Inspected every match in surrounding context to determine (a) whether the term refers to an EFSP-side UX obligation vs. an XML field marker / wire concept and (b) which case category the obligation attaches to.",
+    "scanDate": "2026-05-23",
+    "scanScope": [
+      "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+      "docs/fileing files/Subsequent Filing/Court Specific Concepts/Subsequent Filing - Court Specific Concepts _ EFM Documentation.html",
+      "docs/fileing files/Case Initiation/Court Specific Concepts/Case Initiation - Court Specific Concepts _ EFM Documentation.html",
+      "docs/fileing files/Case Initiation/How to Build a Case Initiation Payload/Case Initiation - How to Build a Payload _ EFM Documentation.html",
+      "docs/fileing files/ECF Operations/ReviewFiling/eFiling Baseline Courts/Review Filing Examples - eFiling Baseline Courts _ EFM Documentation.html",
+      "docs/fileing files/FAQ/Frequently Asked Questions _ EFM Documentation.html",
+      "docs/fileing files/input.html"
+    ],
+    "findings": {
+      "UD_categoryWide_universalGate": {
+        "category": "UD",
+        "obligation": "EFSP must display §1161.2 disclaimer when searching for UD cases; capture user answer + username + case number; block non-parties from proceeding.",
+        "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/436#UnlawfulDetainer",
+        "sourceFile": "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+        "implementedIn": "Steps #43 + #44 (UD-1 + UD-2 in UD policy); see UdDisclaimerPolicy, UdAccessAttestation entity + service + migration, EFilingMvcController.GateUdAccessAsync, SearchCase.cshtml banner + per-row badge.",
+        "scope": "Universal across all CA courts unless narrowed by per-court rule (see Ventura entry below)."
+      },
+      "LASC_smallClaims_covid19_courtScopedGate": {
+        "category": "CIV (Small Claims sub-category, narrow filing-state predicate)",
+        "obligation": "When filers search for Small Claims cases with Special Status `UDCOV19`, GetCaseList must display a COVID-19 rental-debt disclaimer.",
+        "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/462#lascSmallClaimsCovid19RentalDebtDisclaim",
+        "sourceFile": "docs/fileing files/Subsequent Filing/Court Specific Concepts/Subsequent Filing - Court Specific Concepts _ EFM Documentation.html",
+        "implementedIn": "NOT yet implemented — LASC-specific, narrow predicate (caseSpecialStatus = UDCOV19), would land as a separate `appliesToCourts: ['lasc']` rule on CIV policy with a sub-predicate. Out of scope for Step #50 (Madera-only deployment).",
+        "scope": "Court-scoped (LASC only)."
+      },
+      "Ventura_UDCivilLimited_courtScopedNarrowing": {
+        "category": "UD (narrowed to Civil Limited only)",
+        "obligation": "Ventura applies §1161.2 disclaimer ONLY to Civil Limited UD cases; Civil Unlimited UD cases are exempt.",
+        "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/462#UDdisclaimer",
+        "sourceFile": "docs/fileing files/Subsequent Filing/Court Specific Concepts/Subsequent Filing - Court Specific Concepts _ EFM Documentation.html",
+        "implementedIn": "Already captured as UD-4 rule with appliesToCourts: ['ventura'] in UD policy.",
+        "scope": "Court-scoped narrowing (Ventura only)."
+      },
+      "JUV_serverSideRedaction_notEfspGate": {
+        "category": "JUV",
+        "obligation": "JTI EFM masks `CaseTitleText`, `PersonGivenName`, `PersonMiddleName`, `PersonSurName`, `JudgmentName` on Juvenile (3-code) cases before sending to external systems. SERVER-SIDE — no EFSP UX obligation.",
+        "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/436 (General Concepts §Juvenile)",
+        "implementedIn": "Captured as JUV-1 in JUV policy.",
+        "scope": "Server-side EFM redaction — NOT an EFSP gate."
+      },
+      "CRI_noRedactionNoGate": {
+        "category": "CRI",
+        "obligation": "Criminal (9-code) cases are NOT redacted and have NO EFSP-side disclaimer. JTI doc explicitly states: 'Criminal cases (9-code) are not redacted but will follow the same structural pattern at the case level.'",
+        "sourceFile": "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+        "scope": "No gate."
+      },
+      "MEN_mentalHealth_noGate": {
+        "category": "MEN",
+        "obligation": "JTI EFM has TWO Mental Health-specific UX obligations: (1) Date of Birth required for AS TO party on MH case initiation across all case categories (CI-side only, captured as MEN-1 + `requiresDobForAsToParty`), and (2) TWO case-initiation sample scenarios for certification (W&I 8103 Weapons + W&I LPS Conservatorship). NEITHER constitutes a confidentiality / disclaimer gate. NO §5328-analogous obligation exists.",
+        "sourceFiles": [
+          "docs/fileing files/Case Initiation/Court Specific Concepts/Case Initiation - Court Specific Concepts _ EFM Documentation.html (DOB-for-AS-TO + LPS Conservatorship structural fields)",
+          "docs/fileing files/ECF Operations/ReviewFiling/eFiling Baseline Courts/Review Filing Examples - eFiling Baseline Courts _ EFM Documentation.html (W&I 8103 Weapons + LPS Conservatorship CI samples for certification)"
+        ],
+        "negativeAssertion": "No occurrence of the word 'disclaimer' anywhere in any HTML doc within scope of an MH-category context. The only EFSP-side disclaimer obligations are UD, LASC Small Claims COVID-19, and Ventura UD-Civil-Limited narrowing.",
+        "scope": "No EFSP gate."
+      },
+      "PRB_FAM_APP_noGate": {
+        "categories": ["PRB", "FAM", "APP"],
+        "obligation": "No JTI doc mentions any disclaimer, attestation, or access-limiting UX obligation for Probate, Family Law, or Appellate cases.",
+        "scope": "No EFSP gate."
+      }
+    },
+    "conclusion": "UD is the only category with a UNIVERSAL EFSP-side confidentiality gate (CCP §1161.2). Two narrower court-scoped disclaimer obligations exist (LASC Small Claims COVID-19 + Ventura UD-Civil-Limited narrowing) and are handled via the `appliesToCourts` rule-scoping mechanism. No other category — MEN included — carries a JTI-mandated gate. The MEN open question raised at Step #49 is resolved as a NEGATIVE FINDING.",
+    "implications": [
+      "MEN policy openQuestion about §5328/LPS confidentiality moved to `resolvedOpenQuestions` with negative-finding rationale.",
+      "No new gate implementation is warranted under current JTI doc scope. T-7 follow-on for MEN is CLOSED until/unless JTI publishes new MH guidance or a specific court adopts a local-rule disclaimer (which would land as an `appliesToCourts` rule, not a universal MEN policy rule).",
+      "JUV redaction handling remains JTI-server-side; no EFSP work needed there beyond data passthrough."
+    ],
+    "driftGuardTests": "EFiling.Tests/Step50_ConfidentialityGateAuditTests.cs — pins (a) UD is the only policy with `requiresUdDisclaimer = true`; (b) MEN no longer has the §5328 confidentiality open question; (c) the audit block exists in the loaded schema with all expected category findings present."
+  },
+  "step51EFileReachabilityAudit": {
+    "title": "Per-bucket eFile-reachability audit at Madera (closed Step #51, 2026-05-27)",
+    "trigger": "User-provided InfoTrack search-aggregator access enabled batch category-search at Madera's eFile division. Step #49 left 3 categories (JUV / CRI / APP) flagged 'awaitingEvidence: true' with the implicit assumption that user-provided dockets would close them via Tier-B probing, parallel to the CIV/UD/FAM/PRB/MEN promotion path. Step #51 set out to either close those buckets or document why they cannot be closed.",
+    "method": "InfoTrack case-search (https://search.infotrack.com/App/case-search?state=CA&step=case-search) configured with County=Madera + Division=eFile + SearchBy=Category. The eFile-division category dropdown enumerates the SUBSET of California Judicial Council case categories that Madera permits filing through the JTI EFM eFile pipeline. For each candidate category, click Search → wait for JTI EFM backend → inspect results table. InfoTrack displays each result as `[CMS-stored-categoryCode] - [eFile-dropdown-label]`, which is high-value evidence: the leading code is the value GetCase responses return (what our policy resolver matches), and the label is the filing-time submission selection.",
+    "scope": "All 6 user-targeted categories from Step #51 ask: W&I Code 300 (JUV-dependency), W&I Code 602 (JUV-delinquency), Asset Forfeiture (CRI-attempt), Writ of Habeas Corpus (CRI-attempt), Appeal from Labor Commissioner (APP-attempt), WI5350-LPS Conservatorship (PRB-bonus). Full Madera eFile category list captured at `scripts/madera_efile_categories.txt` (106 entries) for future reference.",
+    "evidenceDockets": {
+      "JUV_dependency_W&ICode300": "0 results — InfoTrack returned 'No results found' OR the JTI EFM upstream returned 500 Internal Server Error during search. Either interpretation supports structural-block conclusion: Madera eFile does not surface JUV-dependency cases.",
+      "JUV_delinquency_W&ICode602": "0 results — same as W&I 300.",
+      "AssetForfeiture": "5 user-provided MCV-prefixed dockets (MCV035606, MCV036956, MCV036265, MCV036218, MCV046840). MCV = Madera Civil prefix. Per `scripts/madera_case_category.txt`, code 415110 maps to Asset Forfeiture (in the 4xxxxx CIV range). Already in CIV.knownCategoryCodes from prior evidence — confirms civil asset forfeiture (per H&S §11469) is procedurally civil, NOT criminal, and is appropriately classified under CIV.",
+      "WritOfHabeasCorpus": "5 user-provided MPR-prefixed dockets (MPR015914, MPR016127, MPR011826A, MPR016177, MPR016176) plus ~25 additional InfoTrack rows displayed `Case type: 511110 - Writ of Habeas Corpus`. STEP #52 CORRECTION: Same methodology error as LPS — the InfoTrack `Case type:` display field shows `caseTypeCode` (umbrella 511110), NOT `caseCategoryCode`. ADDITIONALLY, direct legalhub probe on MPR015914 + MPR016127 + MPR011826A at Step #52 all REDIRECTED to /CourtFiling/SearchCase (23KB redirect-target page, not the SF page) — these dockets are not retrievable via the JTI EFM live SF endpoint (likely sealed or archived per W&I §827 / habeas-record confidentiality). True habeas caseCategoryCode remains UNKNOWN at Madera. Step #51's claim that Madera CMS collapses habeas to 511110 is NOT evidence-backed beyond the InfoTrack display layer.",
+      "AppealFromLaborCommissioner": "5 user-provided dockets with mixed CIV prefixes (MCV021854, MCV023867, SCV004590, SCV004589, M000264CIV). Per codelist 404110 maps to Appeal from Labor Commissioner (in the 4xxxxx CIV/Employment range). Routes via CIV — confirms Labor Code §98.2 administrative-determination appeals at the trial court are civil filings, NOT true appellate proceedings. True appellate filings (Court of Appeal, Supreme Court) go through a separate eFiling system and are NOT reachable via Madera trial-court eFile.",
+      "WI5350_LPS_Conservatorship": "5 user-provided MPR-prefixed dockets (MPR10622, MPR011875, MPR7458, MPR012098, MPR7413) plus ~20 additional InfoTrack rows displayed `Case type: 511110 - WI5350-LPS Conservatorship`. STEP #52 CORRECTION: The InfoTrack `Case type:` display field shows `caseTypeCode` (umbrella, 511110 for all PRB-bucket cases), NOT `caseCategoryCode` (what our resolver matches). Direct legalhub probe on MPR10622 + MPR011875 + MPR7458 returned `var caseCategoryCode = '603110'` (MEN-range, NOT 511110, NOT codelist's 532110). PRB.knownCategoryCodes correctly contains 603110 (per Step #52), not 511110 (which Step #51 incorrectly added)."
+    },
+    "findings": {
+      "JUV_structurallyBlocked_atMaderaEFile": {
+        "category": "JUV",
+        "conclusion": "JUV is NOT eFile-reachable at Madera. Both W&I Code 300 (juvenile dependency) and W&I Code 602 (juvenile delinquency) — the two highest-volume, most-populated JUV surfaces statewide — return zero results via Madera eFile category search. The JCCC category codes exist in the JTI submission codelist (`scripts/madera_case_category.txt` rows 313110/314110/321110), but the eFile pipeline returns no matching cases. Likely cause: W&I §827 juvenile-record confidentiality requires sealed/separate routing; juvenile cases at Madera are paper-filed or processed through a non-eFile system.",
+        "implication": "JUV.awaitingEvidence cannot be flipped to false at Madera alone. Closing JUV requires evidence from a non-Madera court (LASC has true JV-prefixed dockets; LASC onboarding would unblock). Reframe: 'awaiting evidence' → 'structurally blocked at Madera eFile'.",
+        "parallelTo": "Madera MH case-INI block (per Step #49 — Madera doesn't expose Mental Health case initiation through eFile, only SF on existing MH cases). Same architectural pattern: category exists in the codelist but is not eFile-pipeline-reachable."
+      },
+      "CRI_structurallyBlocked_atMaderaEFile": {
+        "category": "CRI",
+        "conclusion": "CRI (true criminal cases) is NOT eFile-reachable at Madera. Inspection of `scripts/madera_efile_categories.txt` (106 eFile-permitted categories) shows ZERO entries from the true CRI numeric ranges (911180 Felony Drug, 911190 Felony Other, 921xxx Misdemeanor series, etc.). The 'CRI-flavored' candidates that DO appear in the eFile dropdown all turn out to be civil-coded on inspection: 'Asset Forfeiture' is 415110 (CIV/civil-forfeiture per H&S §11469); 'Writ of Habeas Corpus' has 3 codelist entries but Madera collapses Probate-routed habeas to 511110 (PRB umbrella).",
+        "implication": "CRI.awaitingEvidence cannot be flipped to false at Madera. True criminal cases (filed by DA's office) don't go through the JTI EFM eFile pipeline — they have their own court-internal CMS path. CRI evidence requires either (a) a court that exposes criminal eFiling (rare; most CA counties don't), or (b) deferring CRI to a future scope.",
+        "parallelTo": "Same as JUV — the bucket exists in the JCCC namespace but the eFile pipeline doesn't surface it. Possibly related to confidentiality + prosecution-only access model."
+      },
+      "APP_structurallyBlocked_atMaderaEFile": {
+        "category": "APP",
+        "conclusion": "APP (true appellate cases) is NOT eFile-reachable at Madera. The eFile category dropdown's only 'Appeal'-prefixed entry is 'Appeal from Labor Commissioner', which is codelist 404110 — a CIV/Employment-range Labor-Code-§98.2 administrative-determination appeal, structurally a civil filing in superior court. True appellate filings (writs to the Court of Appeal, petitions for review by the California Supreme Court) go through a SEPARATE state-level appellate eFiling system, not the JTI EFM trial-court pipeline.",
+        "implication": "APP.awaitingEvidence cannot be flipped to false at Madera (or any trial-court). APP evidence would require integration with the appellate-court eFiling system, which is out of scope for the current JTI EFM trial-court integration.",
+        "parallelTo": "Same as JUV/CRI — but with an additional architectural twist: APP would require a different eFiling system entirely, not just a different court."
+      },
+      "PRB_extended_via_511110_umbrellaCode": {
+        "category": "PRB",
+        "status": "RETRACTED at Step #52 — methodology error",
+        "originalConclusion_RETRACTED": "PRB.knownCategoryCodes extended from [511210, 531110] (Step #49) to [511110, 511210, 531110] (Step #51). The new code 511110 is Madera's umbrella PRB code that the CMS uses for ALL Probate-department-routed cases that don't have a dedicated CMS code, including: Decedent's Estate (the JTI submission codelist's mapping for 511110), LPS Conservatorship (submission code 532110, CMS collapses to 511110), and Probate-routed Writ of Habeas Corpus (submission codes 412960/614130/911220, CMS collapses to 511110).",
+        "step52Correction": "The InfoTrack search-results display field `Case type: [code] - [label]` shows the `caseTypeCode` (umbrella TYPE code, 511110 for ALL PRB-bucket cases), NOT the `caseCategoryCode` (per-subtype CMS storage code which is what our policy resolver matches against). Step #52 direct legalhub probe on 17 representative Probate-family dockets (extracting `var caseCategoryCode` from rendered SF HTML) showed each subtype has its own DEDICATED caseCategoryCode — no umbrella collapse exists at the caseCategoryCode level. PRB.knownCategoryCodes was corrected to remove 511110 and replaced with the 18 evidence-backed dedicated codes (511310, 511410, 511510, 511610, 521110, 541110, 551110, 551210, 551211, 551212, 551310, 551410, 551510, 551610, 561110, 561210, 603110, 614130) joining the Step #49 codes (511210, 531110). Final PRB.knownCategoryCodes count: 20 (Step #49: 2; Step #52: 18).",
+        "replacedBy": "step52ProbateFamilyAudit block (top-level)"
+      },
+      "codelistVsCMS_architecturalDistinction": {
+        "scope": "Cross-cutting (affects all per-category knownCategoryCodes interpretations)",
+        "conclusion": "The file `scripts/madera_case_category.txt` is the JTI EFM SUBMISSION codelist (filing-time dropdown codes — what the filer selects when initiating a case), NOT the CMS-stored categoryCode list (what GetCase responses return at SF time). For some categories these match (e.g., 511210 'Probate of Wills' is both submission and CMS storage); for others they diverge (e.g., LPS submission 532110 → CMS storage 511110; habeas submission 412960/614130/911220 → CMS storage 511110).",
+        "implication": "knownCategoryCodes MUST contain CMS-stored codes only, since `FindPolicyByCourtCategoryCode` is called from GetCase response parsing paths (CourtFilingController.LoadCaseDetail, UdAccessAttestationService.GateUdAccessAsync, etc.). Submission codes from the codelist file may NOT be authoritative for runtime resolution — they describe what the filer chose at submit time, not what the CMS stored. This distinction was implicit pre-Step-#51; now it is documented and drift-guarded."
+      }
+    },
+    "conclusion": "Madera eFile exposes 5 of 8 JCCC buckets: CIV, UD, FAM, PRB, MEN. The remaining 3 (JUV, CRI, APP) are STRUCTURALLY BLOCKED at Madera eFile — not 'awaiting evidence'. Evidence from non-Madera courts is required to promote them. The 5/8 figure is the ceiling at Madera and should be framed as 'evidence-backed for Madera' rather than 'incomplete'. Additionally, the architectural distinction between JTI EFM submission codelist and Madera CMS-stored categoryCode is now documented: knownCategoryCodes must contain CMS-stored codes (verified via InfoTrack `[code] - [label]` display or live legalhub probe), not submission codes from `scripts/madera_case_category.txt`.",
+    "implications": [
+      "T-1.D scoreboard reframing: 5/8 evidence-backed (CIV/UD/FAM/PRB/MEN) + 3/8 structurally blocked at Madera eFile (JUV/CRI/APP). The completenessNote at the schema header is updated to reflect this.",
+      "JUV/CRI/APP awaitingEvidence flags STAY true (the categories ARE awaiting evidence — just not from Madera). Their `awaitingEvidence` field semantically now means 'awaiting non-Madera-court evidence', not 'awaiting Tier-B probe of Madera dockets'.",
+      "Future onboarding of LASC/Riverside/etc. would unblock JUV/CRI/APP via that court's exposed dockets. The KD-001 known-debt block remains the architectural prerequisite for that onboarding.",
+      "PRB extension via 511110 closes the deferred Step #49 LPS-folding question with positive evidence.",
+      "The codelist-vs-CMS distinction is a cross-cutting documentation finding that informs how future code-promotions should be evidence-grounded (live probe or InfoTrack `[code] - [label]` display, NOT codelist file lookup alone)."
+    ],
+    "evidenceArtifacts": [
+      "scripts/madera_efile_categories.txt — 106-entry Madera eFile-division category list extracted via playwright-cli at Step #51 (auth: user's InfoTrack login)",
+      "scripts/madera_case_category.txt — Madera JTI submission codelist (pre-existing; reframed as submission-only at Step #51)",
+      ".playwright-cli/page-2026-05-28T05-*.yml — Step #51 InfoTrack snapshots showing `511110 - WI5350-LPS Conservatorship` and `511110 - Writ of Habeas Corpus` results"
+    ],
+    "driftGuardTests": "EFiling.Tests/Step51_EFileReachabilityAuditTests.cs — pins (a) JUV/CRI/APP awaitingEvidence flags remain true with the structurally-blocked semantics; (b) the audit block exists with all 5 expected finding keys; (c) the codelist file remains a Madera-namespace artifact (pattern-matched). NOTE: tests pinning Step #51's PRB-511110 addition were UPDATED at Step #52 to reflect the retraction — the PRB-codes-presence assertion now pins the 20-code Step #52 superset, and asserts 511110 is NOT in PRB.knownCategoryCodes."
+  },
+  "step52ProbateFamilyAudit": {
+    "title": "Probate-family caseCategoryCode discovery + Step #51 methodology correction (closed Step #52, 2026-05-27)",
+    "trigger": "User provided 87 Madera Probate-family docket IDs across 17 InfoTrack eFile categories (Trust, Guardianship, Spousal Property, Minor's Claim, Fact of Birth/Death/Marriage, Letters of Administration / Special Administration, Determine Succession, Mgmt/Dispo Prop-Spouse, Auth Med Trtmnt Adult, Affidavit Property Small Value, Summary Petition, Ancillary, Probate of Wills & Ltrs of Admin, Authorization to do Administrative). Step #51's deferred 'do remaining subtypes collapse or have dedicated codes' question needed resolution. Step #52 set out to (a) probe one docket per category to extract the actual caseCategoryCode and (b) verify Step #51's LPS + Habeas '511110-collapse' findings against direct evidence.",
+    "method": "Direct legalhub probe via `curl.exe -k -L` against `https://localhost:58085/CourtFiling/SubsequentFiling?courtId=madera&caseDocketId={id}` with the running Nop.Web dev server. The SF page bootstraps with `var caseCategoryCode = '...'` and `var caseTypeCode = '...'` JS variables hydrated from the live GetCase response — these are extracted via regex from the rendered HTML. This is the SAME field our policy resolver `FindPolicyByCourtCategoryCode` matches against at runtime (called from `EFilingMvcController.GateUdAccessAsync` line 1222, with `caseInfo.CaseCategoryCode`).",
+    "scope": "17 representative dockets covering the 17 Probate-family eFile-dropdown categories enumerated in the user's docket inventory. Re-verification probes on 3 LPS dockets (Step #51 LPS evidence) + 3 Habeas dockets (Step #51 Habeas evidence) + 6 Step #49 baseline dockets (PRB/MEN/Conservatorship) + 1 SCV-prefixed Step #51 APP-attempt docket. Total: 30 dockets probed.",
+    "evidenceTable": {
+      "Step52_dedicatedCodesDiscovered": {
+        "Trust": { "docket": "MPR012026", "caseCategoryCode": "521110", "caseTypeCode": "511110" },
+        "Guardianship": { "docket": "MPR011984", "caseCategoryCode": "541110", "caseTypeCode": "511110" },
+        "SpousalProperty": { "docket": "MPR011981", "caseCategoryCode": "551110", "caseTypeCode": "511110" },
+        "MinorsClaim": { "docket": "MPR012027", "caseCategoryCode": "551310", "caseTypeCode": "511110" },
+        "EstablishFactOfBirth": { "docket": "MPR012364", "caseCategoryCode": "551210", "caseTypeCode": "511110" },
+        "LettersOfAdministration": { "docket": "MPR011983", "caseCategoryCode": "511410", "caseTypeCode": "511110" },
+        "LettersOfSpecialAdministration": { "docket": "MPR011521", "caseCategoryCode": "511510", "caseTypeCode": "511110" },
+        "EstablishFactOfDeath": { "docket": "MPR012205", "caseCategoryCode": "551211", "caseTypeCode": "511110" },
+        "EstablishFactOfMarriage": { "docket": "MPR012419", "caseCategoryCode": "551212", "caseTypeCode": "511110" },
+        "DetermineSuccessionRealProperty": { "docket": "MPR011987", "caseCategoryCode": "551410", "caseTypeCode": "511110" },
+        "MgmtDispoPropSpouseNoCapacity": { "docket": "MPR011677", "caseCategoryCode": "551510", "caseTypeCode": "511110" },
+        "AuthMedTrtmntAdult": { "docket": "MPR012321", "caseCategoryCode": "551610", "caseTypeCode": "511110" },
+        "AffidavitPropertySmallValue": { "docket": "MPR012003", "caseCategoryCode": "561110", "caseTypeCode": "511110" },
+        "SummaryPetition": { "docket": "MPR011300", "caseCategoryCode": "561210", "caseTypeCode": "511110" },
+        "AncillaryProceedings": { "docket": "MPR015007", "caseCategoryCode": "614130", "caseTypeCode": "511110", "note": "AMBIGUOUS: 614130 is also codelist's Habeas Corpus mapping. Either Madera CMS double-uses or InfoTrack search was off-by-one for this single docket. Single-docket evidence — needs more samples." },
+        "ProbateOfWillsAndLtrsOfAdmin": { "docket": "MPR011989", "caseCategoryCode": "511310", "caseTypeCode": "511110" },
+        "AuthorizationToDoAdministrative": { "docket": "MPR012152", "caseCategoryCode": "511610", "caseTypeCode": "511110" }
+      },
+      "Step51_reVerification": {
+        "LPS_Conservatorship_dockets": {
+          "dockets": ["MPR10622", "MPR011875", "MPR7458"],
+          "caseCategoryCode": "603110",
+          "caseTypeCode": "511110",
+          "verdict": "Step #51's '511110' claim was WRONG. Actual caseCategoryCode is 603110 (MEN-range), NOT 511110, NOT codelist's 532110. Cross-classified: MPR-prefixed (Probate-administered), caseTypeCode=511110 (PRB umbrella), but caseCategoryCode in MEN range."
+        },
+        "Habeas_dockets": {
+          "dockets": ["MPR015914", "MPR016127", "MPR011826A"],
+          "caseCategoryCode": "UNKNOWN",
+          "verdict": "Step #51's '511110' claim was UNSUBSTANTIATED. All 3 dockets redirect to /CourtFiling/SearchCase via Madera SF endpoint (23KB pages — the SearchCase page, not SF page). Cases not retrievable via JTI EFM live, likely sealed or archived. The Step #51 evidence was InfoTrack `Case type:` display only (the caseTypeCode umbrella), not a caseCategoryCode probe. True habeas caseCategoryCode at Madera remains unknown."
+        }
+      },
+      "Step49_baselineSanity": {
+        "ProbateOfWills_dockets": { "dockets": ["MPR11249", "MPR011994"], "caseCategoryCode": "511210", "verdict": "Step #49 codes VERIFIED correct." },
+        "Conservatorship_dockets": { "dockets": ["MPR11261", "MPR10298"], "caseCategoryCode": "531110", "verdict": "Step #49 codes VERIFIED correct." },
+        "MEN_Other_dockets": { "dockets": ["MMH00187", "MMH00192"], "caseCategoryCode": "613110", "caseTypeCode": "611110", "verdict": "Step #49 codes VERIFIED correct." }
+      }
+    },
+    "findings": {
+      "methodologyErrorCorrection": {
+        "summary": "Step #51's PRB extension added `511110` to PRB.knownCategoryCodes based on InfoTrack search-results display field `Case type: [code] - [label]`. Step #52 discovered this display field is the `caseTypeCode` (umbrella TYPE code, 511110 for all PRB-bucket cases), NOT the `caseCategoryCode` (per-subtype CMS storage code).",
+          "impactPreFix": "Pre-Step-#52, the `FindPolicyByCourtCategoryCode('511110')` call would have returned the PRB policy. But Madera doesn't actually appear to surface `caseCategoryCode=511110` for any case shape we've probed yet — every probed PRB case had a dedicated per-subtype caseCategoryCode (and LPS specifically returns 603110). So Step #51's incorrect code was effectively a dead entry that never matched live traffic. No runtime impact — but it would have been a silent-correctness failure had a Decedent's Estate case ever returned caseCategoryCode=511110 in the future.",
+          "correction": "Step #52 removed 511110 from PRB.knownCategoryCodes and added 18 evidence-backed caseCategoryCodes covering each probed Probate-family subtype (plus 603110 LPS via re-probe + 614130 Ancillary with ambiguity flag). Final list: [511210, 511310, 511410, 511510, 511610, 521110, 531110, 541110, 551110, 551210, 551211, 551212, 551310, 551410, 551510, 551610, 561110, 561210, 603110, 614130].",
+          "forwardGuard": "All future knownCategoryCodes additions MUST be backed by direct `var caseCategoryCode` extraction from rendered SF HTML (live legalhub probe via `.playwright-cli/probe-step52.ps1` template), NOT InfoTrack `Case type:` display fields, NOT codelist file lookups. Drift-guard test in `Step52_ProbateFamilyAuditTests.cs` pins this finding."
+      },
+      "caseTypeCodeVsCaseCategoryCode": {
+        "summary": "NEW architectural distinction documented at Step #52: GetCase responses populate BOTH `caseTypeCode` (umbrella class identifier) AND `caseCategoryCode` (per-subtype CMS storage). They serve different purposes and have different cardinalities.",
+        "caseTypeCode": { "description": "Umbrella class identifier — one per top-level case division. Observed values: 511110 (PRB umbrella, all Probate cases), 611110 (MEN umbrella, MMH00187+MMH00192), 421110 (CIV Limited umbrella, e.g., SCV004590).", "jtiReference": "JTI EFM general-concepts doc states 'Civil Limited case type code for Los Angeles Superior Court is LC while it's 421110 for Placer Superior Court' — caseTypeCode is the entity JTI refers to in that quote.", "role": "Top-level routing + analytics. Not what FindPolicyByCourtCategoryCode matches against." },
+        "caseCategoryCode": { "description": "Per-subtype CMS storage code — one per logical case subtype within an umbrella. Observed values across PRB alone: 20 distinct codes (Step #49 + Step #52 evidence). Other buckets (CIV/UD/FAM/MEN) each have their own subtype range.", "resolverUsage": "This is what our policy resolver `JtiFieldSchemaProvider.FindPolicyByCourtCategoryCode` matches against. Callers: `EFilingMvcController.GateUdAccessAsync` (UD §1161.2 gate trigger), `EFilingMvcController.CaseDetailAjax` (AJAX defense-in-depth), `UdDisclaimerPolicy.RequiresDisclaimer` (the canonical resolver entry-point).", "role": "Per-subtype routing + UX-hook firing. THIS is what `knownCategoryCodes` must contain." },
+        "implication": "InfoTrack search-results UI displays `caseTypeCode` in the `Case type:` field (not `caseCategoryCode`). InfoTrack is a DISPLAY layer for case lookup; it doesn't expose the same field set our SF parser does. For evidence purposes, only the live SF page's `var caseCategoryCode` JS bootstrap counts."
+      },
+      "crossClassification_LPS_603110": {
+        "summary": "LPS Conservatorship has caseCategoryCode 603110 (MEN-range) but caseTypeCode 511110 (PRB umbrella). Cases are MPR-prefixed (Madera Probate Records) and administered through the Probate department.",
+        "bucketAssignment": "PRB — docket-prefix + caseTypeCode + administrative-routing all point to Probate. The MEN-range caseCategoryCode reflects the W&I §5350 statutory grounding (LPS is mental-health-statute-driven) but the workflow is Probate-administered.",
+        "policyImpact": "No UX hook divergence from regular PRB cases. Per Step #50 (negative finding), W&I §5328 / LPS confidentiality is NOT a JTI-mandated EFSP-side gate, so policy resolution to PRB vs MEN doesn't change UX behavior currently. If LASC or another court ever adopts an MH-confidentiality local-rule, the `appliesToCourts`-scoped rule mechanism handles it without needing to re-bucket LPS."
+      },
+      "ambiguity_614130_Ancillary_or_Habeas": {
+        "summary": "Code 614130 appears in `scripts/madera_case_category.txt` as 'Writ of Habeas Corpus' (MEN-range submission code). Single Step #52 Ancillary Proceedings docket (MPR015007) returned caseCategoryCode=614130 from the live SF probe. Three possibilities documented in PRB.openQuestions.",
+        "hypothesis_A_CMSDoubleUse": "Madera CMS uses 614130 for BOTH Ancillary Proceedings AND Writ of Habeas Corpus, with semantics disambiguated by other case attributes (case title, party shape, etc.).",
+        "hypothesis_B_InfoTrackMisclassification": "MPR015007 is actually a Habeas case that appeared under InfoTrack's Ancillary search by some indexing quirk. User's docket inventory listed it under Ancillary.",
+        "hypothesis_C_561310_NeverSurfaces": "The codelist's 561310 (Ancillary Proceedings) is a SUBMISSION-only code that never lands as a CMS-stored caseCategoryCode; Madera always normalizes Ancillary filings to 614130 at storage time. Mirror of the LPS submission-vs-storage divergence (532110 submission → 603110 storage).",
+        "resolution": "Inconclusive at Step #52 with 1 docket. Adding 614130 to PRB.knownCategoryCodes for now (the actual probed CMS value), with the openQuestions entry tracking the disambiguation need. Hypothesis B is the most architecturally clean and aligns with the codelist evidence; needs another Ancillary docket to confirm or refute."
+      }
+    },
+    "conclusion": "PRB.knownCategoryCodes expanded from 3 codes (Step #51, with 1 erroneous) to 20 codes (Step #52, all evidence-backed). The Step #51 methodology error — conflating InfoTrack `Case type:` display (caseTypeCode) with caseCategoryCode — was corrected by direct legalhub probe extracting `var caseCategoryCode` from rendered SF HTML. New architectural distinction documented: `caseTypeCode` vs `caseCategoryCode` are TWO different routing fields with different cardinalities and resolver roles. Going forward, knownCategoryCodes additions require live legalhub probe evidence (NOT codelist file lookups or InfoTrack visual fields).",
+    "implications": [
+      "PRB.knownCategoryCodes is now the deepest evidence-backed category in the policy tree (20 codes), exceeding UD (5 codes), FAM (5 codes), and CIV (3 codes).",
+      "The caseTypeCode vs caseCategoryCode distinction will inform future per-court onboarding: the JTI quote about LASC ('LC') vs Placer ('421110') for Civil Limited refers to caseTypeCode, not caseCategoryCode — court-specific code mapping happens at BOTH levels.",
+      "Step #51's JUV/CRI/APP structural-block conclusion STANDS — those findings were based on category-search-returning-zero-results evidence (not the InfoTrack display-field methodology), so the Step #52 correction doesn't propagate there.",
+      "Habeas caseCategoryCode at Madera remains UNKNOWN — Step #51's '511110' was display-field-only; Step #52 SF probes on 3 dockets all redirected to SearchCase. If/when a non-sealed Habeas docket becomes available (or a non-Madera court exposes habeas), the live probe protocol can resolve it.",
+      "Future per-subtype probes should use the `.playwright-cli/probe-step52.ps1` template: deterministic 17-line PowerShell script wrapping curl + regex extraction. Reusable for any new docket cohort."
+    ],
+    "evidenceArtifacts": [
+      ".playwright-cli/probe-step52.ps1 — the canonical PRB-family probe script (17 dockets, 1 per category)",
+      ".playwright-cli/probe-step52-recheck.ps1 — Step #51 re-verification + Step #49 baseline sanity script (13 dockets including LPS, Habeas, baselines)",
+      ".playwright-cli/step52-probe-results.txt — raw output of the canonical probe",
+      ".playwright-cli/step52-recheck-results.txt — raw output of the re-verification probe",
+      ".playwright-cli/habeas-debug.html — the 23KB SearchCase-page diagnostic showing why MPR015914 redirected (cases not retrievable via SF endpoint, likely sealed)"
+    ],
+    "driftGuardTests": "EFiling.Tests/Step52_ProbateFamilyAuditTests.cs — pins (a) PRB.knownCategoryCodes contains all 20 expected codes; (b) 511110 is NOT in PRB.knownCategoryCodes (Step #51 retraction); (c) 603110 IS in PRB.knownCategoryCodes (LPS correction); (d) the audit block exists with all expected finding keys; (e) the resolvedOpenQuestions array contains both the LPS correction entry + the dedicated-codes closure entry. Step #51 tests were UPDATED to remove the `Step51_PrbPolicy_ContainsAllThreeExpectedKnownCategoryCodes_Including511110` assertion (the assertion is now obsolete — 511110 is no longer expected to be present per Step #52 correction)."
+  },
+  "step53MaderaEdgeCases": {
+    "title": "Madera-edge-cases closure for the 3 remaining Probate-family categories (closed Step #53, 2026-05-28)",
+    "purpose": "Close items #15 (Ancillary disambiguation) + #16 (Protect Minor + Lodged Will probes) from the post-#52 menu. User re-verified InfoTrack search results at Madera eFile division for these 3 categories and confirmed scarcity that prevents further Madera-side evidence promotion. All 3 are now scoped to Madera limits; resolution requires non-Madera-court evidence or vendor consultation.",
+    "method": "User re-ran InfoTrack case-search at Madera/eFile/[category] for the 3 remaining Probate-family categories at Step #53. Results re-confirmed Step #52's scarcity finding.",
+    "evidenceTable": {
+      "AncillaryProceedings": {
+        "infoTrackResultsAtMadera": 1,
+        "onlyDocket": "MPR015007",
+        "probedCaseCategoryCode": "614130",
+        "ambiguity": "Same code as codelist's Writ of Habeas Corpus (614130)",
+        "resolution": "Cannot disambiguate at Madera with single-docket evidence. Needs non-Madera-court Ancillary dockets to determine whether 614130 is a CMS double-use OR MPR015007 is a search misclassification OR codelist 561310 never lands as CMS storage."
+      },
+      "ProtectProceedingInvolvingMinor": {
+        "infoTrackResultsAtMadera": 0,
+        "codelistSubmissionCode": "551710",
+        "resolution": "No Madera evidence available. Either Madera has never had a case filed under this submission code, Madera's CMS routes such filings to a different administrative bucket, or InfoTrack's index lacks coverage. Madera-non-applicable for evidence-promotion purposes."
+      },
+      "LodgedWill": {
+        "infoTrackResultsAtMadera": 0,
+        "codelistSubmissionCode": "110120",
+        "resolution": "No Madera evidence available. Same possible causes as Protect Proceeding Involving Minor. Madera-non-applicable for evidence-promotion purposes."
+      }
+    },
+    "findings": {
+      "step53_F1_AncillaryScarcity_MaderaCannotDisambiguate": {
+        "summary": "Madera has exactly ONE Ancillary Proceedings docket on InfoTrack (MPR015007). Step #52 probe returned caseCategoryCode=614130 for it. Same code is codelist's Habeas Corpus. With only 1 docket, we cannot determine which of three hypotheses (CMS-double-use, InfoTrack-misclassification, or 561310-never-surfaces) is correct.",
+        "policyImpact": "614130 STAYS in PRB.knownCategoryCodes (Step #52 finding) with the ambiguity flag preserved in step52ProbateFamilyAudit.findings.ambiguity_614130_Ancillary_or_Habeas. Step #53 makes NO changes to PRB.knownCategoryCodes.",
+        "unblockedBy": "Non-Madera court (LASC, Riverside, etc.) onboarding + at-least-one Ancillary-flavored docket; OR vendor consultation with JTI on Madera's Ancillary CMS storage convention."
+      },
+      "step53_F2_ProtectMinorZeroEvidence": {
+        "summary": "Madera InfoTrack returns 0 results for 'Petition for Protect Proceeding Involving Minor' (codelist 551710). User re-confirmed this at Step #53 (re-ran the InfoTrack search; still 0). Either Madera has never had a case filed under this code, OR Madera's CMS routes such filings to a different bucket, OR InfoTrack's index lacks coverage.",
+        "policyImpact": "551710 is NOT added to PRB.knownCategoryCodes (no CMS-side evidence; the submission codelist code alone is insufficient per Step #52 methodology rules).",
+        "unblockedBy": "Non-Madera-court Protect-Minor docket OR vendor consultation."
+      },
+      "step53_F3_LodgedWillZeroEvidence": {
+        "summary": "Madera InfoTrack returns 0 results for 'Lodged Will' (codelist 110120). User re-confirmed at Step #53. Same possible causes as F2.",
+        "policyImpact": "110120 is NOT added to PRB.knownCategoryCodes.",
+        "unblockedBy": "Non-Madera-court Lodged-Will docket OR vendor consultation."
+      },
+      "step53_F4_PRBCodesUnchanged": {
+        "summary": "Step #53 makes NO additions or removals to PRB.knownCategoryCodes. The Step #52 list of 20 codes remains the Madera evidence ceiling. 614130 stays included (with ambiguity flag); 561310 / 551710 / 110120 stay absent for lack of CMS-side evidence.",
+        "policyImpact": "PRB.knownCategoryCodes.Count == 20 (drift-guard pins this)."
+      },
+      "step53_F5_PostStep52MenuAdvancement": {
+        "summary": "Items #15 + #16 from the post-#52 next-step menu are closed by Step #53 with Madera-scoped resolutions. Both remain reachable in the future via non-Madera-court evidence — they're not BLOCKED in the JUV/CRI/APP sense (those are structurally blocked by Madera's eFile category exposure); they're simply EXHAUSTED at Madera.",
+        "openQuestionsUpdated": [
+          "PRB.openQuestions entry for Protect Proceeding Involving Minor (551710) — reframed from 'no Madera evidence yet' to 'Madera-non-applicable, needs non-Madera evidence'.",
+          "PRB.openQuestions entry for Lodged Will (110120) — same reframing as Protect Minor.",
+          "PRB.openQuestions entry for Ancillary Proceedings disambiguation — reframed from 'needs additional Ancillary-docket evidence' to 'Madera has only 1 docket, cannot disambiguate at Madera, needs non-Madera evidence'."
+        ]
+      }
+    },
+    "filesModified": [
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCaseCategoryPolicy.json — this file (3 PRB.openQuestions reframed + this new top-level block)",
+      "src/EFiling/EFiling.Tests/Step53_MaderaEdgeCasesAuditTests.cs — new drift-guard test file pinning the 3 Madera-edge-case statuses"
+    ],
+    "driftGuardTests": "EFiling.Tests/Step53_MaderaEdgeCasesAuditTests.cs — pins (a) step53MaderaEdgeCases top-level block exists with required structure; (b) AncillaryProceedings has exactly 1 InfoTrack result + only docket MPR015007 + caseCategoryCode 614130; (c) ProtectProceedingInvolvingMinor has 0 InfoTrack results + codelist code 551710; (d) LodgedWill has 0 InfoTrack results + codelist code 110120; (e) PRB.knownCategoryCodes count stays at 20 (Step #52 ceiling preserved, Step #53 makes no additions); (f) PRB.openQuestions still contains all 6 reframed entries (search for distinctive Step #53 phrasing on Protect Minor + Lodged Will + Ancillary entries)."
+  },
+  "step56MenEvidenceAudit": {
+    "title": "Mental-Health caseCategoryCode evidence-expansion + 5 Madera-non-applicable findings + PC-vs-CRI hypothesis rebuttal (closed Step #56, 2026-05-28)",
+    "purpose": "Apply Step #52's direct-legalhub-probe methodology to MEN (previously 2 codes from Step #49) to expand MEN.knownCategoryCodes with evidence-backed Madera CMS codes. User ran InfoTrack searches at Madera/eFile/[category] for 9 MEN-flavored submission codelist categories (4 W&I-prefixed Tier-1 + 5 PC/WI-prefixed Tier-2). 4 returned dockets, 5 returned 0 results.",
+    "method": "Same as Step #52: PowerShell script `.playwright-cli/probe-step56.ps1` wraps `curl.exe -k -L` against the legalhub `/CourtFiling/SubsequentFiling?courtId=madera&caseDocketId={id}` endpoint, with regex extraction of `var caseCategoryCode = '...'` and `var caseTypeCode = '...'` from the rendered HTML. Each probe yields the CMS-stored category and type codes for one representative docket.",
+    "evidenceTable": {
+      "WI3050_3051_NarcoticsAddict": {
+        "infoTrackCategorySearched": "WI3050/3051-Narcotics Addict",
+        "codelistSubmissionCode": "604110",
+        "probedDocket": "MMH00135",
+        "probedCaseCategoryCode": "604110",
+        "probedCaseTypeCode": "611110",
+        "outcome": "EVIDENCE-BACKED — added to MEN.knownCategoryCodes",
+        "finding": "Submission codelist code matches CMS-stored caseCategoryCode (604110 = 604110). No divergence."
+      },
+      "PC2966_Commitments": {
+        "infoTrackCategorySearched": "PC2966-Commitments",
+        "codelistSubmissionCode": "605110",
+        "probedDocket": "MMH00612",
+        "probedCaseCategoryCode": "605110",
+        "probedCaseTypeCode": "611110",
+        "outcome": "EVIDENCE-BACKED — added to MEN.knownCategoryCodes",
+        "finding": "Despite the PC-prefixed label (Penal Code §2966), the case files under caseTypeCode=611110 (MEN umbrella 'WI6500-Mental Retarded/Dangerous'), NOT under CRI. This REBUTS the Tier-2 hypothesis that PC-prefixed codes might cross-classify to CRI. Madera's CMS treats PC2966 post-acquittal commitments as MEN-procedural, not CRI-procedural."
+      },
+      "PC1368_Competency": {
+        "infoTrackCategorySearched": "PC1368-Competency",
+        "codelistSubmissionCode": "606110",
+        "probedDocket": "MMH01221",
+        "probedCaseCategoryCode": "?",
+        "probedCaseTypeCode": "?",
+        "outcome": "CASE-NOT-RESOLVABLE-AT-CMS — Re-probe after Step #56's dev-server restart-cycle returned HTTP 200 with a 1-hop redirect to /CourtFiling/SearchCase (response body = SearchCase page, 23,809 bytes, NOT the ~189KB SubsequentFiling page that MMH00135/MMH00612/MMH00201 produced). The redirect is triggered by `EFilingMvcController.SubsequentFiling:410-415` when `IcourtFilingService.GetCaseWithDiagnosticsAsync(courtId, caseDocketId)` returns `caseInfo == null`. InfoTrack indexes MMH01221 (so the case existed at some point), but Madera's CMS doesn't resolve it via the current legalhub session — possibilities: case sealed/restricted (W&I §5328 / PC §1368 confidentiality), case archived after disposition, InfoTrack index stale, or access-permission mismatch on the test user account. Cannot be disambiguated without vendor consultation. Codelist code 606110 stays unobserved at Madera. Status NOT added to MEN.knownCategoryCodes.",
+        "finding": "This entry replaces an EARLIER Step #56 finding (now retracted) that attributed the failure to a dev-server stale-build runtime view-compilation error. That issue WAS real and WAS observed (`SearchCase.cshtml(17,64): error CS1501: No overload for method 'RequiresDisclaimer' takes 2 arguments` — the dev server was running an EFiling.Nop.dll from 5/21 with the pre-Step #54 1-arg signature) but was RESOLVED during the same Step #56 session via solution rebuild + Nop.Web restart with explicit `ASPNETCORE_URLS=https://localhost:58085;http://localhost:58086` env var (the original 5/21 Visual Studio launch had applied launchSettings.json which a direct EXE-launch silently ignores). After the fix, SearchCase returns 200 cleanly and the re-probe revealed the TRUE underlying status: MMH01221 is unresolvable at Madera CMS, not a Razor-compilation issue.",
+        "reProbeMethodologyResolved": "Step #56 also resolved the dev-server stale-build operational risk inline: (1) PID 21280 (Nop.Web from 5/21 4:22 PM) killed; (2) `dotnet build nopCommerce/src/NopCommerce.sln` rebuilt Nop.Web's bin folder with the post-Step-#54 EFiling.Nop.dll; (3) Nop.Web.exe relaunched with `ASPNETCORE_URLS=https://localhost:58085;http://localhost:58086` env var (since direct EXE-launch bypasses launchSettings.json — a subtle operational gotcha now logged for future sessions). Total downtime ~5 minutes. Convention to prevent recurrence: `dotnet build src/EFiling/EFiling.sln` (or NopCommerce.sln if Nop.Web's bin is the target) before live probing after any cross-cutting controller/policy signature edit; and `dotnet run --project nopCommerce/src/Presentation/Nop.Web` (or set ASPNETCORE_URLS explicitly) when launching outside VS/Rider."
+      },
+      "WI6600_SexuallyViolentPredator": {
+        "infoTrackCategorySearched": "WI6600-Sexually Violent Predator",
+        "codelistSubmissionCode": "609110",
+        "probedDocket": "MMH00201",
+        "probedCaseCategoryCode": "609110",
+        "probedCaseTypeCode": "611110",
+        "outcome": "EVIDENCE-BACKED — added to MEN.knownCategoryCodes",
+        "finding": "SVPA cases file under MEN umbrella (caseTypeCode=611110), not under a specialized SVPA bucket. Adjacent WI6300-Mental Disorder Sex Offen (608110) likely behaves the same way, but has 0 InfoTrack evidence at Madera so the hypothesis remains untested."
+      },
+      "WI5250_5260_5270_Certification": {
+        "infoTrackCategorySearched": "WI5250/5260/5270-Certification",
+        "codelistSubmissionCode": "601110",
+        "probedDocket": null,
+        "outcome": "MADERA-NON-APPLICABLE — 0 InfoTrack search results",
+        "finding": "Either Madera has never had a case filed under this submission code (involuntary 72-hr hold WI §§5250/5260/5270), OR Madera's CMS routes such filings to a different administrative bucket, OR InfoTrack's index lacks coverage. Notable absence given that LPS certifications are common in MH practice — possible that Madera files these as 613110 (Mental Health-Other) instead. Resolvable only via non-Madera-court evidence or vendor consultation."
+      },
+      "WI5300_PostCertificationTreatment": {
+        "infoTrackCategorySearched": "WI5300-PostCertification Treatment",
+        "codelistSubmissionCode": "602110",
+        "probedDocket": null,
+        "outcome": "MADERA-NON-APPLICABLE — 0 InfoTrack search results",
+        "finding": "Same possible causes as 601110. The WI §5300 post-certification path follows WI §§5250/5260/5270, so consistent absence is unsurprising — if 601110 cases don't surface, neither do their 602110 follow-ons."
+      },
+      "PC1026_NGdueToInsanity": {
+        "infoTrackCategorySearched": "PC1026-NG due to Insanity",
+        "codelistSubmissionCode": "607110",
+        "probedDocket": null,
+        "outcome": "MADERA-NON-APPLICABLE — 0 InfoTrack search results",
+        "finding": "Hypothesis: might route through CRI (Penal Code §1026 NG-due-to-Insanity is a criminal-procedural finding) — but Madera CRI is structurally blocked from eFile per Step #51, so impossible to disambiguate at Madera. PC2966 (605110) shows precedent for PC-prefixed codes filing under MEN umbrella, weakly supporting that PC1026 might also be MEN at Madera if cases existed."
+      },
+      "WI6300_MentalDisorderSexOffen": {
+        "infoTrackCategorySearched": "WI6300-Mental Disorder Sex Offen",
+        "codelistSubmissionCode": "608110",
+        "probedDocket": null,
+        "outcome": "MADERA-NON-APPLICABLE — 0 InfoTrack search results",
+        "finding": "Hypothesis: adjacent WI6600 (Sexually Violent Predator, 609110) DOES live under MEN umbrella at Madera, so WI6300 likely would too if cases existed. But absent direct evidence, the codelist code 608110 is not promoted."
+      },
+      "InReHop_DevelopmentallyDisabled": {
+        "infoTrackCategorySearched": "In Re Hop-Developmentally Disabled",
+        "codelistSubmissionCode": "612110",
+        "probedDocket": null,
+        "outcome": "MADERA-NON-APPLICABLE — 0 InfoTrack search results",
+        "finding": "Same possible causes as 601110. Hopkins-style developmental-disability proceedings may be uncommon at Madera, OR may route to a different administrative bucket."
+      }
+    },
+    "findings": {
+      "step56_F1_ThreeNewMenCodes": {
+        "summary": "Step #56 added 3 new evidence-backed caseCategoryCodes to MEN: 604110, 605110, 609110. MEN.knownCategoryCodes grew from 2 → 5 entries.",
+        "policyImpact": "MEN.knownCategoryCodes.Count == 5 (drift-guard pins this). JtiCourtCategoryMappings.json madera.categoryCodeToJccc adds 3 new entries (604110/605110/609110 → MEN). Total Madera mapping count grew from 35 → 38."
+      },
+      "step56_F2_PcPrefixDoesNotImplyCri": {
+        "summary": "PC2966-Commitments (codelist label PC-prefixed, suggests Penal Code statutory basis) files under caseTypeCode=611110 (MEN umbrella), NOT under CRI. This REBUTS the pre-probe Tier-2 hypothesis that PC-prefixed codes might cross-classify to CRI. The Madera CMS classifies post-acquittal mental-health commitments as MEN-procedural regardless of the statutory authorizing language.",
+        "policyImpact": "Future PC-prefixed MH-statute-grounded codelist entries (e.g., 605110 PC2966, 606110 PC1368, 607110 PC1026) should default to the MEN cohort, NOT CRI, when classifying. The Step #51 categorical blocking of CRI at Madera is preserved — these cases are NOT criminal in the CMS sense."
+      },
+      "step56_F3_FiveMaderaNonApplicableCategories": {
+        "summary": "5 MEN-flavored categories returned 0 InfoTrack search results at Madera/eFile: 601110 WI5250/5260/5270-Certification, 602110 WI5300-PostCertification Treatment, 607110 PC1026-NG due to Insanity, 608110 WI6300-Mental Disorder Sex Offen, 612110 In Re Hop-Developmentally Disabled. Each is now documented in MEN.openQuestions as 'Madera-non-applicable'.",
+        "policyImpact": "None of these 5 codes are added to MEN.knownCategoryCodes. The Step #52 methodology principle ('no CMS-side evidence ⇒ no addition') holds. Resolvable only via non-Madera-court evidence or JTI vendor consultation.",
+        "unblockedBy": "Non-Madera-court onboarding (LASC, Riverside) with dockets in these subtypes; OR JTI vendor disclosure of Madera CMS routing conventions for these submission codes."
+      },
+      "step56_F4_DevServerStaleBuildSurfacedAndResolved": {
+        "summary": "Step #56 surfaced a dev-server stale-build runtime view-compilation error AND resolved it inline. Pass 1 of MMH01221's probe hit HTTP 500 because the running Nop.Web process (PID 21280, started 5/21 4:22 PM) was loading EFiling.Nop.dll from 5/21 with the pre-Step-#54 1-arg `RequiresDisclaimer` signature; SearchCase.cshtml's 2-arg call site CS1501-failed at runtime view compilation. Source code was correct since Step #54. Resolution: PID 21280 killed → `dotnet build nopCommerce/src/NopCommerce.sln` rebuilt Nop.Web's bin folder with the current EFiling.Nop.dll → Nop.Web.exe relaunched. SearchCase now returns 200 cleanly; the other 3 dockets (MMH00135/MMH00612/MMH00201) remained unaffected throughout (they render SubsequentFiling.cshtml directly which doesn't reference the stale overload).",
+        "policyImpact": "Not a code defect. Operational risk surfaced as a category (build-before-probe convention) AND a secondary operational risk surfaced (direct EXE-launch bypasses launchSettings.json — Nop.Web bound to default port 5000 instead of the launchSettings 58085 until ASPNETCORE_URLS env was explicitly set).",
+        "mitigation": "(1) Run `dotnet build src/EFiling/EFiling.sln` (or `NopCommerce.sln` when Nop.Web's bin is the live target) before probing after any cross-cutting controller/policy signature edit. (2) When launching Nop.Web outside Visual Studio / Rider, use `dotnet run --project nopCommerce/src/Presentation/Nop.Web` (which applies launchSettings.json) OR set `ASPNETCORE_URLS=https://localhost:58085;http://localhost:58086` explicitly before `Nop.Web.exe` launch. Direct EXE-launch silently ignores launchSettings.json.",
+        "broaderRisk": "The same class of stale-build-during-dev-iteration risk applies to any future KD-001-style signature change. The launchSettings-bypass risk applies any time the dev server is restarted via non-VS/Rider tooling (PowerShell Start-Process, scripts, CI helpers).",
+        "reProbeOutcome": "After resolving the stale-build issue, re-probe of MMH01221 revealed the TRUE underlying status: HTTP 200 with 1-hop redirect to SearchCase because CMS GetCase returns null. The original 'needs-re-probe' status is now superseded by 'CASE-NOT-RESOLVABLE-AT-CMS' (see PC1368_Competency evidenceTable entry)."
+      },
+      "step56_F5_MenEvidenceBackedNowFive": {
+        "summary": "MEN evidence-backed status grew from 2 codes (Step #49: 613110, 614120) to 5 codes (Step #56 adds: 604110, 605110, 609110). Step #56 is the MEN-flavored parallel of Step #52's PRB expansion (3 → 20 codes), though smaller in scope due to MEN's narrower codelist breadth at Madera.",
+        "policyImpact": "MEN remains in the evidenceBackedCategories list (CIV, UD, FAM, PRB, MEN) with stronger evidence depth. Overall completenessNote 5-of-8 figure unchanged."
+      }
+    },
+    "filesModified": [
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCaseCategoryPolicy.json — this file (MEN block expanded + this new top-level block + completenessNote updated)",
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCourtCategoryMappings.json — madera.categoryCodeToJccc gained 3 entries (604110/605110/609110 → MEN)",
+      ".playwright-cli/probe-step56.ps1 — new probe script for the 4 MEN-flavored dockets",
+      ".playwright-cli/step56-probe-results.txt — raw probe output (3 successful + 1 stale-build-blocked)",
+      "src/EFiling/EFiling.Tests/Step56_MenEvidenceAuditTests.cs — new drift-guard test file pinning Step #56 audit-block structure + MEN expansion"
+    ],
+    "driftGuardTests": "EFiling.Tests/Step56_MenEvidenceAuditTests.cs — pins (a) step56MenEvidenceAudit top-level block exists with required structure; (b) evidenceTable contains all 9 expected entries (4 probed + 5 no-evidence); (c) each EVIDENCE-BACKED entry has probedDocket + probedCaseCategoryCode + probedCaseTypeCode=611110; (d) PC2966 entry includes the 'NOT CRI' finding (PC-prefix-doesn't-imply-CRI rebuttal); (e) each MADERA-NON-APPLICABLE entry has probedDocket=null + 0-InfoTrack-results semantics; (f) MMH01221/PC1368-Competency outcome — Step #57 supersession requires the Step #56 test for `MEN.knownCategoryCodes` exact-equality + `MEN.openQuestions` count + the 612110-Madera-non-applicable assertion to be relaxed/replaced; new pins live in `Step57_AllMaderaCategoriesAuditTests.cs`."
+  },
+  "step57AllMaderaCategoriesAudit": {
+    "title": "Exhaustive Madera category-search probe + UI surface promotion + 4 new evidence-backed codes (closed Step #57, 2026-05-29)",
+    "purpose": "Replace the InfoTrack-mediated probing methodology (Steps #52, #56) with direct CMS list-query as the canonical evidence pattern. The backend (`SoapEnvelopeBuilder.BuildGetCaseListRequest` → `<ns1:CaseCategoryText>`) had supported category-filtered case search since the original GetCaseList implementation, but no UI/controller surface exposed it until this step. Step #57 wires the capability through `CaseSearchModel.CaseCategoryCode` → `CourtFilingController.SearchCasesAsync` (new `category` switch case) → `EFilingMvcController.SearchCasesAjax` (new `caseCategoryCode` query param) → `SearchCase.cshtml` (new category dropdown + result column). With this exposed, Step #57 ran an exhaustive probe over all 38 mapped Madera codes (3 CIV + 5 UD + 5 FAM + 20 PRB + 5 MEN — the post-Step-#56 baseline) plus 21 hypothesized unmapped codes (gap-fillers in the CIV/FAM/MEN ranges) to discover any additional evidence-backed categories.",
+    "method": "PowerShell script `.playwright-cli/probe-step57-all-madera.ps1` calls `https://localhost:58085/CourtFiling/api/efiling/search-cases?courtId=madera&searchMode=category&caseCategoryCode={code}` for each candidate code, parses the JSON response, and records (count, sample docket, distinct caseCategoryCodes, distinct caseTypeCodes) per code. The dev server proxies the request through `JtiEFilingProvider.SearchCasesAsync` → `BuildGetCaseListRequest` → SOAP envelope with `<ns1:CaseCategoryText>{code}</ns1:CaseCategoryText>` to the live Madera CMS. Every result the CMS returns has its category fields verified to match the requested filter — establishing that Madera honors the filter and that the SOAP element is misnamed (`CaseCategoryText` expects the numeric codelist code, not the human-readable label).",
+    "probeResultsTable": {
+      "mapped_evidence_backed": [
+        { "code": "411900", "jccc": "CIV", "label": "Civil Other", "count": 829, "sampleDocket": "M3876", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "412910", "jccc": "CIV", "label": "Civil — Tax", "count": 2380, "sampleDocket": "MCV034156", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "415110", "jccc": "CIV", "label": "Civil — Personal Injury", "count": 109, "sampleDocket": "MCV035606", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "407100", "jccc": "UD", "label": "UD-Commercial", "count": 310, "sampleDocket": "MCV034905", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "407110", "jccc": "UD", "label": "UD-Commercial Foreclosure", "count": 0, "sampleDocket": null, "preStep57Status": "EVIDENCE-BACKED-PRE-STEP57", "step57Note": "Mapped at Step #49 based on madera_case_category.txt codelist enumeration; Step #57 direct CMS list-query returns 0. Mapping retained because the codelist explicitly enumerates this subtype (UD-1 §1161.2 disclaimer applies to ALL UD subtypes per CCP statute) and absence of historical filings doesn't justify removing the mapping. Documented as 'mapped-but-no-Madera-evidence' open question." },
+        { "code": "407200", "jccc": "UD", "label": "UD-Residential", "count": 10425, "sampleDocket": "MCV034158", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "407210", "jccc": "UD", "label": "UD-Residential Foreclosure", "count": 516, "sampleDocket": "MCV055339", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "407300", "jccc": "UD", "label": "UD-Drugs", "count": 12, "sampleDocket": "MCV036577", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "211110", "jccc": "FAM", "label": "Dissolution w/Minor Child", "count": 6534, "sampleDocket": "M56914", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "211120", "jccc": "FAM", "label": "Dissolution w/o Minor Child", "count": 5038, "sampleDocket": "M32547", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "212110", "jccc": "FAM", "label": "Legal Separation w/Minor Child", "count": 244, "sampleDocket": "MFL004710", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "212120", "jccc": "FAM", "label": "Legal Separation w/o Minor Child", "count": 175, "sampleDocket": "SFL000454", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "291110", "jccc": "FAM", "label": "Family Law Other", "count": 2580, "sampleDocket": "MFL004695", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "511210", "jccc": "PRB", "label": "Probate of Wills & Letters Testamentary", "count": 436, "sampleDocket": "MPR11249", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "511310", "jccc": "PRB", "label": "Probate of Wills & Letters of Admin", "count": 115, "sampleDocket": "MPR11149", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "511410", "jccc": "PRB", "label": "Letters of Administration", "count": 557, "sampleDocket": "MPR011983", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "511510", "jccc": "PRB", "label": "Letters of Special Administration", "count": 42, "sampleDocket": "SPR000188", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "511610", "jccc": "PRB", "label": "Authorization to do Administrative", "count": 75, "sampleDocket": "MPR012152", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "521110", "jccc": "PRB", "label": "Trust", "count": 382, "sampleDocket": "SPR000168", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "531110", "jccc": "PRB", "label": "Conservatorship", "count": 737, "sampleDocket": "MPR5207", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "541110", "jccc": "PRB", "label": "Guardianship", "count": 1322, "sampleDocket": "MPR11168", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551110", "jccc": "PRB", "label": "Spousal Property", "count": 154, "sampleDocket": "MPR011981", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551210", "jccc": "PRB", "label": "Establish Fact of Birth", "count": 17, "sampleDocket": "MPR012368", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551211", "jccc": "PRB", "label": "Establish Fact of Death", "count": 5, "sampleDocket": "MPR012205", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551212", "jccc": "PRB", "label": "Establish Fact of Marriage", "count": 5, "sampleDocket": "MPR012419", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551310", "jccc": "PRB", "label": "Minor's Claim", "count": 45, "sampleDocket": "MPR011991", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551410", "jccc": "PRB", "label": "Determine Succession Real Property", "count": 231, "sampleDocket": "MPR011987", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551510", "jccc": "PRB", "label": "Mgmt/Dispo Prop-Spouse No Capacity", "count": 4, "sampleDocket": "MPR011677", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "551610", "jccc": "PRB", "label": "Auth Med Trtmnt Adult", "count": 2, "sampleDocket": "MPR012321", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "561110", "jccc": "PRB", "label": "Affidavit Property Small Value", "count": 146, "sampleDocket": "MPR012003", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "561210", "jccc": "PRB", "label": "Summary Petition", "count": 6, "sampleDocket": "MPR011300", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "603110", "jccc": "PRB", "label": "LPS Conservatorship", "count": 201, "sampleDocket": "MPR012032", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "614130", "jccc": "PRB", "label": "Ancillary Proceedings", "count": 77, "sampleDocket": "MPR015051", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "604110", "jccc": "MEN", "label": "WI3050/3051-Narcotics Addict", "count": 139, "sampleDocket": "MMH00135", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "605110", "jccc": "MEN", "label": "PC2966-Commitments", "count": 3, "sampleDocket": "MMH00164", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "609110", "jccc": "MEN", "label": "WI6600-Sexually Violent Predator", "count": 2, "sampleDocket": "MMH00201", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "613110", "jccc": "MEN", "label": "Mental Health-Other", "count": 119, "sampleDocket": "MMH00187", "preStep57Status": "EVIDENCE-BACKED" },
+        { "code": "614120", "jccc": "MEN", "label": "Mental Health-Other Writ", "count": 2, "sampleDocket": "MMH01153", "preStep57Status": "EVIDENCE-BACKED" }
+      ],
+      "newly_promoted_at_step57": [
+        { "code": "411100", "jccc": "CIV", "label": "Civil-1-1 variant", "count": 8, "sampleDocket": "MCV039455", "sampleTitle": "Charles Wayne Uptergrove vs. United States of America", "sampleCaseTypeCode": "411110", "preStep57Status": "UNMAPPED" },
+        { "code": "213110", "jccc": "FAM", "label": "Family-3-1 variant", "count": 25, "sampleDocket": "MFL005686", "sampleTitle": "Margarita Munoz Tejeda vs. Miguel Fernandez", "sampleCaseTypeCode": "211110", "preStep57Status": "UNMAPPED" },
+        { "code": "606110", "jccc": "MEN", "label": "PC1368-Competency", "count": 985, "sampleDocket": "MMH00133", "sampleTitle": "People vs. Lisa Kesse", "sampleCaseTypeCode": "611110", "preStep57Status": "STEP56-NEEDS-RE-PROBE-FOR-MMH01221", "step57Note": "Step #56 marked this as needs-re-probe due to MMH01221's stale-build error; Step #57 confirmed via direct CMS list-query that the CODE itself has 985 cases at Madera. MMH01221 specifically remains CASE-NOT-RESOLVABLE-AT-CMS (not in the 985 results) but that's a per-docket finding, not a per-code finding." },
+        { "code": "612110", "jccc": "MEN", "label": "In Re Hop-Developmentally Disabled", "count": 1, "sampleDocket": "MMH01159", "sampleTitle": "In Re Banner, Bruce", "sampleCaseTypeCode": "611110", "preStep57Status": "STEP56-MADERA-NON-APPLICABLE", "step57Note": "Step #56's Madera-non-applicable framing was an InfoTrack-false-negative. Direct CMS list-query disproves it." }
+      ],
+      "confirmed_madera_non_applicable": [
+        { "code": "601110", "label": "WI5250/5260/5270-Certification", "infoTrackCount": 0, "directCmsCount": 0, "doubleConfirmedAtStep57": true },
+        { "code": "602110", "label": "PC2972-Conservatorship", "infoTrackCount": 0, "directCmsCount": 0, "doubleConfirmedAtStep57": true },
+        { "code": "607110", "label": "WI1801-Civil Commitment", "infoTrackCount": 0, "directCmsCount": 0, "doubleConfirmedAtStep57": true },
+        { "code": "608110", "label": "Hop-Conservatorship", "infoTrackCount": 0, "directCmsCount": 0, "doubleConfirmedAtStep57": true },
+        { "code": "611110", "label": "MEN umbrella case-type code", "infoTrackCount": null, "directCmsCount": 0, "doubleConfirmedAtStep57": true, "note": "Confirms 611110 is a caseTypeCode only (the MEN umbrella) and is NOT a valid caseCategoryCode at Madera." }
+      ],
+      "civ_hypothesized_unmapped_returning_zero": ["411110", "412110", "412120", "413110", "414110", "416110", "417110", "418110"],
+      "fam_hypothesized_unmapped_returning_zero": ["214110", "215110", "216110", "217110"]
+    },
+    "findings": {
+      "step57_F1_BackendAlreadySupportedCategorySearch": {
+        "summary": "The CaseListQueryMessage SOAP request has supported `<ns1:CaseCategoryText>` since the original `BuildGetCaseListRequest` implementation (pre-Step-#57). What was missing was the UI/controller surface — `CaseSearchModel` had no CaseCategoryCode field, `CourtFilingController.SearchCasesAsync` switch had no 'category' case, and `SearchCasesAjax` had no caseCategoryCode parameter. Step #57 wired through all 4 layers (model + controller + AJAX + view) without modifying SOAP-layer logic.",
+        "policyImpact": "The 'methodology improvement' framing is more accurate than 'new feature' — Step #57 unblocks dormant capability rather than building new SOAP-layer behavior. Adoption: any future CIV/FAM/MEN/PRB/UD evidence-expansion can use this UI directly without touching code."
+      },
+      "step57_F2_DirectCmsListQueryIsAuthoritative": {
+        "summary": "InfoTrack's category-search index is NOT authoritative for Madera CMS state. The 612110 InfoTrack-false-negative proves it: InfoTrack returned 0 results, but direct CMS list-query found 1 case (MMH01159). InfoTrack appears to be a derived index (possibly limited to public docket-feed cases) rather than a mirror of the live CMS. Direct CMS list-query via JTI WSDL is the canonical evidence source going forward.",
+        "policyImpact": "Step #56's 'Madera-non-applicable' findings for the 5 codes (601110/602110/607110/608110/612110) are now revised: 4 confirmed truly non-applicable (direct CMS = 0); 1 (612110) was an InfoTrack false negative and gets promoted. Future evidence-expansion should rely on direct CMS list-query primarily, with InfoTrack used only as a fallback for codes that direct list-query also returns 0 for (no harm in cross-checking).",
+        "supersedes": "Step #56 'Madera-non-applicable' framing for 612110 (now promoted) and the 'needs-re-probe' framing for 606110 (now promoted)."
+      },
+      "step57_F3_McH01221_PerDocketUnreachabilityConfirmed": {
+        "summary": "Step #56 documented MMH01221 (PC1368-Competency) as CASE-NOT-RESOLVABLE-AT-CMS based on (a) GetCase returning null, (b) the SubsequentFiling endpoint redirecting to SearchCase. Step #57 added a third independent verification path: a category-filtered list-query for code 606110 returns 985 cases — and MMH01221 is NOT in those 985 results. Three independent CMS-access methods all fail to retrieve MMH01221, while all 985 OTHER cases under the same category code are retrievable. The per-docket unreachability is therefore real and orthogonal to the per-code applicability.",
+        "policyImpact": "MMH01221 stays documented as CASE-NOT-RESOLVABLE-AT-CMS in the step56MenEvidenceAudit block (no change). Code 606110 is independently promoted to MEN.knownCategoryCodes. The two are now cleanly separable findings."
+      },
+      "step57_F4_NumericCodesRequiredNotLabels": {
+        "summary": "The SOAP element `<ns1:CaseCategoryText>` is misnamed — Madera CMS expects the numeric codelist value (e.g., '613110'), not the human-readable text label (e.g., 'Mental Health-Other'). Probes for 'Mental Health-Other' and 'Mental Health' both returned 0 results. This is a Madera-side behavior; future court onboarding should test whether the same constraint holds (LASC etc. may differ).",
+        "policyImpact": "The category dropdown in SearchCase.cshtml MUST submit numeric codes as values (with human labels as display text). The dropdown options are sourced from `JtiCourtCategoryMappings.json` Madera entries (42 entries post-#57) joined with the JCCC label from `JtiCaseCategoryPolicy.json` for category context."
+      },
+      "step57_F5_FortyOneOfFiftyNineCodesEvidenceBacked": {
+        "summary": "Out of 59 codes scanned (38 mapped + 21 hypothesized), 41 returned non-zero results at Madera. 4 of the 21 hypothesized codes proved to be missing mappings (411100, 213110, 606110, 612110). The remaining 17 hypothesized + 1 mapped (UD-407110) returned 0 results — those are documented as Madera-non-applicable or 'mapped-but-no-Madera-evidence'.",
+        "policyImpact": "Madera category-coverage goes from 38 mapped codes to 42 (38 post-Step-#56 + 4 new at Step #57). Catalog T-1.D evidence-backed count for Madera-anchored categories: CIV 3→4, FAM 5→6, MEN 5→7. PRB unchanged at 20. UD unchanged at 5 (407110 is mapped but currently has no Madera evidence; retained per CCP statute coverage rationale)."
+      }
+    },
+    "filesModified": [
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCaseCategoryPolicy.json — this file (CIV/FAM/MEN.knownCategoryCodes expanded, MEN.openQuestions resolved 2 entries + appended Step #57 confirmation to 4 remaining, MEN.resolvedOpenQuestions gained 2 entries, completenessNote updated, this new top-level block).",
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCourtCategoryMappings.json — madera.categoryCodeToJccc gained 4 entries (411100→CIV, 213110→FAM, 606110→MEN, 612110→MEN). Madera count 38 → 42.",
+      "src/EFiling/EFiling.Nop/Models/CaseSearchModel.cs — added CaseCategoryCode field; SearchMode comment updated to include 'Category'.",
+      "src/EFiling/EFiling.Nop/Controllers/CourtFilingController.cs — SearchCasesAsync switch gained 'category' case wiring CaseSearchModel.CaseCategoryCode → CaseSearchCriteria.CaseCategoryCode.",
+      "src/EFiling/EFiling.Nop/Controllers/EFilingMvcController.cs — SearchCasesAjax gained caseCategoryCode query param.",
+      "nopCommerce/src/Presentation/Nop.Web/Views/EFilingMvc/SearchCase.cshtml — full UI rebuild matching Nop's modern design system (account/orders pages style): hero header, filters card, category dropdown, results table, empty/error states.",
+      ".playwright-cli/probe-step57-category-search.ps1 — initial 16-test probe script (numeric/label/control tests).",
+      ".playwright-cli/probe-step57-all-madera.ps1 — exhaustive 56-test probe over all mapped + hypothesized Madera codes.",
+      ".playwright-cli/step57-probe-results.txt — narrative findings summary.",
+      ".playwright-cli/step57-all-madera-results.json — structured results from the exhaustive probe.",
+      "src/EFiling/EFiling.Tests/Step57_AllMaderaCategoriesAuditTests.cs — new drift-guard test file pinning Step #57 audit-block structure + CIV/FAM/MEN expansion + JtiCourtCategoryMappings.json 4 new entries + UI surface contract."
+    ],
+    "driftGuardTests": "EFiling.Tests/Step57_AllMaderaCategoriesAuditTests.cs — pins (a) step57AllMaderaCategoriesAudit top-level block exists with the 5 required sub-keys (title/purpose/method/probeResultsTable/findings); (b) probeResultsTable.mapped_evidence_backed contains all 35 mapped codes with stable count + sampleDocket; (c) probeResultsTable.newly_promoted_at_step57 contains exactly 4 entries (411100/213110/606110/612110) with caseTypeCode pinned per JCCC; (d) probeResultsTable.confirmed_madera_non_applicable contains exactly 5 entries (601110/602110/607110/608110/611110) all with directCmsCount=0; (e) findings F1-F5 keys exist with the documented summary phrases; (f) CIV.knownCategoryCodes equals exactly ['411100','411900','412910','415110']; (g) FAM.knownCategoryCodes equals exactly ['211110','211120','212110','212120','213110','291110']; (h) MEN.knownCategoryCodes equals exactly ['604110','605110','606110','609110','612110','613110','614120']; (i) JtiCourtCategoryMappings.json madera.categoryCodeToJccc contains the 4 new mappings (411100→CIV, 213110→FAM, 606110→MEN, 612110→MEN) bringing total Madera count to 39; (j) MEN.openQuestions length is now 6 (down from 8 at Step #56 — 606110 + 612110 entries removed/resolved); (k) MEN.resolvedOpenQuestions length is now 3 (Step #50 + 2 new Step #57 entries); (l) the Step #56 → Step #57 supersession note is recorded in step56MenEvidenceAudit.driftGuardTests."
+  },
+  "step59UnmappedCategoryPromotionAudit": {
+    "title": "Exhaustive UNMAPPED-code promotion + GetCase detail-verification + CRI/ADMIN deferral (closed Step #59, 2026-05-29)",
+    "purpose": "Answer 'are there category/case types we still cannot map, and what are the risks?' by exhaustively probing EVERY Madera codelist code not already in categoryCodeToJccc (139 codes), promoting all that are evidence-backed AND detail-verified, and precisely scoping what stays unmapped and why.",
+    "method": "Two-stage live probe against Madera STAGING (aux-pub-efm-madera-ca.ecourt.com) through the running Nop.Web dev server: (1) .playwright-cli/probe-step59-unmapped.ps1 issued a category-filtered GetCaseList for each of the 139 unmapped codes, recording count + sample dockets + distinct caseCategoryCode/caseTypeCode; (2) for all 85 codes that returned cases, a GetCase DETAIL probe (api/efiling/case-detail) on the first sample docket confirmed the detail-level caseCategoryCode the resolver actually receives at SF time. Artifacts: .playwright-cli/step59-unmapped-results.json, step59-unmapped-summary.txt, step59-detail-verification.json.",
+    "detailVerification": {
+      "evidenceCodesProbed": 85,
+      "detailMatch": 85,
+      "detailDiverge": 0,
+      "detailError": 0,
+      "finding": "Every one of the 85 evidence codes' GetCase detail caseCategoryCode EXACTLY equals its GetCaseList CaseCategoryText (85/85, 0 diverge). This proves the Step #57 direct-CMS list-query method agrees with the authoritative GetCase detail value at Madera, validating all Step #59 promotions at the level the resolver consumes.",
+      "filterFidelity": "Separately, 0 of 85 evidence codes returned ANY caseCategoryCode other than the one queried — Madera honors the CaseCategoryText filter exactly."
+    },
+    "promotionSummary": {
+      "mappingCountBefore": 42,
+      "mappingCountAfter": 105,
+      "promoted": 63,
+      "perBucket": {
+        "CIV": "4 -> 46 (+41 civil codes + Small-Claims 711110)",
+        "UD": "5 (unchanged)",
+        "FAM": "6 -> 23 (+17)",
+        "PRB": "20 -> 23 (+511110, +532110, +561310)",
+        "MEN": "7 -> 8 (+610110 WI1800-Juvenile, detail caseTypeCode 611110)"
+      }
+    },
+    "prbRestorations": {
+      "summary": "Step #59 restored 3 PRB codes that earlier steps had retracted/deferred on INCOMPLETE evidence; GetCase detail probes provide the authoritative confirmation. All three coexist with the Step #52 codes (603110/614130) — they do NOT replace them.",
+      "codes": [
+        { "code": "511110", "docket": "MPR11267", "detailCaseCategoryCode": "511110", "detailCaseTypeCode": "511110", "supersedes": "Step #52 retracted 511110 as 'umbrella-only', but only probed probate SUBTYPE dockets; MPR11267 is a generic un-subtyped Decedent's Estate case whose detail caseCategoryCode IS 511110. So 511110 is BOTH the PRB umbrella caseTypeCode AND a valid catch-all caseCategoryCode." },
+        { "code": "532110", "docket": "MPR012467", "detailCaseCategoryCode": "532110", "detailCaseTypeCode": "511110", "supersedes": "Step #49 deferred 532110 (LPS) pending evidence; Step #52 found OTHER LPS dockets stored as 603110. Both 532110 and 603110 are valid LPS caseCategoryCodes; both -> PRB." },
+        { "code": "561310", "docket": "MPR015004", "detailCaseCategoryCode": "561310", "detailCaseTypeCode": "511110", "supersedes": "Step #53 found only MPR015007 -> 614130 and concluded 561310 was 'never probed as CMS storage'. MPR015004 (a different Ancillary docket) has detail caseCategoryCode=561310. Both 561310 and 614130 are valid; both -> PRB." }
+      ]
+    },
+    "criSearchableNotMapped": {
+      "decision": "Option 2 (user-directed, 2026-05-29) — document searchability, do NOT promote.",
+      "rationale": "All 19 codes returned live cases AND detail-verified (caseTypeCode 911110/911410/919110/991150/991160 = CRI umbrella), refuting any implication that criminal cases are absent from Madera's CMS — they are present and searchable (e.g. 911190 Felony-Other=10945, 911140 Felony-Assault=9574, 911180 Felony-Drug=9216). BUT searchability of existing cases is necessary-but-not-sufficient for promotion: (a) criminal e-file INITIATION goes through the DA, not our filer pipeline (Step #51 INITIATION block stands); (b) whether Subsequent Filing on a criminal case is a supported workflow is UNVALIDATED; (c) criminal records carry confidentiality/access-control implications. Promoting to the rules-free CRI stub would silently apply civil defaults (Plaintiff/Defendant party model) to People-v-Defendant cases — the kind of partial-evidence over-claim Step #52 corrected. CRI stays awaitingEvidence=true; gap to promotion: SF-reachability confirmation + a CRI policy rule-set.",
+      "codeCount": 19,
+      "codes": ["911110","911120","911130","911140","911150","911160","911170","911180","911190","911200","911201","911310","911410","921140","921170","921180","922120","991110","991150"]
+    },
+    "adminSearchableNotMapped": {
+      "rationale": "3 codes returned live cases but are SELF-TYPED (GetCase detail caseTypeCode == caseCategoryCode == own code) — administrative/ancillary filings, not members of any CIV/UD/FAM/PRB/MEN umbrella, so no JCCC policy bucket fits. NOT mapped. 110120 Lodged Will (327 cases) notably REFUTES the Step #53 '0 InfoTrack results, Madera-non-applicable' finding (a false negative) — but its self-type means it is administrative, not Probate.",
+      "codes": [
+        { "code": "110120", "label": "Lodged Will", "count": 327 },
+        { "code": "110210", "label": "Sanctions", "count": 37 },
+        { "code": "120110", "label": "Juror OSC", "count": 3 }
+      ]
+    },
+    "emptyCodesConfirmed": {
+      "summary": "54 of 139 unmapped codes returned 0 cases via direct CMS — authoritatively confirmed non-applicable at Madera (supersedes weaker InfoTrack-based conclusions).",
+      "juvAllZero": "All 14 JUV (3xxxxx) codes returned 0 — the Step #51 JUV structural block now stands on AUTHORITATIVE direct-CMS evidence, not just InfoTrack.",
+      "adoptionAllZero": "All 7 Adoption (85xxxx) codes returned 0.",
+      "otherZero": "Domestic-partnership variants (212121/213121), 5 CIV (405200/409100/409300/410100/412960), 5 MEN subtypes (601110/602110/607110/608110/611110), 551710 Protect-Minor, and criminal subtypes (DUI/traffic/infraction/appeal/warrants)."
+    },
+    "findings": {
+      "step59_F1_DetailVerificationConfirmsListQuery": { "summary": "85/85 evidence codes' GetCase detail caseCategoryCode == GetCaseList CaseCategoryText (0 diverge). The Step #57 GetCaseList method is now proven to match the authoritative GetCase detail value the resolver receives at SF time." },
+      "step59_F2_PrbRetractionsWereIncompleteNotWrong": { "summary": "Step #52/#53 PRB findings (603110 LPS, 614130 Ancillary, 511110-umbrella) were INCOMPLETE, not wrong. GetCase detail on MPR11267/MPR012467/MPR015004 proves 511110/532110/561310 are ALSO valid caseCategoryCodes — they coexist with 603110/614130. All -> PRB." },
+      "step59_F3_CriSearchableButDeferred": { "summary": "19 CRI codes are searchable in Madera's CMS (40,000+ cases) and detail-verified, refuting 'criminal absent from CMS'. Promotion deferred (Option 2): searchability != validated SF workflow + criminal confidentiality. CRI stays awaitingEvidence." },
+      "step59_F4_InfoTrackFalseNegativesRefuted": { "summary": "110120 Lodged Will (327 cases) + 561310 Ancillary directly refute Step #52/#53 InfoTrack-based 'Madera-non-applicable'/'never observed' conclusions — re-confirming Step #57 F2 that InfoTrack has false negatives and direct-CMS is authoritative." },
+      "step59_F5_FiveOfEightBucketsUnchanged": { "summary": "The 5/8 evidence-backed-bucket headline is UNCHANGED (CIV/UD/FAM/PRB/MEN). Step #59 grew DEPTH within those 5 from 42 to 105 codes. JUV/CRI/APP remain awaitingEvidence; JUV's block is now on authoritative direct-CMS evidence (14/14 zero)." }
+    },
+    "filesModified": [
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCourtCategoryMappings.json — madera.categoryCodeToJccc 42 -> 105 (63 promotions); loggedStep updated.",
+      "src/EFiling/EFiling.Providers.JTI/Config/JtiCaseCategoryPolicy.json — this file (completenessNote updated + this step59UnmappedCategoryPromotionAudit block).",
+      ".playwright-cli/probe-step59-unmapped.ps1 — exhaustive unmapped-code list-query probe.",
+      ".playwright-cli/step59-unmapped-results.json + step59-unmapped-summary.txt — list-query results (85 evidence / 54 empty).",
+      ".playwright-cli/step59-detail-verification.json — GetCase detail-level confirmation (85/85 match).",
+      "src/EFiling/EFiling.Tests/Step59_UnmappedCategoryPromotionAuditTests.cs — new drift-guard test.",
+      "src/EFiling/EFiling.Tests/Step49/51/52/53/57 + KnownDebt_KD001 — updated drift-guards (count/array supersessions; 511110/532110/561310 restorations)."
+    ],
+    "driftGuardTests": "EFiling.Tests/Step59_UnmappedCategoryPromotionAuditTests.cs — pins (a) categoryCodeToJccc total=105 with per-bucket CIV 46/UD 5/FAM 23/PRB 23/MEN 8; (b) exact knownCategoryCodes arrays for CIV/FAM/PRB/MEN; (c) 511110/532110/561310 resolve to PRB; (d) 711110 resolves to CIV; (e) the 19 CRI + 3 ADMIN codes are NOT in categoryCodeToJccc and CRI/JUV/APP stay awaitingEvidence with empty knownCategoryCodes; (f) this audit block exists with detailVerification 85/85/0."
+  },
+  "policies": {
+    "CIV": {
+      "label": "Civil & Small Claims",
+      "catalogSection": "§5.1",
+      "categoryCode": "CIV",
+      "ecfElement": "CivilCase-4.0",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 19,
+        "tierBLiveVerified": true,
+        "layerAEvidence": "ECF 4.0 CivilCase + CivilCaseTypeExt in Reference.cs"
+      },
+      "knownCategoryCodes": ["411100", "411900", "412910", "415110"],
+      "knownCategoryCodesNote": "Step #57 added 411100 (Civil-1-1 variant) via direct CMS list-query — 8 cases at Madera, sample MCV039455 'Charles Wayne Uptergrove vs. United States of America', caseTypeCode=411110 (CIV umbrella). Pre-Step-#57 the 3 codes (411900/412910/415110) were the Step #49 baseline; Step #57's exhaustive Madera category-list probe (`probe-step57-all-madera.ps1`) found 411100 returns a small but non-empty result set, qualifying it for promotion. Larger CIV-family Madera result sets (411900: 829 cases; 412910: 2380 cases; 415110: 109 cases) are also confirmed by the same probe pass. Several other CIV-range hypothesized codes (411110, 412110, 412120, 413110, 414110, 416110, 417110, 418110) returned 0 results at Madera — those are documented as Madera-non-applicable for now (see step57AllMaderaCategoriesAudit block).",
+      "defaultPartyRoles": ["PLAIN", "DEF"],
+      "rules": [
+        { "id": "CIV-1", "summary": "Default filing party roles populated from CaseParticipant role codelist", "evidenceLevel": "V1" },
+        { "id": "CIV-2", "summary": "Incident zip code captured on CaseAugmentationExt for venue", "evidenceLevel": "V1" },
+        { "id": "CIV-3", "summary": "CivilCaseTypeExt flags: complex litigation, class action, asbestos, CEQA, conditionally sealed", "evidenceLevel": "V1" },
+        { "id": "CIV-4", "summary": "Amount-in-controversy for fee-calc / complex-litigation threshold", "evidenceLevel": "V1" },
+        { "id": "CIV-5", "summary": "Small Claims uses Complaint.CaseCategoryCode with Small Claims codes", "evidenceLevel": "V1" }
+      ],
+      "subCategories": ["UD"],
+      "openQuestions": []
+    },
+
+    "UD": {
+      "label": "Unlawful Detainer (sub-category of Civil)",
+      "catalogSection": "§5.6",
+      "categoryCode": "UD",
+      "ecfElement": "CivilCase-4.0 with CaseCategoryCode=UD",
+      "parentCategory": "CIV",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 1,
+        "tierBLiveVerified": true,
+        "layerAEvidence": "Madera CIV-INI-005 / CIV-SUB-016 on case MCV089023 (category 407200 'Unlawful Detainer: Residential'); JTI HTML sample 'COVID-19 Question for New Unlawful Detainer Cases Sample.xml'. Step #49 expanded knownCategoryCodes to cover all 5 Madera UD subtypes (407100 Commercial, 407110 Commercial Foreclosure, 407200 Residential, 407210 Residential Foreclosure, 407300 Drugs) — CCP §1161.2 disclaimer is statute-grounded and applies to ALL UD cases regardless of subtype. Subtype evidence: Tier-B probe on MCV034905 (cat 407100 'Unlawful Detainer: Commercial') uncovered the gap when the gate failed to fire."
+      },
+      "knownCategoryCodes": ["407100", "407110", "407200", "407210", "407300"],
+      "knownCategoryCodesNote": "All 5 Madera UD subtypes per madera_case_category.txt: 407100 Commercial, 407110 Commercial Foreclosure, 407200 Residential, 407210 Residential Foreclosure, 407300 Drugs. CCP §1161.2 (a) applies to 'unlawful detainer cases' generically — the statute does not distinguish subtypes. Step #43 originally seeded only 407200 based on the canonical CIV-INI-005 sample on MCV089023; Step #49 Tier-B probing across MCV034905 (cat 407100 Commercial) discovered the gap and expanded coverage.",
+      "rules": [
+        {
+          "id": "UD-1",
+          "summary": "§1161.2 PUBLIC DISCLAIMER — EFSP must display verbatim JTI-mandated text WHEN SEARCHING for Unlawful Detainers (NOT at filing time)",
+          "sourceQuote": "JTI EFM requires all EFSPs to alert users of their electronic portal/gateway with the following disclaimer when searching for Unlawful Detainers: 'Code of Civil Procedure §1161.2 (a) limits access to unlawful detainer cases. Accessing an unlawful detainer case through this system could provide confidential information regarding the case. By accessing this case, you agree not to disclose, copy, publish, sell, or otherwise use confidential case information you access for any other purpose. Doing so may expose you to legal liability or result in criminal consequences.'",
+          "sourceFile": "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+          "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/436#UnlawfulDetainer",
+          "sourceAnchor": "#UnlawfulDetainer",
+          "sourceLines": "235-243",
+          "evidenceLevel": "V1",
+          "uxHook": "requiresUdDisclaimer",
+          "uxHookStage": "SEARCH (SearchCase.cshtml) — NOT filing (SubsequentFiling.cshtml)",
+          "wireFootprint": "NONE — pure EFSP UX obligation. No WSDL element corresponds to this disclaimer.",
+          "step42rNote": "Step #42 implemented this at the wrong stage (SubsequentFiling) with assistant-paraphrased text. Reverted in Step #42-R. Correct SearchCase implementation deferred to Step #43."
+        },
+        {
+          "id": "UD-2",
+          "summary": "§1161.2 ACCESS TRACKING — capture user response, username, case number; block non-parties from proceeding",
+          "sourceQuote": "The end user's response is required to be captured. If the user states they are not a party to the case, they should not able to proceed further. If answered in the affirmative, then the user proceeds to accessing the Unlawful Detainer case. At this point the EFSP is required to capture the answer to the question, the user name and Case Number involved in the search.",
+          "sourceFile": "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+          "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/436#UnlawfulDetainer",
+          "sourceLines": "257-259",
+          "evidenceLevel": "V1",
+          "wireFootprint": "NONE — EFSP-side audit storage requirement"
+        },
+        {
+          "id": "UD-3",
+          "summary": "COVID-19 question — LASC-only, NEW UD case initiation only (NOT applicable to Madera or subsequent filings)",
+          "sourceQuote": "LASC requires all EFSPs to display the following question to end-users when filing a new Unlawful Detainer case: 'Is this an Action for Recovery of COVID-19 Related Debt as defined under Section 1179.02?'",
+          "sourceFile": "docs/fileing files/Case Initiation/Court Specific Concepts/Case Initiation - Court Specific Concepts _ EFM Documentation.html",
+          "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/435#Covid-19",
+          "sourceLines": "239-260",
+          "evidenceLevel": "V1",
+          "appliesToCourts": ["lasc"],
+          "wireFootprint": "<ns6:CaseSpecialStatus><ns6:statusCode>UDCOV19</ns6:statusCode></ns6:CaseSpecialStatus> on Case Initiation. See sample: docs/fileing files/Case Initiation/Court Specific Concepts/COVID-19 Question for New Unlawful Detainer Cases Sample.xml"
+        },
+        {
+          "id": "UD-4",
+          "summary": "Ventura court-specific UD disclaimer — Civil Limited UD cases only (NOT Civil Unlimited UD)",
+          "sourceQuote": "Unlawful Detainer Disclaimer needs to be displayed for Civil Limited Unlawful Detainer cases. The disclaimer is NOT required for Civil Unlimited UD cases.",
+          "sourceFile": "docs/fileing files/Subsequent Filing/Court Specific Concepts/Subsequent Filing - Court Specific Concepts _ EFM Documentation.html",
+          "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/462#UDdisclaimer",
+          "sourceLines": "491-495",
+          "evidenceLevel": "V1",
+          "appliesToCourts": ["ventura"],
+          "refersToRule": "UD-1"
+        }
+      ],
+      "requiresUdDisclaimer": true,
+      "requiresUdDisclaimerNote": "Flag remains true per JTI EFM mandate (UD-1). Consumer must show at SEARCH stage with verbatim text + party-attestation Y/N gate + audit capture. The Step #42 SubsequentFiling-stage consumption was reverted in Step #42-R; correct SearchCase consumption is deferred to Step #43.",
+      "openQuestions": [
+        "Step #43 — implement UD-1 + UD-2 on SearchCase.cshtml with verbatim text + party-attestation Y/N gate + audit-capture table.",
+        "UD-3 (LASC COVID-19) — confirm currently in effect or deprecated post-COVID. Scope check: do we even support LASC filings today?",
+        "UD-4 (Ventura) — do we support Ventura court? If so, verify Civil-Limited-only application."
+      ]
+    },
+
+    "FAM": {
+      "label": "Family Law",
+      "catalogSection": "§5.2",
+      "categoryCode": "FAM",
+      "ecfElement": "FamilyCase (subject to sample verification)",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 7,
+        "tierBLiveVerified": true,
+        "layerAEvidence": null
+      },
+      "knownCategoryCodes": ["211110", "211120", "212110", "212120", "213110", "291110"],
+      "knownCategoryCodesNote": "Step #49 added 291110 (Family Law Other) — Tier-B probe on MFL004695 returned category 291110. Step #49.X drift-guard caught a typo in the original Step #42 seeding: '212220' was a transposition of '212120' (Legal Separation w/o Minor Child); fixed in Step #49.X. Per madera_case_category.txt, the actual 211xxx + 212xxx Madera codes are: 211110 Dissolution w/Minor Child, 211120 Dissolution w/o Minor Child, 211121 Dissolution - Domestic Partnership, 212110 Legal Separation w/Minor Child, 212120 Legal Separation w/o Minor Child, 212121 Legal Sep - Domestic Partnership. 291110 is the umbrella 'Family Law Other' for cases that don't fit a named subtype. Step #57 added 213110 (Family-3-1 variant) via direct CMS list-query — 25 cases at Madera, sample MFL005686 'Margarita Munoz Tejeda vs. Miguel Fernandez', caseTypeCode=211110 (FAM umbrella). Step #57's exhaustive Madera category probe (`probe-step57-all-madera.ps1`) hit 213110 in the unmapped/hypothesized cohort; 5 other FAM-range hypothesized codes (214110, 215110, 216110, 217110, 213100) returned 0 results and remain unmapped. See step57AllMaderaCategoriesAudit block.",
+      "defaultPartyRoles": ["PET", "RES"],
+      "rules": [
+        { "id": "FAM-1", "summary": "FamilyCaseType vs CivilCaseType structural differences", "evidenceLevel": "V2", "note": "To be confirmed per samples." },
+        { "id": "FAM-2", "summary": "Consent-to-eService EFSP_EMAIL paired with E_SERVICE (per FAM-SUB-004)", "evidenceLevel": "V1" }
+      ],
+      "step42rNote": "Step #42 added a `requiresMinorChildRedaction: true` flag + FAM-2 minor-child-redaction rule with an SF.cshtml advisory card. Step #42-R audit found ZERO JTI source for that — JTI's only redaction guidance is for JUVENILE cases (server-side EFM masking, see JUV-1), not Family Law. Flag + rule removed.",
+      "openQuestions": [
+        "Is FamilyCase a distinct ECF element from CivilCase, or a CivilCase variant?",
+        "If California CRC rules require EFSP-side minor-child-redaction reminders for Family Law, locate authoritative source (Judicial Council rule URL + text) before re-introducing a UX hook."
+      ]
+    },
+
+    "PRB": {
+      "label": "Probate",
+      "catalogSection": "§5.3",
+      "categoryCode": "PRB",
+      "ecfElement": "ProbateCase (subject to sample verification)",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": true,
+        "tierBLiveVerifiedScope": "SF (filing into existing case) only — CI (case initiation) not yet verified for Probate; awaits a successful new-Probate-case submission baseline.",
+        "layerAEvidence": "Step #49 Tier-B probe via playwright-cli on 4 Madera Probate-typed cases (case type 511110 'Decedent's Estate'): MPR11249 + MPR011994 returned caseCategoryCode 511210 (Probate of Wills & for Ltrs Test.); MPR11261 + MPR10298 returned caseCategoryCode 531110 (Conservatorship). All 4 cases loaded SF page successfully — confirms Probate-typed cases support SF round-trip on Madera. Step #52 MAJOR EXPANSION via direct legalhub probe on 17 representative Probate-family dockets (one per InfoTrack-confirmed eFile category) extracting `var caseCategoryCode` from rendered SF HTML. Each yielded a DEDICATED CMS code: MPR012026 → 521110 (Trust), MPR011984 → 541110 (Guardianship), MPR011981 → 551110 (Spousal Property), MPR012027 → 551310 (Minor's Claim), MPR012364 → 551210 (Fact of Birth), MPR011983 → 511410 (Letters of Administration), MPR011521 → 511510 (Letters of Special Administration), MPR012205 → 551211 (Fact of Death), MPR012419 → 551212 (Fact of Marriage), MPR011987 → 551410 (Determine Succession), MPR011677 → 551510 (Mgmt/Dispo Prop-Spouse), MPR012321 → 551610 (Auth Med Trtmnt Adult), MPR012003 → 561110 (Affidavit Property Small Value), MPR011300 → 561210 (Summary Petition), MPR015007 → 614130 (Ancillary Proceedings — ambiguous; same code is codelist's Habeas), MPR011989 → 511310 (Probate of Wills & Ltrs of Admin), MPR012152 → 511610 (Authorization to do Administrative). Step #52 LPS RE-PROBE: 3 LPS dockets (MPR10622, MPR011875, MPR7458) all returned caseCategoryCode 603110 (NOT 511110, NOT codelist's 532110) — Step #51's `+511110` addition was based on the InfoTrack `Case type:` display, which shows `caseTypeCode` (umbrella 511110), NOT `caseCategoryCode`. ALL PRB-bucket cases share `caseTypeCode=511110` (umbrella PRB TYPE code), but each subtype has its own `caseCategoryCode`. Our resolver `FindPolicyByCourtCategoryCode` matches on `caseCategoryCode` (per `JtiFieldSchemaProvider.cs:160`), so knownCategoryCodes must contain caseCategoryCode values only. Step #52 RETRACTED the Step #51 `511110` addition and added 18 evidence-backed caseCategoryCode values across the Probate family."
+      },
+      "knownCategoryCodes": ["511210", "511310", "511410", "511510", "511610", "521110", "531110", "541110", "551110", "551210", "551211", "551212", "551310", "551410", "551510", "551610", "561110", "561210", "603110", "614130"],
+      "knownCategoryCodesNote": "ALL PRB-bucket cases at Madera share `caseTypeCode=511110` (the umbrella PRB TYPE code — what the JTI submission codelist labels 'Decedent's Estate', but functions as the parent-class identifier for the entire Probate department's case-routing tree). Each subtype has its own dedicated `caseCategoryCode`. Our policy resolver `JtiFieldSchemaProvider.FindPolicyByCourtCategoryCode` (called from `EFilingMvcController.GateUdAccessAsync` + `CaseDetailAjax` + `UdDisclaimerPolicy.RequiresDisclaimer`) matches on caseCategoryCode (not caseTypeCode), so knownCategoryCodes MUST contain only caseCategoryCode values. Step #52 provided direct evidence for 18 dedicated caseCategoryCodes via Tier-B probe (extracting `var caseCategoryCode` from the rendered SF HTML) — full code-to-subtype mapping: 511210 (Probate of Wills & for Ltrs Test., Step #49), 511310 (Probate of Wills & Ltrs of Admin), 511410 (Letters of Administration), 511510 (Letters of Special Administration), 511610 (Authorization to do Administrative), 521110 (Trust), 531110 (Conservatorship, Step #49), 541110 (Guardianship), 551110 (Spousal Property), 551210 (Establish Fact of Birth), 551211 (Establish Fact of Death), 551212 (Establish Fact of Marriage), 551310 (Minor's Claim), 551410 (Determine Succession Real Property), 551510 (Mgmt/Dispo Prop-Spouse No Capacity), 551610 (Auth Med Trtmnt Adult w/o Conserv), 561110 (Affidavit Property Small Value), 561210 (Summary Petition). Two additional codes added with cross-classification caveats: 603110 (LPS Conservatorship — MEN-range CMS code on MPR-prefixed dockets administered through Probate department; cross-classified bucket assignment per docket prefix + caseTypeCode), and 614130 (Ancillary Proceedings — single docket MPR015007 returned this; same code is codelist's Habeas Corpus mapping, so the assignment carries ambiguity — could be Madera-CMS-double-uses-614130 OR the InfoTrack search was off-by-one for that single case). KEY METHODOLOGY FINDING (Step #52): Step #51 incorrectly added `511110` based on InfoTrack search-results display field `Case type: [code] - [label]` — that display field is the `caseTypeCode` (umbrella TYPE code, 511110 for all PRB cases), NOT the `caseCategoryCode` (per-subtype CMS storage code). Step #52 retracted the `511110` addition and replaced it with the 18 evidence-backed dedicated codes. Going forward, knownCategoryCodes additions must be backed by direct `var caseCategoryCode` extraction from the rendered SF HTML (live legalhub probe), NOT InfoTrack visual display fields. Codelist file `scripts/madera_case_category.txt` is the JTI EFM SUBMISSION codelist (filing-time dropdown — what the filer selects when initiating); it sometimes diverges from CMS storage (notably LPS: submission 532110, CMS storage 603110). NOT YET PROBED for caseCategoryCode evidence: 551710 (Protect Proceeding Involving Minor — 0 user-provided dockets), 561310 (Ancillary Proceedings — only 1 user-provided docket landed on 614130, leaving 561310 unexercised), 110120 (Lodged Will — 0 user-provided dockets). True Habeas Corpus caseCategoryCode also UNKNOWN: the 5 Step #51 user-provided Habeas dockets (MPR015914 etc.) all redirect to SearchCase via the SF endpoint at Madera (likely sealed/archived/not-retrievable), so no direct caseCategoryCode evidence exists for habeas yet — Step #51's '511110 - Writ of Habeas Corpus' InfoTrack display was the caseTypeCode umbrella, not the caseCategoryCode.",
+      "defaultPartyRoles": ["PET", "RES"],
+      "rules": [
+        { "id": "PRB-1", "summary": "Petitioner / Respondent role codes different from civil", "evidenceLevel": "V2" },
+        { "id": "PRB-2", "summary": "Decedent-centric party model (for estate cases)", "evidenceLevel": "V2" },
+        { "id": "PRB-3", "summary": "Conservatorship / Guardianship / Trust sub-types", "evidenceLevel": "V2" }
+      ],
+      "subCategories": ["CONS", "GUARD", "TRUST", "ESTATE"],
+      "openQuestions": [
+        "Full role codelist for Probate cases.",
+        "Decedent modeling — is decedent a caseParticipant with a specific role, or a separate element?",
+        "caseCategoryCode for Protect Proceeding Involving Minor (codelist 551710) — 0 user-provided dockets at Step #52, RE-CONFIRMED 0 InfoTrack search results at Step #53. Status: Madera-non-applicable / no evidence available. Either (a) Madera has never had a case filed under this codelist code, (b) Madera's CMS routes such filings to a different bucket, or (c) InfoTrack's index lacks coverage. Resolvable only via non-Madera-court evidence (LASC, Riverside, etc.) or vendor consultation. See step53MaderaEdgeCases block for the closure record.",
+        "caseCategoryCode for Lodged Will (codelist 110120) — 0 user-provided dockets at Step #52, RE-CONFIRMED 0 InfoTrack search results at Step #53. Status: Madera-non-applicable / no evidence available. Same possible causes as Protect Minor (codelist 551710). Resolvable only via non-Madera-court evidence or vendor consultation. See step53MaderaEdgeCases block.",
+        "caseCategoryCode for true Writ of Habeas Corpus — Step #51 user-provided habeas dockets (MPR015914, MPR016127, MPR011826A, MPR016177, MPR016176) all redirect to SearchCase via Madera SF endpoint at Step #52 (likely sealed / archived / not retrievable via JTI EFM live). Step #51's '511110 - Writ of Habeas Corpus' was an InfoTrack `Case type:` display field (the caseTypeCode umbrella), NOT a caseCategoryCode probe. True habeas caseCategoryCode remains unknown at Madera.",
+        "Ancillary Proceedings code disambiguation — codelist file maps 561310 → 'Ancillary Proceedings' AND 614130 → 'Writ of Habeas Corpus' as distinct submission codes, but Step #52 probe on the user-provided Ancillary docket MPR015007 returned caseCategoryCode=614130. Step #53 CONFIRMED MPR015007 is the ONLY Ancillary Proceedings docket at Madera (InfoTrack returns 1 result for that category). Madera-side resolution: NONE possible — single-docket evidence cannot disambiguate between (a) Madera CMS double-uses 614130 across two submission paths, (b) MPR015007 was an InfoTrack search misclassification (true Habeas case displayed under Ancillary search), or (c) 561310 never lands as a CMS-stored caseCategoryCode (Madera always normalizes Ancillary filings to 614130 at storage — mirror of LPS 532110→603110 divergence). Status: scoped to Madera limits; resolvable only via non-Madera-court evidence (LASC, Riverside, etc.) or vendor consultation. See step53MaderaEdgeCases block."
+      ],
+      "resolvedOpenQuestions": [
+        {
+          "question": "LPS Conservatorship code mapping (deferred from Step #49) — does code 532110 (WI5350-LPS Conservatorship per JTI submission codelist) fold under PRB?",
+          "resolvedAt": "Step #51, CORRECTED at Step #52",
+          "resolution": "Yes, LPS Conservatorship folds under PRB — but at the caseTypeCode level only (`caseTypeCode=511110`, the umbrella PRB TYPE code). The caseCategoryCode is `603110` (MEN-range), NOT 511110 as Step #51 claimed, NOT 532110 as the submission codelist lists. Step #52 direct legalhub probe on 3 LPS dockets (MPR10622, MPR011875, MPR7458) all returned `var caseCategoryCode = '603110'` from rendered SF HTML. Step #51's '511110' addition was a methodology error — the InfoTrack search-results `Case type:` display field shows the `caseTypeCode` (which IS 511110 for ALL PRB-bucket cases), not the `caseCategoryCode`. Step #52 retracted the 511110 addition; PRB.knownCategoryCodes now contains 603110 (the actual LPS caseCategoryCode) instead.",
+          "newKnownCategoryCode": "603110",
+          "step52Correction": "Step #51 originally set this to '511110' based on InfoTrack `Case type:` display misinterpreted as caseCategoryCode. Step #52 corrected to '603110' via direct legalhub `var caseCategoryCode` extraction. See step52ProbateFamilyAudit block for the cross-cutting methodology correction."
+        },
+        {
+          "question": "Whether the remaining Probate-family submission codes (521110 Trust, 541110 Guardianship, 551xxx subseries, 561xxx subseries) collapse to 511110 in CMS storage (like LPS/Habeas per Step #51) or have their own dedicated CMS codes (like 511210/531110 per Step #49). Needs Tier-B probes on each subtype.",
+          "resolvedAt": "Step #52",
+          "resolution": "DEDICATED CODES — each of the 17 probed Probate-family subtypes has its own caseCategoryCode (no umbrella collapse). Step #52 direct legalhub probe on one representative MPR docket per category yielded: 521110 Trust (MPR012026), 541110 Guardianship (MPR011984), 551110 Spousal Property (MPR011981), 551310 Minor's Claim (MPR012027), 551210 Establish Fact of Birth (MPR012364), 511410 Letters of Administration (MPR011983), 511510 Letters of Special Administration (MPR011521), 551211 Establish Fact of Death (MPR012205), 551212 Establish Fact of Marriage (MPR012419), 551410 Determine Succession (MPR011987), 551510 Mgmt/Dispo Prop-Spouse (MPR011677), 551610 Auth Med Trtmnt Adult (MPR012321), 561110 Affidavit Property Small Value (MPR012003), 561210 Summary Petition (MPR011300), 614130 Ancillary Proceedings (MPR015007 — ambiguous, see openQuestions), 511310 Probate of Wills & Ltrs of Admin (MPR011989), 511610 Authorization to do Administrative (MPR012152). Original Step #51 hypothesis (Madera CMS collapses to 511110 umbrella) was wrong for these 17 subtypes — only the LPS Conservatorship probe yielded a non-codelist-matching code (603110, MEN-range cross-classified). The Step #51 hypothesis was derived from InfoTrack `Case type:` display which is the caseTypeCode (always 511110 for PRB), NOT the caseCategoryCode.",
+          "newKnownCategoryCodes": ["511310", "511410", "511510", "511610", "521110", "541110", "551110", "551210", "551211", "551212", "551310", "551410", "551510", "551610", "561110", "561210", "603110", "614130"]
+        }
+      ]
+    },
+
+    "MEN": {
+      "label": "Mental Health",
+      "catalogSection": "§5.4",
+      "categoryCode": "MEN",
+      "ecfElement": "MentalHealthCase or CivilCase-4.0 variant (subject to verification)",
+      "awaitingEvidence": false,
+      "evidence": {
+        "level": "V1",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": true,
+        "tierBLiveVerifiedScope": "SF (filing into existing case) only — CI (case initiation) remains blocked at Madera per MaderaLiveFixtures.cs (Madera doesn't expose MH case-INI; 2 MH-INI scenarios stay categorically skipped). The SF surface DOES support MH cases, contradicting the earlier conflated 'Madera doesn't expose MH' claim which applied only to CI.",
+        "layerAEvidence": "JTI sample: Date of Birth Field Required for AS TO Party on Mental Health Case Initiation on ALL Case Categories Sample XML.xml (CI-side, V2). Step #49 Tier-B probe via playwright-cli on Madera cases MMH00187 + MMH00192 (both case type 611110 'WI6500-Mental Retarded/Dangerous', category 613110 'Mental Health-Other') confirmed SF page loads successfully with metadata-sections-container, no gate, no errors — Madera DOES expose SF on existing MH cases. Step #56 added 3 more dedicated MEN codes via the same legalhub probe methodology established at Step #52: MMH00135 → 604110 (WI3050/3051-Narcotics Addict); MMH00612 → 605110 (PC2966-Commitments — PC-prefixed but files under MEN umbrella 611110, NOT CRI); MMH00201 → 609110 (WI6600-Sexually Violent Predator). All 3 dockets render SF cleanly with caseTypeCode=611110 and the expected CMS-stored caseCategoryCode in the `var caseCategoryCode = '...'` JS variable."
+      },
+      "knownCategoryCodes": ["604110", "605110", "606110", "609110", "612110", "613110", "614120"],
+      "knownCategoryCodesNote": "Step #49 evidence: 613110 (Mental Health-Other) observed on Madera cases MMH00187 + MMH00192. 614120 (Mental Health-Other Writ) included as a sibling per madera_case_category.txt — same MH umbrella with a Writ-variant procedural path. Step #56 added 3 new codes via direct legalhub probe: 604110 (WI3050/3051-Narcotics Addict, evidence MMH00135), 605110 (PC2966-Commitments, evidence MMH00612), 609110 (WI6600-Sexually Violent Predator, evidence MMH00201). All 3 returned caseTypeCode=611110 (MEN umbrella) — they do NOT cross-classify to CRI despite the PC-prefixed labels on 605110 (PC2966-Commitments). The Step #56 audit block documents this PC-vs-CRI hypothesis-rebuttal explicitly. NOT included (separate from MH proper despite being adjacent): 532110 (WI5350-LPS Conservatorship) is structurally under case type 511110 'Decedent's Estate' (Probate) per madera_case_category.txt — it's mental-health-statute-grounded (Lanterman-Petris-Short, WI §5350) but processed via Probate, not MH. 532110 folded under PRB.knownCategoryCodes at Step #52 with CMS-stored code 603110. Step #56 also surfaced 5 Madera-non-applicable categories (0 InfoTrack results at Madera/eFile): 601110 WI5250/5260/5270-Certification, 602110 WI5300-PostCertification Treatment, 607110 PC1026-NG due to Insanity, 608110 WI6300-Mental Disorder Sex Offen — see step56MenEvidenceAudit block for findings. Step #57 UPDATE: Both 606110 (PC1368-Competency) and 612110 (Hop-Developmentally Disabled) PROMOTED to knownCategoryCodes based on direct CMS list-query evidence — the new probe methodology bypasses InfoTrack entirely by issuing a category-filtered GetCaseList SOAP request and reading every case the CMS returns. 606110 yielded 985 cases at Madera (sample MMH00133, caseTypeCode=611110); 612110 yielded 1 case (MMH01159, caseTypeCode=611110). Step #56's MMH01221-stale-build framing was correct for that one docket (which remains genuinely unreachable from our session — possibly sealed/archived/auth-mismatch), but the IMPLICATION that code 606110 itself was Madera-non-applicable was wrong. The 5-code 'Madera-non-applicable' set documented at Step #56 based on InfoTrack 0-results actually contains 4 truly non-applicable codes (601110, 602110, 607110, 608110 — all confirmed 0 cases via direct CMS list-query) plus 1 InfoTrack-false-negative (612110 — 0 InfoTrack but 1 actual case). See step57AllMaderaCategoriesAudit block for the full Madera category-search probe + the methodology shift from InfoTrack-mediated probing to direct-CMS-list-query probing.",
+      "rules": [
+        { "id": "MEN-1", "summary": "DOB REQUIRED for AS TO party on Mental Health case initiation (per JTI sample)", "evidenceLevel": "V2", "uxHook": "requiresDobForAsToParty" },
+        { "id": "MEN-2", "summary": "LPS conservatorship-specific fields", "evidenceLevel": "V2" }
+      ],
+      "requiresDobForAsToParty": true,
+      "blockedFromTierB": false,
+      "blockedFromTierBNote": "Step #49 reset blockedFromTierB from true → false based on SF surface verification (MMH00187/MMH00192 both render SF page cleanly). The Tier-B blocking statement was originally true based on CI-only evidence (the 2 MH-INI scenarios CIV/MH-INI-001, MH-INI-002 still cannot run because Madera doesn't expose MH case initiation). SF Tier-B for MH is now possible; CI Tier-B for MH remains categorically blocked at Madera.",
+      "blockedFromTierBCi": true,
+      "blockedReasonCi": "Madera doesn't expose Mental Health case initiation (no CI fixture observed). 2 MH-INI scenarios stay skipped in MaderaLiveFixtures.cs.",
+      "openQuestions": [
+        "Full list of LPS conservatorship fields (MEN-2).",
+        "Is DOB required for ALL parties or only AS TO?",
+        "caseCategoryCode for WI5250/5260/5270-Certification (codelist 601110) — Step #56 InfoTrack search at Madera/eFile/[category] returned 0 results. Step #57 direct CMS list-query CONFIRMED 0 results, ruling out the InfoTrack-staleness hypothesis. Status: Madera-non-applicable. Either Madera has never had a case filed under this submission code OR Madera's CMS routes such filings elsewhere. Resolvable only via non-Madera-court evidence or vendor consultation. See step56MenEvidenceAudit + step57AllMaderaCategoriesAudit blocks.",
+        "caseCategoryCode for WI5300-PostCertification Treatment (codelist 602110) — Step #56 returned 0 InfoTrack results at Madera; Step #57 direct CMS list-query CONFIRMED 0 results. Same possible causes as 601110. Madera-non-applicable.",
+        "caseCategoryCode for PC1026-NG due to Insanity (codelist 607110) — Step #56 returned 0 InfoTrack results at Madera; Step #57 direct CMS list-query CONFIRMED 0 results. Same possible causes. Hypothesis: might route through CRI (Penal Code post-acquittal commitment) — but Madera CRI is structurally blocked from eFile per Step #51, so impossible to disambiguate at Madera.",
+        "caseCategoryCode for WI6300-Mental Disorder Sex Offen (codelist 608110) — Step #56 returned 0 InfoTrack results at Madera; Step #57 direct CMS list-query CONFIRMED 0 results. Same possible causes. Hypothesis: might route through specialized SVPA bucket — but Step #56's adjacent WI6600 (Sexually Violent Predator, 609110) DOES live under MEN umbrella, so this hypothesis is weakly supported."
+      ],
+      "resolvedOpenQuestions": [
+        {
+          "question": "Confidentiality / sealed-record gate at MH SF surface? Investigate whether W&I Code §5328 or LPS confidentiality requires an EFSP-side disclaimer parallel to UD §1161.2.",
+          "resolvedAt": "Step #50",
+          "resolution": "NEGATIVE FINDING — no JTI-mandated MH confidentiality gate exists. See top-level `step50ConfidentialityGateAudit` block for the doc-scan methodology + per-category findings. Madera Tier-B observation (Step #49) is consistent with JTI mandate: MMH00187 + MMH00192 both load SF without any attestation redirect because JTI does not require one. W&I §5328 governs clinical-record confidentiality at the institutional level but is NOT translated by JTI EFM into an EFSP-side disclaimer obligation. If a court eventually adopts an MH-specific disclaimer per local rule, it would land as a `appliesToCourts`-scoped rule (analogous to LASC COVID-19 or Ventura UD-Limited), not a universal MEN policy rule."
+        },
+        {
+          "question": "caseCategoryCode for PC1368-Competency (codelist 606110) — was Madera-evidence-pending after Step #56 because the only user-provided docket (MMH01221) was unreachable from CMS.",
+          "resolvedAt": "Step #57",
+          "resolution": "PROMOTED to MEN.knownCategoryCodes via direct CMS list-query. Step #57's exhaustive Madera category probe (`probe-step57-all-madera.ps1`) issued a category-filtered GetCaseList SOAP request for code 606110 and the CMS returned 985 cases (all caseTypeCode=611110, all caseCategoryCode=606110). Sample dockets: MMH00133 ('People vs. Lisa Kesse'). The Step #56 finding that MMH01221 specifically was CASE-NOT-RESOLVABLE-AT-CMS remains true — it's not in the 985 results either, confirming per-docket unreachability — but the IMPLICATION that code 606110 itself was Madera-non-applicable was wrong. Methodology shift: direct CMS list-query bypasses InfoTrack entirely and is now the canonical evidence pattern (supersedes Step #52/#56 InfoTrack-mediated probing).",
+          "newKnownCategoryCode": "606110"
+        },
+        {
+          "question": "caseCategoryCode for In Re Hop-Developmentally Disabled (codelist 612110) — was marked Madera-non-applicable at Step #56 based on InfoTrack 0-results.",
+          "resolvedAt": "Step #57",
+          "resolution": "PROMOTED to MEN.knownCategoryCodes — Step #56's Madera-non-applicable framing was an InfoTrack-false-negative. Direct CMS list-query for code 612110 returned 1 case (MMH01159 'In Re Banner, Bruce', caseTypeCode=611110). InfoTrack's 0-results display didn't include this case, but the underlying CMS does honor 612110 at Madera. Methodology lesson: InfoTrack's category-search index is NOT authoritative; direct CMS list-query is. The 4 remaining 'Madera-non-applicable' codes from Step #56 (601110, 602110, 607110, 608110) were re-verified via direct CMS list-query at Step #57 — those genuinely return 0 cases and remain Madera-non-applicable.",
+          "newKnownCategoryCode": "612110"
+        }
+      ]
+    },
+
+    "JUV": {
+      "label": "Juvenile",
+      "catalogSection": "§5.5",
+      "categoryCode": "JUV",
+      "ecfElement": "JuvenileCase or CivilCase-4.0 variant",
+      "awaitingEvidence": true,
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "rules": [
+        {
+          "id": "JUV-1",
+          "summary": "Juvenile (3-code CaseTypeText) — sensitive party information is REDACTED SERVER-SIDE by JTI EFM (not an EFSP obligation)",
+          "sourceQuote": "For Juvenile cases (3-code), sensitive party information is masked before the data is sent to external systems: CaseTitleText → 'REDACTED'; PersonGivenName → 'Confidential'; PersonMiddleName → '' (empty); PersonSurName → '' (empty); JudgmentName → 'Confidential'. Criminal cases (9-code) are not redacted but will follow the same structural pattern at the case level.",
+          "sourceFile": "docs/fileing files/Subsequent Filing/General Concepts/Subsequent Filing - General Concepts _ EFM Documentation.html",
+          "sourceUrl": "https://efm-docs-portal-symphony.ecourt.com/public-portal/?q=node/436#CriminalJuvenileCaseTypes",
+          "sourceAnchor": "#CriminalJuvenileCaseTypes",
+          "sourceLines": "281-319",
+          "evidenceLevel": "V1",
+          "caseTypeMatcher": "CaseTypeText starts with '3'",
+          "redactedFields": {
+            "CaseTitleText": "REDACTED",
+            "PersonGivenName": "Confidential",
+            "PersonMiddleName": "",
+            "PersonSurName": "",
+            "JudgmentName": "Confidential"
+          },
+          "efspObligation": "NONE — EFSP receives already-redacted data. EFSP UI should not attempt to reverse-engineer real names from 'Confidential'/'REDACTED' values and should not bypass the masking."
+        },
+        {
+          "id": "JUV-2",
+          "summary": "Per-document redaction flag — `RedactionRequiredIndicator` WSDL element (filer indicates document must be redacted by the court)",
+          "sourceQuote": "Indicator by the filer that the document must be redacted by the court.",
+          "sourceFile": "docs/fileing files/Madera/XSD Definitions/FilingReviewMDEPort.wsdl",
+          "sourceLines": "2373; 2730 (LegalDocumentSubmissionMetadataType)",
+          "evidenceLevel": "V1",
+          "wireElement": "RedactionRequiredIndicator (xs:boolean, optional)",
+          "scope": "Wire-defined, optional per-document flag — applies to ANY case type, not Juvenile-specific. Could be surfaced via a future UI affordance on document upload but not category-specific."
+        }
+      ],
+      "step42rNote": "Step #42 declared `requiresJuvenileRedaction: true` as an EFSP UI hook. Step #42-R clarification: JTI EFM performs Juvenile redaction SERVER-SIDE before data leaves the EFM (per JUV-1). EFSPs do not implement Juvenile redaction; they consume already-redacted data. Flag retained but renamed in semantics — see `juvenileRedactionPerformedBy` below.",
+      "juvenileRedactionPerformedBy": "JTI_EFM_SERVER",
+      "requiresJuvenileRedaction": true,
+      "requiresJuvenileRedactionNote": "Flag meaning: filer-facing UI should be aware that Juvenile case data is server-side-redacted (display real names cannot be relied upon; 'Confidential'/'REDACTED' values are intentional). This is NOT a UI obligation to redact — that happens upstream.",
+      "openQuestions": [
+        "Does JTI allow external (EFSP) filings on juvenile cases at all? — catalog §7.4 open question",
+        "Three-code restriction — full enumeration of restricted case-type codes (currently only known: CaseTypeText starts with '3')."
+      ],
+      "externalFilingBlocked": null,
+      "externalFilingBlockedReason": "Unknown — catalog §7.4 open question"
+    },
+
+    "CRI": {
+      "label": "Criminal",
+      "catalogSection": "§5.7",
+      "categoryCode": "CRI",
+      "ecfElement": "CriminalCaseType (NOT inside CivilCase-4.0 ext)",
+      "awaitingEvidence": true,
+      "evidence": {
+        "level": "V3",
+        "baselineSampleCount": 0,
+        "tierBLiveVerified": false,
+        "layerAEvidence": null
+      },
+      "defaultPartyRoles": ["DEF", "VIC", "WIT"],
+      "rules": [
+        { "id": "CRI-1", "summary": "Top-level CriminalCaseType (not inside CivilCase ext)", "evidenceLevel": "V2" },
+        { "id": "CRI-2", "summary": "Defendant / Victim / Witness role codes instead of PLAIN / DEF", "evidenceLevel": "V2" }
+      ],
+      "externalFilingBlocked": null,
+      "externalFilingBlockedReason": "Unknown — catalog §7.1 open question. No canonical baseline samples observed.",
+      "openQuestions": [
+        "Does JTI accept external filings on criminal cases? — Open question §7.1",
+        "If supported, full role codelist."
+      ]
+    },
+
+    "APP": {
+      "label": "Appellate",
+      "catalogSection": "§5.8",
+      "categoryCode": "APP",
+      "ecfElement": "AppellateCase (TBD)",
+      "awaitingEvidence": true,
+      "evidence": {
+        "level": "V2",
+        "baselineSampleCount": 1,
+        "tierBLiveVerified": false,
+        "layerAEvidence": "Case Initiation sample: docs/fileing files/Case Initiation/Court Specific Concepts/Appellate Cases Sample.xml"
+      },
+      "defaultPartyRoles": ["APPLNT", "RESPDNT"],
+      "rules": [
+        { "id": "APP-1", "summary": "Appellant / Respondent role codes", "evidenceLevel": "V2" }
+      ],
+      "externalFilingBlocked": null,
+      "externalFilingBlockedReason": "Subsequent filing scope unknown — catalog §7.1 open question",
+      "openQuestions": [
+        "Subsequent filing scope on appellate cases.",
+        "Full role codelist (APPLNT/RESPDNT/AMICUS/INTERVENOR?)."
+      ]
+    }
+  },
+  "completenessSummary": {
+    "totalCategories": 8,
+    "evidenceBacked": 5,
+    "evidenceBackedCategories": ["CIV", "UD", "FAM", "PRB", "MEN"],
+    "awaitingEvidence": 3,
+    "awaitingEvidenceCategories": ["JUV", "CRI", "APP"],
+    "externalFilingStatus": {
+      "known": ["CIV", "FAM", "PRB", "UD", "MEN"],
+      "unknown": ["JUV", "CRI", "APP"]
+    },
+    "knownCategoryCodes": {
+      "policiesWithMappings": ["CIV", "UD", "FAM", "PRB", "MEN"],
+      "policiesAwaitingMappings": ["JUV", "CRI", "APP"],
+      "note": "Step #42 seeded mappings for the 3 initial evidence-backed categories (CIV/UD/FAM). Step #49 expanded the UD mapping with 4 additional subtype codes (407100/407110/407210/407300) — Tier-B probe found MCV034905 (cat 407100 'Unlawful Detainer: Commercial') was bypassing the §1161.2 gate; CCP statute applies to all UD subtypes. Step #49 also promoted PRB + MEN to evidence-backed (from user-provided Madera docket IDs) and extended FAM with 291110 'Family Law Other'. Remaining 3 categories (JUV/CRI/APP) await first-evidence pass per their own awaitingEvidence flag — JUV is the highest leverage (T-7 hook potential, child redaction)."
+    },
+    "step49Note": {
+      "date": "2026-05-21",
+      "summary": "Step #49 closed 4 schema gaps + 1 bug via user-provided Tier-B case-number harness (10 Madera dockets across 5 categories).",
+      "udSubtypeBugFix": "UD.knownCategoryCodes expanded from [407200] → [407100, 407110, 407200, 407210, 407300]. Discovered via MCV034905 (cat 407100 Commercial UD) bypassing the §1161.2 gate that Step #43+#44 was supposed to enforce. The original Step #43 seeding was incomplete — only the Residential UD subtype was gated. CCP §1161.2 (a) text says 'unlawful detainer cases' generically; the statute does not distinguish Commercial/Residential/Drugs/Foreclosure subtypes. All 5 subtypes per madera_case_category.txt now gated.",
+      "menPromotion": "MEN: awaitingEvidence false; knownCategoryCodes [613110, 614120]; tierBLiveVerified true (SF scope only — CI remains blocked). Evidence: MMH00187 + MMH00192 (case type 611110, cat 613110) both render SF cleanly. Open question: confidentiality gate analogous to UD §1161.2 for W&I §5328 / LPS? T-7 follow-on.",
+      "prbPromotion": "PRB: awaitingEvidence false; knownCategoryCodes [511210, 531110]; tierBLiveVerified true (SF scope only). Evidence: 4 MPR cases (MPR11249, MPR011994 both 511210; MPR11261, MPR10298 both 531110) all render SF cleanly. Conservatorship folds under PRB.subCategories CONS per the existing model.",
+      "famExtension": "FAM.knownCategoryCodes += 291110 (Family Law Other). Evidence: MFL004695.",
+      "lpsConservatorshipDeferral": "532110 (WI5350-LPS Conservatorship) is mental-health-grounded but processed via Probate case type (511110). Folds under PRB.knownCategoryCodes if evidence-backed in future. Step #49 user did not provide an LPS case — deferred.",
+      "twoCasesInvalid": "MCV098079 (user-tagged UD) and MFL021435 (user-tagged FAM Other) both redirected to /CourtFiling/SearchCase (~24KB error/search page) — likely invalid or inaccessible docket IDs. Not folded into evidence."
+    },
+    "step42rRevisionNote": {
+      "date": "2026-05-21",
+      "summary": "Step #42-R provenance audit corrected source-fidelity gaps in the UD, FAM, and JUV rule entries.",
+      "changes": [
+        "UD-1: rewritten to quote JTI verbatim ('when searching for Unlawful Detainers') with source URL + line citations. Earlier 'pre-filing' wording contradicted the JTI doc and was a paraphrase.",
+        "UD-1: added uxHookStage='SEARCH' + wireFootprint='NONE' to prevent recurrence of the Step #42 wrong-stage placement.",
+        "UD-2: separated audit-capture obligation into its own rule with verbatim quote from the JTI 'Access Tracking and Data Capture' section.",
+        "UD-3: split LASC COVID-19 question into its own rule with appliesToCourts=['lasc'] scope marker + wire footprint (UDCOV19 status code). Previously conflated into a single 'UD requirements' bullet.",
+        "UD-4: added Ventura court-specific Civil-Limited-UD-only disclaimer with appliesToCourts=['ventura'] scope marker.",
+        "FAM-2: REMOVED. The `requiresMinorChildRedaction` flag had ZERO JTI source — was an assistant-invented UX hook based on general California Family Code knowledge. JTI's only redaction guidance is for Juvenile cases (server-side EFM masking — see JUV-1), not Family Law.",
+        "JUV-1: rewritten to quote JTI verbatim about server-side EFM redaction of 3-code cases + listed exact redacted fields + clarified that EFSPs do NOT perform Juvenile redaction (they consume already-redacted data).",
+        "JUV-2: added the wire-defined `RedactionRequiredIndicator` element from FilingReviewMDEPort.wsdl as a separate rule — it's a generic per-document filer flag, not Juvenile-specific."
+      ],
+      "reverted": [
+        "SubsequentFiling.cshtml UD disclaimer card (was at wrong stage with paraphrased text)",
+        "SubsequentFiling.cshtml Family redaction reminder card (no source)",
+        "EFilingMvcController.cs ViewBag UX-hook block (consumed by reverted cards)",
+        "JtiFieldSchemaProviderTests.cs Step42_FindPolicyByCourtCategoryCode_ResolvesMaderaFamily_ReturnsFamPolicy (asserted removed FAM `requiresMinorChildRedaction` flag)"
+      ],
+      "retained": [
+        "`KnownCategoryCodes` schema property + values for CIV/UD/FAM (data assertion, source-grounded in wire samples + LiveMadera fixtures)",
+        "`FindPolicyByCourtCategoryCode` resolver method (sound infrastructure, independent of disclaimer policy)",
+        "`requiresUdDisclaimer: true` flag at UD policy level (JTI-sourced — UD-1; only the SubsequentFiling-stage view consumption was wrong)"
+      ],
+      "deferred": [
+        "Step #43 — implement UD-1 + UD-2 at SearchCase.cshtml with: (a) verbatim JTI disclaimer text on UD case access, (b) party-attestation Y/N prompt, (c) audit-capture table (user, case#, response, timestamp), (d) non-party block."
+      ]
+    }
+  }
+}

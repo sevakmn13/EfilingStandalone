@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>EFiling.Nop</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFiling.Core\EFiling.Core.csproj" />
+    <ProjectReference Include="..\EFiling.Providers.JTI\EFiling.Providers.JTI.csproj" />
+    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Core\Nop.Core.csproj" />
+    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Data\Nop.Data.csproj" />
+    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Services\Nop.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!-- Microsoft.Extensions.DependencyInjection.Abstractions and System.Text.Json
+       come transitively from Nop.Data/Nop.Core — no explicit references needed -->
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="EFiling.Tests" />
+  </ItemGroup>
+
+</Project>
