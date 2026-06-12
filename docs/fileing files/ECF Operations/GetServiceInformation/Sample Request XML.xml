@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationQueryMessage-4.0" xmlns:ns="http://niem.gov/niem/structures/2.0" xmlns:urn1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns2="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns3="http://niem.gov/niem/ansi-nist/2.0" xmlns:urn2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CriminalCase-4.0" xmlns:urn3="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt" xmlns:urn4="urn:com.journaltech:ecourt:ecf:extension:NANPTelephoneNumberExt" xmlns:urn5="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt">
+   <soapenv:Header/>
+   <soapenv:Body>
+    <urn:ServiceInformationQueryMessage>
+         <ns1:CaseTrackingID>19STLC01339</ns1:CaseTrackingID>
+      </urn:ServiceInformationQueryMessage>
+   </soapenv:Body>
+</soapenv:Envelope>

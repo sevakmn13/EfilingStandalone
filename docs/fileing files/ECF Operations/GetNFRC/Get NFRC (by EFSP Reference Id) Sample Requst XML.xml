@@ -1,0 +1,7 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:NFRCRequestType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<SOAP-ENV:Body>
+		<ns5:NFRCRequest>
+			<ns5:EfspReferenceId>EFc8269cc2f2000</ns5:EfspReferenceId>
+		</ns5:NFRCRequest>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

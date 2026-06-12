@@ -1,0 +1,105 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns11="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns12="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns13="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns14="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns15="com.journaltech.niem.test" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns7="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <ns14:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>https://portal-lasc-stage.journaltech.com/public-portal/?q=webservice/wsdl</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns6:CoreFilingMessage xsi:type="ns10:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2023-08-28T13:39:48-07:00</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>EF-0475e379b68c</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:Case xsi:type="ns5:CivilCaseTypeExt">
+          <ns1:CaseDocketID>23STLC03673</ns1:CaseDocketID>
+          <ns5:Complaint xmlns:st="http://niem.gov/niem/structures/2.0" st:id="5159719"/>
+          <ns5:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>efm-lasc-lab.journaltech.com</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <ns3:CourtName>Los Angeles Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+          </ns5:CaseAugmentationExt>
+        </ns1:Case>
+        <ns6:FilingLeadDocument xmlns:st="http://niem.gov/niem/structures/2.0" complaintType="5159719" st:id="doc0" xsi:type="ns10:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>https://lasc-staging.s3.us-gov-west-1.amazonaws.com/1693254861_test-document-1.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAKMVTIC6CXTPLXYNA%2F20230828%2Fus-gov-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20230828T203951Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=601200&amp;X-Amz-Signature=47727eed6dd466b8d6e2647d1f716ea7b76d42c9bede1ccefa2691cd17661247</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>AP601</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>54795</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>AP601</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns9:DocumentFilingMetaData>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>PAYMENT_OPTION</ns8:code>
+                <ns8:classType>codeList</ns8:classType>
+                <ns8:valueRestriction>new-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:codeValue>LATER</ns9:codeValue>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>APP_DIV_CASE</ns8:code>
+                <ns8:classType>text</ns8:classType>
+              </ns9:docValueMetaDataItem>
+              <ns9:textValue>34LATFAA44256</ns9:textValue>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>JURISDICTIONAL_AMOUNT</ns8:code>
+                <ns8:classType>codeList</ns8:classType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:codeValue>O10K</ns9:codeValue>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>FILED_BY</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>19159186</ns9:id>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>AS_TO</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>refers-to</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>19159187</ns9:id>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+          </ns9:DocumentFilingMetaData>
+        </ns6:FilingLeadDocument>
+        <ns10:messageToClerk>Test of Appeal/Cross Appeal (AP601) with Payment Option</ns10:messageToClerk>
+        <ns10:appClientUsername>payor</ns10:appClientUsername>
+        <ns10:appClientParentUsername>payor</ns10:appClientParentUsername>
+      </ns6:CoreFilingMessage>
+      <ns11:PaymentMessage xsi:type="ns13:PaymentMessageTypeExt">
+        <ns13:paymentAuthorizationInfo>
+          <ns13:customerProfileId>0</ns13:customerProfileId>
+          <ns13:customerPaymentProfileId>0</ns13:customerPaymentProfileId>
+          <ns13:paymentType>ACH</ns13:paymentType>
+          <ns13:customerACHId>payor</ns13:customerACHId>
+        </ns13:paymentAuthorizationInfo>
+        <ns13:userName>payor</ns13:userName>
+        <ns13:email>void@void.com</ns13:email>
+        <ns13:phoneNumber>5620000000</ns13:phoneNumber>
+      </ns11:PaymentMessage>
+    </ns14:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

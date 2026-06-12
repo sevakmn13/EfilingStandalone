@@ -10,9 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\EFiling.Core\EFiling.Core.csproj" />
     <ProjectReference Include="..\EFiling.Providers.JTI\EFiling.Providers.JTI.csproj" />
-    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Core\Nop.Core.csproj" />
-    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Data\Nop.Data.csproj" />
-    <ProjectReference Include="..\..\..\nopCommerce\src\Libraries\Nop.Services\Nop.Services.csproj" />
+    <ProjectReference Include="..\..\EFilingFront\src\Libraries\Nop.Core\Nop.Core.csproj" />
+    <ProjectReference Include="..\..\EFilingFront\src\Libraries\Nop.Data\Nop.Data.csproj" />
+    <ProjectReference Include="..\..\EFilingFront\src\Libraries\Nop.Services\Nop.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

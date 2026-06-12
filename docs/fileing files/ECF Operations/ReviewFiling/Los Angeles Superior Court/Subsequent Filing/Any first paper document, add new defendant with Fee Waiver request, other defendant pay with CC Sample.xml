@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:ns11="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns14="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns15="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns16="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns17="com.journaltech.niem.test" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns7="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <ns16:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>YOUR_ENDPOINT_HERE</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns6:CoreFilingMessage xsi:type="ns12:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2019-12-05T11:01:58-08:00</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>YOUR_IDENTIFICATIONID_HERE</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:Case xsi:type="ns5:CivilCaseTypeExt">
+          <ns1:CaseDocketID>IDENTIFICATIONID_HERE</ns1:CaseDocketID>
+          <ns5:Complaint st:id="4033864" xmlns:st="http://niem.gov/niem/structures/2.0"/>
+          <ns5:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>efm-lasc-stage.journaltech.com</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <ns3:CourtName>Los Angeles Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+            <ns5:relatedParticipantDocuments>
+              <ns5:associationType>FILEDBY</ns5:associationType>
+              <ns5:participant st:ref="filedBy-1-1" xmlns:st="http://niem.gov/niem/structures/2.0"/>
+              <ns5:relatedDocument st:ref="doc1" xmlns:st="http://niem.gov/niem/structures/2.0"/>
+            </ns5:relatedParticipantDocuments>
+          </ns5:CaseAugmentationExt>
+        </ns1:Case>
+        <ns6:FilingLeadDocument complaintType="4033864" st:id="doc0" xmlns:st="http://niem.gov/niem/structures/2.0" xsi:type="ns12:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>RES010</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>29680</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>RES010</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns9:DocumentFilingMetaData>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>FILED_BY</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>14972897</ns9:id>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>NEW_FILED_BY</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>new-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:caseParticipantValue st:id="filedBy-1-1" xmlns:st="http://niem.gov/niem/structures/2.0">
+                <ns2:EntityPerson id="ref2">
+                  <ns1:PersonName>
+                    <ns1:PersonGivenName>JOHN</ns1:PersonGivenName>
+                    <ns1:PersonMiddleName>W</ns1:PersonMiddleName>
+                    <ns1:PersonSurName>BOOTH</ns1:PersonSurName>
+                  </ns1:PersonName>
+                </ns2:EntityPerson>
+                <ns2:CaseParticipantRoleCode>DEF</ns2:CaseParticipantRoleCode>
+                <ns1:ContactInformation>
+                  <ns1:ContactEmailID>MAIL@MAIL.COM</ns1:ContactEmailID>
+                  <sa1:ContactMailingAddress xmlns:sa1="http://niem.gov/niem/niem-core/2.0">
+                    <sta1:StructuredAddress xmlns:sta1="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                      <sta1:LocationType>M</sta1:LocationType>
+                      <sa1:AddressDeliveryPoint xsi:type="sa1:StreetType"/>
+                    </sta1:StructuredAddress>
+                  </sa1:ContactMailingAddress>
+                </ns1:ContactInformation>
+                <ns10:efmFeeExemptionRequestType>FEE_WAIVER</ns10:efmFeeExemptionRequestType>
+              </ns9:caseParticipantValue>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>FILED_BY_REPRESENTATION</ns8:code>
+                <ns8:classType>attorney</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>new-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:attorneyValue>
+                <ns2:EntityPerson id="ref3">
+                  <ns1:PersonName>
+                    <ns1:PersonGivenName>Mike</ns1:PersonGivenName>
+                    <ns1:PersonSurName>Aleali</ns1:PersonSurName>
+                  </ns1:PersonName>
+                  <ns1:PersonOtherIdentification>
+                    <ns1:IdentificationID>285874</ns1:IdentificationID>
+                    <ns1:IdentificationCategoryText>BAR</ns1:IdentificationCategoryText>
+                  </ns1:PersonOtherIdentification>
+                </ns2:EntityPerson>
+                <ns2:EntityOrganization id="ref4">
+                  <ns1:OrganizationName>Alphatec Spine, Inc</ns1:OrganizationName>
+                </ns2:EntityOrganization>
+                <ns2:CaseParticipantRoleCode>ATT</ns2:CaseParticipantRoleCode>
+                <ns1:ContactInformation>
+                  <ns1:ContactTelephoneNumber>
+                    <ns11:TelephoneNumberInformation>
+                      <ns1:TelephoneNumberFullID>9492855110</ns1:TelephoneNumberFullID>
+                      <ns11:TelephoneNumberFullType>W</ns11:TelephoneNumberFullType>
+                    </ns11:TelephoneNumberInformation>
+                  </ns1:ContactTelephoneNumber>
+                  <ns1:ContactEmailID>maleali85@yahoo.com</ns1:ContactEmailID>
+                  <sa1:ContactMailingAddress xmlns:sa1="http://niem.gov/niem/niem-core/2.0">
+                    <sta1:StructuredAddress xmlns:sta1="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                      <sta1:LocationType>M</sta1:LocationType>
+                      <sa1:AddressDeliveryPoint xsi:type="sa1:StreetType">
+                        <sa1:StreetFullText>5818 El Camino Real</sa1:StreetFullText>
+                      </sa1:AddressDeliveryPoint>
+                      <sa1:LocationCityName>Carlsbad</sa1:LocationCityName>
+                      <sa1:LocationStateName>CA</sa1:LocationStateName>
+                      <sa1:LocationState>CA</sa1:LocationState>
+                      <sa1:LocationPostalCode>92008</sa1:LocationPostalCode>
+                    </sta1:StructuredAddress>
+                  </sa1:ContactMailingAddress>
+                </ns1:ContactInformation>
+              </ns9:attorneyValue>
+            </ns9:documentFilingMetaDataItem>
+          </ns9:DocumentFilingMetaData>
+        </ns6:FilingLeadDocument>
+        <ns6:FilingConnectedDocument st:id="doc1" xmlns:st="http://niem.gov/niem/structures/2.0" xsi:type="ns12:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>FW001</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>29681</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>FW001</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns9:DocumentFilingMetaData/>
+        </ns6:FilingConnectedDocument>
+      </ns6:CoreFilingMessage>
+      <ns13:PaymentMessage xsi:type="ns15:PaymentMessageTypeExt">
+        <ns15:paymentAuthorizationInfo>
+          <ns15:customerProfileId>0</ns15:customerProfileId>
+          <ns15:customerPaymentProfileId>0</ns15:customerPaymentProfileId>
+          <ns15:paymentType>ACH</ns15:paymentType>
+        </ns15:paymentAuthorizationInfo>
+      </ns13:PaymentMessage>
+    </ns16:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

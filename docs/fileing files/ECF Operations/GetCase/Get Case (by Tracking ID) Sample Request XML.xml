@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ns40:CaseQueryMessage xmlns:ns40="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseQueryMessage-4.0"
+         xmlns:ns2="http://niem.gov/niem/niem-core/2.0"
+         xmlns:ns5="http://niem.gov/niem/domains/jxdm/4.0"
+         xmlns:ns73="urn:com.journaltech:ecourt:ecf:extension:CaseQueryMessageTypeExt"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:type="ns73:CaseQueryMessageTypeExt">
+         <ns5:CaseCourt>
+            <ns2:OrganizationIdentification>
+               <ns2:IdentificationID>efm-lasc.stage.pub.journaltech.com</ns2:IdentificationID>
+            </ns2:OrganizationIdentification>
+         </ns5:CaseCourt>
+         <ns2:CaseTrackingID>675</ns2:CaseTrackingID>
+         <ns40:CaseQueryCriteria> 
+            <ns40:IncludeParticipantsIndicator>true</ns40:IncludeParticipantsIndicator>
+            <ns40:IncludeDocketEntryIndicator>true</ns40:IncludeDocketEntryIndicator>
+         </ns40:CaseQueryCriteria>
+      </ns40:CaseQueryMessage>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

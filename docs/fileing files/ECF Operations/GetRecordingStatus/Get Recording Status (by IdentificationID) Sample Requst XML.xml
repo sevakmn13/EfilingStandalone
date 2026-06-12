@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com.journaltech:ecourt:ecf:extension:RecordingStatusQueryMessage" xmlns:ns="http://niem.gov/niem/niem-core/2.0" xmlns:ns1="http://niem.gov/niem/structures/2.0" xmlns:ns2="http://niem.gov/niem/domains/jxdm/4.0">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:RecordingStatusQueryMessage>
+        <ns:DocumentIdentification >
+            <ns:IdentificationID >19LA00590583</ns:IdentificationID>
+            <ns:IdentificationCategory>efm</ns:IdentificationCategory>
+         </ns:DocumentIdentification>
+      </urn:RecordingStatusQueryMessage>
+   </soapenv:Body>
+</soapenv:Envelope>

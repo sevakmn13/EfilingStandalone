@@ -1,0 +1,68 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns11="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns12="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns13="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns14="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns15="com.journaltech.niem.test" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns7="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <ns14:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>YOUR_ENDPOINT_HERE</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns6:CoreFilingMessage xsi:type="ns10:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2021-08-05T08:14:58-07:00</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>YOUR_IDENTIFICATIONID_HERE</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:Case xsi:type="ns5:CivilCaseTypeExt">
+          <ns1:CaseDocketID>HG18929974</ns1:CaseDocketID>
+          <ns5:Complaint xmlns:st="http://niem.gov/niem/structures/2.0" st:id="917907"/>
+          <ns5:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>ecj-ecrtefm-s01.alameda.courts.ca.gov</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <ns3:CourtName>Alameda Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+          </ns5:CaseAugmentationExt>
+        </ns1:Case>
+        <ns6:FilingLeadDocument xmlns:st="http://niem.gov/niem/structures/2.0" complaintType="917907" st:id="doc0" xsi:type="ns10:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>MTN060</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>2047</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>MTN060</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>lasc</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns9:DocumentFilingMetaData>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>FILED_BY</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>3640367</ns9:id>
+                <ns9:additionalInfoTags>
+                  <ns9:tagType>EFSP_FEE_WAIVER_FILED</ns9:tagType>
+                  <ns9:tagValue>1</ns9:tagValue>
+                </ns9:additionalInfoTags>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+          </ns9:DocumentFilingMetaData>
+        </ns6:FilingLeadDocument>
+      </ns6:CoreFilingMessage>
+	<ns10:PaymentMessage xsi:type="ns12:PaymentMessageTypeExt">
+	  <ns12:paymentAuthorizationInfo>
+	   <ns12:customerProfileId>0</ns12:customerProfileId>
+	   <ns12:customerPaymentProfileId>0</ns12:customerPaymentProfileId>
+	   <ns12:paymentType>ACH</ns12:paymentType>
+	  </ns12:paymentAuthorizationInfo>
+	</ns10:PaymentMessage>
+    </ns14:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

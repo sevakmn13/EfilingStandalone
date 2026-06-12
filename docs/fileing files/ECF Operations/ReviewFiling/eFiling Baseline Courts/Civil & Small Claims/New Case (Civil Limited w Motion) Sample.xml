@@ -1,0 +1,215 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns11="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns5="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns6="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns7="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns8="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+    <ns13:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>YOUR_ENDPOINT_HERE</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns8:CoreFilingMessage xsi:type="ns9:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2020-12-17T10:20:38-08:00</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>YOUR_IDENTIFICATIONID_HERE</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:DocumentSubmitter>
+          <ns2:EntityPerson id="Person1">
+            <ns1:PersonName>
+              <ns1:PersonFullName>YOUR_USERNAME_HERE</ns1:PersonFullName>
+            </ns1:PersonName>
+          </ns2:EntityPerson>
+        </ns1:DocumentSubmitter>
+        <ns1:Case xsi:type="ns6:CivilCaseTypeExt">
+          <ns1:CaseCategoryText>411900</ns1:CaseCategoryText>
+          <a:CaseAugmentation xmlns:a="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0">
+            <p:CaseParticipantExt xmlns:p="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:st="http://niem.gov/niem/structures/2.0" st:id="filedBy0">
+              <p1:CaseParticipantRoleCode xmlns:p1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0">PLAIN</p1:CaseParticipantRoleCode>
+              <p2:EntityPerson xmlns:p2="http://niem.gov/niem/niem-core/2.0" xmlns:ps1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xsi:type="ps1:PersonType">
+                <p2:PersonName>
+                  <p2:PersonGivenName>Jack</p2:PersonGivenName>
+                  <p2:PersonSurName>Thomas</p2:PersonSurName>
+                </p2:PersonName>
+              </p2:EntityPerson>
+            </p:CaseParticipantExt>
+            <p:CaseParticipantExt xmlns:p="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:st="http://niem.gov/niem/structures/2.0" st:id="filedAsTo0">
+              <p1:CaseParticipantRoleCode xmlns:p1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0">DEF</p1:CaseParticipantRoleCode>
+              <p2:EntityPerson xmlns:p2="http://niem.gov/niem/niem-core/2.0" xmlns:ps1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xsi:type="ps1:PersonType">
+                <p2:PersonName>
+                  <p2:PersonGivenName>Mark</p2:PersonGivenName>
+                  <p2:PersonSurName>Williams</p2:PersonSurName>
+                </p2:PersonName>
+              </p2:EntityPerson>
+            </p:CaseParticipantExt>
+            <p:CaseParticipantExt xmlns:p="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:st="http://niem.gov/niem/structures/2.0" st:id="attorney0">
+              <p1:CaseParticipantRoleCode xmlns:p1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0">ATT</p1:CaseParticipantRoleCode>
+              <p2:EntityPerson xmlns:p2="http://niem.gov/niem/niem-core/2.0" xmlns:ps1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xsi:type="ps1:PersonType">
+                <p2:PersonName>
+                  <p2:PersonGivenName>Jorge</p2:PersonGivenName>
+                  <p2:PersonMiddleName>Luis</p2:PersonMiddleName>
+                  <p2:PersonSurName>Garcia-Barron</p2:PersonSurName>
+                </p2:PersonName>
+                <poi1:PersonOtherIdentification xmlns:poi1="http://niem.gov/niem/niem-core/2.0">
+                  <poi1:IdentificationID>123470</poi1:IdentificationID>
+                  <poi1:IdentificationCategoryText>BAR</poi1:IdentificationCategoryText>
+                </poi1:PersonOtherIdentification>
+              </p2:EntityPerson>
+              <p3:EntityOrganization xmlns:p3="http://niem.gov/niem/niem-core/2.0" xmlns:ps1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xsi:type="ps1:OrganizationType">
+                <p3:OrganizationName>Parker Stanbury LLP</p3:OrganizationName>
+              </p3:EntityOrganization>
+              <ci1:ContactInformation xmlns:ci1="http://niem.gov/niem/niem-core/2.0">
+                <ci1:ContactMailingAddress>
+                  <sta1:StructuredAddress xmlns:sta1="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                    <sta1:LocationType>M</sta1:LocationType>
+                    <ci1:LocationCountryName>US</ci1:LocationCountryName>
+                    <ci1:AddressDeliveryPoint xsi:type="ci1:StreetType">
+                      <ci1:StreetFullText>444</ci1:StreetFullText>
+                      <ci1:StreetFullText>South Flower Street</ci1:StreetFullText>
+                    </ci1:AddressDeliveryPoint>
+                    <ci1:LocationCityName>Los Angeles</ci1:LocationCityName>
+                    <ci1:LocationStateName>CA</ci1:LocationStateName>
+                    <ci1:LocationState>CA</ci1:LocationState>
+                    <ci1:LocationPostalCode>90071</ci1:LocationPostalCode>
+                  </sta1:StructuredAddress>
+                </ci1:ContactMailingAddress>
+                <ci1:ContactTelephoneNumber>
+                  <phoneExt:TelephoneNumberInformation xmlns:phoneExt="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt">
+                    <phoneExt:TelephoneNumberFullType>W</phoneExt:TelephoneNumberFullType>
+                    <ci1:TelephoneNumberFullID>2136225124</ci1:TelephoneNumberFullID>
+                  </phoneExt:TelephoneNumberInformation>
+                </ci1:ContactTelephoneNumber>
+                <ci1:ContactEmailID>USER_EMAIL_ADDRESS_HERE</ci1:ContactEmailID>
+              </ci1:ContactInformation>
+            </p:CaseParticipantExt>
+          </a:CaseAugmentation>
+          <ns5:AmountInControversy xsi:type="ns4:AmountType">0</ns5:AmountInControversy>
+          <ns5:JurisdictionalGroundsCode>L10</ns5:JurisdictionalGroundsCode>
+          <ns6:CaseTypeText>421110</ns6:CaseTypeText>
+          <ns6:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>Placer County Superior Court</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <location1:OrganizationLocation xmlns:location1="http://niem.gov/niem/niem-core/2.0">
+                <location1:LocationDescriptionText>ParentLocationCode</location1:LocationDescriptionText>
+                <location1:LocationName>GIB</location1:LocationName>
+              </location1:OrganizationLocation>
+              <ns3:CourtName>Placer County Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+            <ns6:incidentAddress xmlns:sa1="http://niem.gov/niem/niem-core/2.0">
+              <sta1:StructuredAddress xmlns:sta1="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                <sa1:LocationPostalCode>95747</sa1:LocationPostalCode>
+              </sta1:StructuredAddress>
+            </ns6:incidentAddress>
+            <ns6:relatedParticipants>
+              <ns6:associationType>REPRESENTEDBY</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedBy0"/>
+              <ns6:relatedParticipant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="attorney0"/>
+            </ns6:relatedParticipants>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>FILEDBY</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedBy0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc0"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>FILEDBY</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedBy0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc1"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>FILEDBY</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedBy0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc2"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>FILEDBY</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedBy0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc3"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>REFERS_TO</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedAsTo0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc0"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>REFERS_TO</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedAsTo0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc1"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>REFERS_TO</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedAsTo0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc2"/>
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>REFERS_TO</ns6:associationType>
+              <ns6:participant xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="filedAsTo0"/>
+              <ns6:relatedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:ref="doc3"/>
+            </ns6:relatedParticipantDocuments>
+          </ns6:CaseAugmentationExt>
+        </ns1:Case>
+        <ns8:FilingConfidentialityIndicator>false</ns8:FilingConfidentialityIndicator>
+        <ns8:FilingLeadDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:id="doc0" xsi:type="ns9:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns4:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>401068</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>3029</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>401068</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns1:DocumentSequenceID>0</ns1:DocumentSequenceID>
+        </ns8:FilingLeadDocument>
+        <ns8:FilingConnectedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:id="doc1" xsi:type="ns9:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns4:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>401061</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>3030</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>401061</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns1:DocumentSequenceID>1</ns1:DocumentSequenceID>
+        </ns8:FilingConnectedDocument>
+        <ns8:FilingConnectedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:id="doc2" xsi:type="ns9:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns4:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>401317</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>3031</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>401317</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns1:DocumentSequenceID>2</ns1:DocumentSequenceID>
+        </ns8:FilingConnectedDocument>
+        <ns8:FilingConnectedDocument xmlns:st="http://niem.gov/niem/structures/2.0" st:id="doc3" xsi:type="ns9:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns4:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>401638</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>3032</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>401638</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns1:DocumentSequenceID>3</ns1:DocumentSequenceID>
+        </ns8:FilingConnectedDocument>
+      </ns8:CoreFilingMessage>
+      <ns10:PaymentMessage xsi:type="ns12:PaymentMessageTypeExt">
+        <ns12:paymentAuthorizationInfo>
+          <ns12:customerProfileId>0</ns12:customerProfileId>
+          <ns12:customerPaymentProfileId>0</ns12:customerPaymentProfileId>
+          <ns12:paymentType>ACH</ns12:paymentType>
+        </ns12:paymentAuthorizationInfo>
+      </ns10:PaymentMessage>
+    </ns13:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

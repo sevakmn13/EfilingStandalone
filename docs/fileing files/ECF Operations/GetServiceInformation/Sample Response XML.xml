@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"/>
+    <soap:Body>
+        <ns47:ServiceInformationResponseMessage xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:NANPTelephoneNumberExt" xmlns:ns73="urn:com.journaltech:ecourt:ecf:extension:CaseQueryMessageTypeExt" xmlns:ns72="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingCallbackMessage-4.0" xmlns:ns71="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusQueryMessage-4.0" xmlns:ns70="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:MessageReceiptMessage-4.0" xmlns:ns7="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt" xmlns:ns69="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyQueryMessage-4.0" xmlns:ns68="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentQueryMessage-4.0" xmlns:ns67="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationQueryMessage-4.0" xmlns:ns66="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentResponseMessage-4.0" xmlns:ns65="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListQueryMessage-4.0" xmlns:ns64="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:ns63="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns62="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusResponseMessage-4.0" xmlns:ns61="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseResponseMessage-4.0" xmlns:ns60="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListResponseMessage-4.0" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CriminalCase-4.0" xmlns:ns59="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationQueryMessageTypeExt" xmlns:ns58="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationQueryMessage-4.0" xmlns:ns57="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppInfo-4.0" xmlns:ns56="http://niem.gov/niem/appinfo/2.0" xmlns:ns55="urn:com.journaltech:ecourt:ecf:extension:AttorneyValue" xmlns:ns54="urn:com.journaltech:ecourt:ecf:extension:ZipCodeValue" xmlns:ns53="urn:com.journaltech:ecourt:ecf:extension:CodeValue" xmlns:ns51="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentReceiptMessage-4.0" xmlns:ns50="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationTypeExt" xmlns:ns5="http://niem.gov/niem/ansi-nist/2.0" xmlns:ns49="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ReviewFilingCallbackMessage-4.0" xmlns:ns48="urn:com.journaltech:ecourt:ecf:extension:FilingIdentityType" xmlns:ns47="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationResponseMessage-4.0" xmlns:ns46="http://www.w3.org/2000/09/xmldsig#" xmlns:ns45="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyResponseMessage-4.0" xmlns:ns44="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListResponseMessage-4.0" xmlns:ns43="urn:com.journaltech:ecourt:ecf:extension:DocumentResponseMessageTypeExt" xmlns:ns42="urn:com.journaltech:ecourt:ecf:extension:FilingListResponseMessageTypeExt" xmlns:ns41="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationResponseMessageTypeExt" xmlns:ns40="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationResponseMessage-4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns39="urn:com.journaltech:ecourt:ecf:extension:FilingListQueryMessageTypeExt" xmlns:ns38="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseQueryMessage-4.0" xmlns:ns37="urn:com.journaltech:ecourt:ecf:extension:FilingStatusReason" xmlns:ns36="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingStatus" xmlns:ns35="urn:com.journaltech:ecourt:ecf:extension:ReviewedDocumentType" xmlns:ns34="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:JuvenileCase-4.0" xmlns:ns33="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceReceiptMessage-4.0" xmlns:ns32="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListQueryMessage-4.0" xmlns:ns31="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns30="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns29="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns28="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns27="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns26="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns25="urn:com.journaltech:ecourt:ecf:extension:RecordDocketingMessageTypeExt" xmlns:ns24="http://niem.gov/niem/domains/screening/2.0" xmlns:ns23="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DomesticCase-4.0" xmlns:ns22="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:BankruptcyCase-4.0" xmlns:ns21="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppellateCase-4.0" xmlns:ns20="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CitationCase-4.0" xmlns:ns2="http://niem.gov/niem/niem-core/2.0" xmlns:ns19="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingMessage-4.0" xmlns:ns18="urn:com.journaltech:ecourt:ecf:extension:CourtEventJudgment" xmlns:ns17="urn:com.journaltech:ecourt:ecf:extension:ContactValue" xmlns:ns16="urn:com.journaltech:ecourt:ecf:extension:CourtEventTypeExt" xmlns:ns15="urn:com.journaltech:ecourt:ecf:extension:CourtEventDocumentTypeExt" xmlns:ns14="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:ns11="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns1="http://niem.gov/niem/structures/2.0">
+            <ns3:CaseCourt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <ns4:Error>
+                <ns4:ErrorCode>0</ns4:ErrorCode>
+                <ns4:ErrorText>No Error</ns4:ErrorText>
+            </ns4:Error>
+            <ns2:CaseTrackingID>19STLC01339</ns2:CaseTrackingID>
+            <ns47:ServiceRecipient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ns1:id="15344749" xsi:type="ns12:CaseParticipantExtType">
+                <ns2:EntityPerson ns1:id="15118209" xsi:type="ns4:PersonType">
+                    <ns2:PersonName>
+                        <ns2:PersonGivenName>EUGENE</ns2:PersonGivenName>
+                        <ns2:PersonMiddleName>Solomon</ns2:PersonMiddleName>
+                        <ns2:PersonSurName>FU</ns2:PersonSurName>
+                        <ns2:PersonNameSuffixText/>
+                    </ns2:PersonName>
+                    <ns2:PersonOtherIdentification>
+                        <ns2:IdentificationID>290889</ns2:IdentificationID>
+                        <ns2:IdentificationCategoryText>BAR</ns2:IdentificationCategoryText>
+                    </ns2:PersonOtherIdentification>
+                </ns2:EntityPerson>
+                <ns2:EntityOrganization ns1:id="15118209" xsi:type="ns4:OrganizationType">
+                    <ns2:OrganizationName>Pacific Liberty Law</ns2:OrganizationName>
+                    <ns2:OrganizationPrimaryContactInformation>
+                        <ns2:ContactTelephoneNumber>
+                            <ns2:TelephoneNumberRepresentation xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">(213) 765-9080 x____</ns2:TelephoneNumberRepresentation>
+                        </ns2:ContactTelephoneNumber>
+                        <ns2:ContactResponder ns1:id="15118209" xsi:type="ns4:PersonType">
+                            <ns2:PersonName>
+                                <ns2:PersonGivenName>EUGENE</ns2:PersonGivenName>
+                                <ns2:PersonMiddleName>Solomon</ns2:PersonMiddleName>
+                                <ns2:PersonSurName>FU</ns2:PersonSurName>
+                                <ns2:PersonNameSuffixText/>
+                            </ns2:PersonName>
+                            <ns2:PersonOtherIdentification>
+                                <ns2:IdentificationID>290889</ns2:IdentificationID>
+                                <ns2:IdentificationCategoryText>BAR</ns2:IdentificationCategoryText>
+                            </ns2:PersonOtherIdentification>
+                        </ns2:ContactResponder>
+                    </ns2:OrganizationPrimaryContactInformation>
+                </ns2:EntityOrganization>
+                <ns4:CaseParticipantRoleCode>ATT</ns4:CaseParticipantRoleCode>
+                <ns2:ContactInformation>
+                    <ns2:ContactMeans xsi:type="ns2:AddressType">
+                        <ns2:StructuredAddress xsi:type="ns7:StructuredAddressExt">
+                            <ns2:AddressDeliveryPoint xsi:type="ns2:StreetType">
+                                <ns2:StreetFullText>1458 S. San Pedro Street # 310</ns2:StreetFullText>
+                            </ns2:AddressDeliveryPoint>
+                            <ns2:LocationCityName>Los Angeles</ns2:LocationCityName>
+                            <ns2:LocationState xsi:type="ns2:ProperNameTextType">CA</ns2:LocationState>
+                            <ns2:LocationPostalCode>90015</ns2:LocationPostalCode>
+                            <ns7:LocationType>M</ns7:LocationType>
+                        </ns2:StructuredAddress>
+                    </ns2:ContactMeans>
+                    <ns2:ContactTelephoneNumber>
+                        <ns2:TelephoneNumberRepresentation xsi:type="ns8:NANPTelephoneNumberExt">
+                            <ns2:TelephoneLineID>(213) 765-9080 x____</ns2:TelephoneLineID>
+                            <ns8:TelephoneType>W</ns8:TelephoneType>
+                        </ns2:TelephoneNumberRepresentation>
+                    </ns2:ContactTelephoneNumber>
+                    <ns2:ContactEmailID>carmen.pacificlibertylaw@gmail.com</ns2:ContactEmailID>
+                </ns2:ContactInformation>
+                <ns12:primaryId>15344749</ns12:primaryId>
+                <ns12:referenceId>6437745</ns12:referenceId>
+                <ns12:efmErroneouslySued xsi:nil="true"/>
+                <ns12:efmTrueName xsi:nil="true"/>
+                <ns12:efmFeeExemptionRequestType xsi:nil="true"/>
+                <ns12:efmFeeExemptionType xsi:nil="true"/>
+                <ns12:firstAppearancePaid xsi:nil="true"/>
+                <ns12:efspFirstAppearancePaid xsi:nil="true"/>
+                <ns12:efmInterpreterLanguage xsi:nil="true"/>
+                <ns12:RepresentedParties>
+                    <ns12:RepresentedParty>
+                        <ns2:EntityPerson ns1:id="15118210" xsi:type="ns4:PersonType">
+                            <ns2:PersonName>
+                                <ns2:PersonGivenName>Francisco</ns2:PersonGivenName>
+                                <ns2:PersonMiddleName/>
+                                <ns2:PersonSurName>Tecum</ns2:PersonSurName>
+                                <ns2:PersonNameSuffixText/>
+                            </ns2:PersonName>
+                        </ns2:EntityPerson>
+                        <ns4:CaseParticipantRoleCode>PLAIN</ns4:CaseParticipantRoleCode>
+                    </ns12:RepresentedParty>
+                </ns12:RepresentedParties>
+                <ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+            </ns47:ServiceRecipient>
+        </ns47:ServiceInformationResponseMessage>
+    </soap:Body>
+</soap:Envelope>

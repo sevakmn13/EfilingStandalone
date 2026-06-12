@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns5="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns6="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns7="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns8="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns10="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns11="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns14="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:ns15="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns16="urn:com.journaltech:ecourt:ecf:extension:CaseAssignmentType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header><status xmlns="com.journaltech.niem.test">This is a test filing</status></SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <ns13:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>https://staging.legalhub.com/api/efiling/nfrc</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>madera</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns8:CoreFilingMessage xsi:type="ns9:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2026-04-22T19:50:59Z</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>B0PLUS-d64604d1a7f549d781c672cbafba6031</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:DocumentSubmitter>
+          <ns2:EntityPerson id="Person1">
+            <ns1:PersonName>
+              <ns1:PersonFullName>legalhub</ns1:PersonFullName>
+            </ns1:PersonName>
+          </ns2:EntityPerson>
+        </ns1:DocumentSubmitter>
+        <ns1:Case xsi:type="ns6:CivilCaseTypeExt">
+          <ns1:CaseCategoryText>212120</ns1:CaseCategoryText>
+          <ns2:CaseAugmentation>
+            <CaseParticipantExt p26:id="attorney0" xmlns:p26="http://niem.gov/niem/structures/2.0" xmlns="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt">
+              <ns2:CaseParticipantRoleCode>ATT</ns2:CaseParticipantRoleCode>
+              <ns1:EntityPerson xsi:type="ns2:PersonType">
+                <ns1:PersonName>
+                  <ns1:PersonGivenName>Felicia</ns1:PersonGivenName>
+                  <ns1:PersonMiddleName>A</ns1:PersonMiddleName>
+                  <ns1:PersonSurName>Espinosa</ns1:PersonSurName>
+                </ns1:PersonName>
+                <ns1:PersonOtherIdentification>
+                  <ns1:IdentificationID>267198</ns1:IdentificationID>
+                  <ns1:IdentificationCategoryText>BAR</ns1:IdentificationCategoryText>
+                </ns1:PersonOtherIdentification>
+              </ns1:EntityPerson>
+              <ns1:EntityOrganization xsi:type="ns2:OrganizationType" />
+              <ns1:ContactInformation>
+                <ns1:ContactMailingAddress>
+                  <StructuredAddress xmlns="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                    <LocationType>ML</LocationType>
+                    <ns1:AddressDeliveryPoint xsi:type="ns1:StreetType">
+                      <ns1:StreetFullText>2115</ns1:StreetFullText>
+                      <ns1:StreetFullText>Kern St</ns1:StreetFullText>
+                    </ns1:AddressDeliveryPoint>
+                    <ns1:LocationCityName>Fresno</ns1:LocationCityName>
+                    <ns1:LocationStateName>CA</ns1:LocationStateName>
+                    <ns1:LocationState>CA</ns1:LocationState>
+                    <ns1:LocationPostalCode>93721</ns1:LocationPostalCode>
+                  </StructuredAddress>
+                </ns1:ContactMailingAddress>
+                <ns1:ContactTelephoneNumber>
+                  <TelephoneNumberInformation xmlns="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt">
+                    <TelephoneNumberFullType>UNK</TelephoneNumberFullType>
+                    <ns1:TelephoneNumberFullID>5594418721</ns1:TelephoneNumberFullID>
+                  </TelephoneNumberInformation>
+                </ns1:ContactTelephoneNumber>
+                <ns1:ContactEmailID>test@mail.com</ns1:ContactEmailID>
+              </ns1:ContactInformation>
+            </CaseParticipantExt>
+            <CaseParticipantExt p26:id="filedBy0" xmlns:p26="http://niem.gov/niem/structures/2.0" xmlns="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt">
+              <ns2:CaseParticipantRoleCode>APLNT</ns2:CaseParticipantRoleCode>
+              <ns1:EntityPerson xsi:type="ns2:PersonType">
+                <ns1:PersonName>
+                  <ns1:PersonGivenName>B0Plus</ns1:PersonGivenName>
+                  <ns1:PersonSurName>TestPerson</ns1:PersonSurName>
+                </ns1:PersonName>
+              </ns1:EntityPerson>
+            </CaseParticipantExt>
+            <CaseParticipantExt p26:id="filedAsTo0" xmlns:p26="http://niem.gov/niem/structures/2.0" xmlns="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt">
+              <ns2:CaseParticipantRoleCode>AGENCY</ns2:CaseParticipantRoleCode>
+              <ns1:EntityPerson xsi:type="ns2:PersonType">
+                <ns1:PersonName>
+                  <ns1:PersonGivenName>Opposing</ns1:PersonGivenName>
+                  <ns1:PersonSurName>TestPerson</ns1:PersonSurName>
+                </ns1:PersonName>
+              </ns1:EntityPerson>
+            </CaseParticipantExt>
+          </ns2:CaseAugmentation>
+          <ns6:CaseTypeText>211110</ns6:CaseTypeText>
+          <ns6:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>Madera Superior Court</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>madera</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <ns1:OrganizationLocation>
+                <ns1:LocationDescriptionText>ParentLocationCode</ns1:LocationDescriptionText>
+                <ns1:LocationName>Madera Courthouse</ns1:LocationName>
+              </ns1:OrganizationLocation>
+              <ns3:CourtName>Madera Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+            <ns6:incidentAddress>
+              <StructuredAddress xmlns="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                <ns1:LocationPostalCode>93637</ns1:LocationPostalCode>
+              </StructuredAddress>
+            </ns6:incidentAddress>
+            <ns6:relatedParticipants>
+              <ns6:associationType>REPRESENTEDBY</ns6:associationType>
+              <ns6:participant p27:ref="filedBy0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+              <ns6:relatedParticipant p27:ref="attorney0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+            </ns6:relatedParticipants>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>FILEDBY</ns6:associationType>
+              <ns6:participant p27:ref="filedBy0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+              <ns6:relatedDocument p27:ref="doc0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+            </ns6:relatedParticipantDocuments>
+            <ns6:relatedParticipantDocuments>
+              <ns6:associationType>REFERS_TO</ns6:associationType>
+              <ns6:participant p27:ref="filedAsTo0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+              <ns6:relatedDocument p27:ref="doc0" xmlns:p27="http://niem.gov/niem/structures/2.0" />
+            </ns6:relatedParticipantDocuments>
+          </ns6:CaseAugmentationExt>
+          <ns6:location>M</ns6:location>
+        </ns1:Case>
+        <ns8:FilingConfidentialityIndicator>false</ns8:FilingConfidentialityIndicator>
+        <ns8:FilingLeadDocument p23:id="doc0" xsi:type="ns9:DocumentExtType" xmlns:p23="http://niem.gov/niem/structures/2.0">
+          <ns1:DocumentBinary>
+            <nc:BinaryFormatStandardName xmlns:nc="http://niem.gov/niem/niem-core/2.0" xsi:type="nc:TextType">application/pdf</nc:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>218620</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>doc-6d8a8fa13db048749f4ca013cb7472ae</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>218620</ns1:IdentificationID>
+          </ns1:DocumentIdentification>
+          <ns1:DocumentSequenceID>0</ns1:DocumentSequenceID>
+        </ns8:FilingLeadDocument>
+        <ns9:appClientUsername>legalhub</ns9:appClientUsername>
+        <ns9:appClientParentUsername>legalhub</ns9:appClientParentUsername>
+        <ns9:eFilingCaseFilingType>INITIAL</ns9:eFilingCaseFilingType>
+      </ns8:CoreFilingMessage>
+      <ns10:PaymentMessage xsi:type="ns12:PaymentMessageTypeExt">
+        <ns12:paymentAuthorizationInfo>
+          <ns12:customerProfileId>0</ns12:customerProfileId>
+          <ns12:customerPaymentProfileId>0</ns12:customerPaymentProfileId>
+          <ns12:paymentType>ACH</ns12:paymentType>
+        </ns12:paymentAuthorizationInfo>
+      </ns10:PaymentMessage>
+    </ns13:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

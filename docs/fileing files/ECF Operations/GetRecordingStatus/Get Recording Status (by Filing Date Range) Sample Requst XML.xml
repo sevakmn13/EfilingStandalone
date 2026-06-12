@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com.journaltech:ecourt:ecf:extension:RecordingStatusQueryMessage" xmlns:ns="http://niem.gov/niem/niem-core/2.0" xmlns:ns1="http://niem.gov/niem/structures/2.0" xmlns:ns2="http://niem.gov/niem/domains/jxdm/4.0">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:RecordingStatusQueryMessage>
+         <urn:DateRange>
+            <urn:StartDate>
+               <ns:DateRepresentation xmlns:ns78="http://niem.gov/niem/proxy/xsd/2.0" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:type="ns78:dateTime">2019-09-20</ns:DateRepresentation>
+            </urn:StartDate>
+            <urn:EndDate>
+               <ns:DateRepresentation xmlns:ns78="http://niem.gov/niem/proxy/xsd/2.0" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:type="ns78:dateTime">2019-09-25</ns:DateRepresentation>
+            </urn:EndDate>
+         </urn:DateRange>
+      </urn:RecordingStatusQueryMessage>
+   </soapenv:Body>
+</soapenv:Envelope>

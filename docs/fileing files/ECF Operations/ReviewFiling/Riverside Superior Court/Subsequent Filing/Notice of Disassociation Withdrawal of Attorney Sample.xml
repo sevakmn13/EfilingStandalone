@@ -1,0 +1,75 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns11="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns12="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns13="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns14="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns15="com.journaltech.niem.test" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns7="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <ns14:ReviewFilingRequestMessage>
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>YOUR_ENDPOINT_HERE</ns1:IdentificationID>
+        <ns1:IdentificationSourceText>RSCR</ns1:IdentificationSourceText>
+      </ns2:SendingMDELocationID>
+      <ns6:CoreFilingMessage xsi:type="ns10:CoreFilingMessageExtType">
+        <ns1:DocumentFiledDate id="ref1">
+          <ns1:DateTime>2021-04-26T16:45:16-07:00</ns1:DateTime>
+        </ns1:DocumentFiledDate>
+        <ns1:DocumentIdentification>
+          <ns1:IdentificationID>YOUR_IDENTIFICATIONID_HERE</ns1:IdentificationID>
+        </ns1:DocumentIdentification>
+        <ns1:Case xsi:type="ns5:CivilCaseTypeExt">
+          <ns1:CaseDocketID>CASEDOCKETID_HERE</ns1:CaseDocketID>
+          <ns5:Complaint xmlns:st="http://niem.gov/niem/structures/2.0" st:id="1063750"/>
+          <ns5:CaseAugmentationExt>
+            <ns3:CaseCourt>
+              <ns1:OrganizationIdentification>
+                <ns1:IdentificationID>efm-riv.journaltech.com</ns1:IdentificationID>
+                <ns1:IdentificationSourceText>RSCR</ns1:IdentificationSourceText>
+              </ns1:OrganizationIdentification>
+              <ns3:CourtName>Riverside Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+          </ns5:CaseAugmentationExt>
+        </ns1:Case>
+        <ns6:FilingLeadDocument xmlns:st="http://niem.gov/niem/structures/2.0" complaintType="1063750" st:id="doc0" xsi:type="ns10:DocumentExtType">
+          <ns1:DocumentBinary>
+            <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+            <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+          </ns1:DocumentBinary>
+          <ns1:DocumentDescriptionText>NODA</ns1:DocumentDescriptionText>
+          <ns1:DocumentFileControlID>7627</ns1:DocumentFileControlID>
+          <ns1:DocumentIdentification>
+            <ns1:IdentificationID>NODA</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>RSCR</ns1:IdentificationSourceText>
+          </ns1:DocumentIdentification>
+          <ns9:DocumentFilingMetaData>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>FILED_BY</ns8:code>
+                <ns8:classType>caseParticipant</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>3798912</ns9:id>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+            <ns9:documentFilingMetaDataItem>
+              <ns9:docValueMetaDataItem>
+                <ns8:code>REPLACE_ATTORNEY</ns8:code>
+                <ns8:classType>attorney</ns8:classType>
+                <ns8:subType>filed-by</ns8:subType>
+                <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+              </ns9:docValueMetaDataItem>
+              <ns9:idReferences>
+                <ns9:id>3798914</ns9:id>
+              </ns9:idReferences>
+            </ns9:documentFilingMetaDataItem>
+          </ns9:DocumentFilingMetaData>
+        </ns6:FilingLeadDocument>
+      </ns6:CoreFilingMessage>
+      <ns11:PaymentMessage xsi:type="ns13:PaymentMessageTypeExt">
+        <ns13:paymentAuthorizationInfo>
+          <ns13:customerProfileId>0</ns13:customerProfileId>
+          <ns13:customerPaymentProfileId>0</ns13:customerPaymentProfileId>
+          <ns13:paymentType>ACH</ns13:paymentType>
+        </ns13:paymentAuthorizationInfo>
+      </ns11:PaymentMessage>
+    </ns14:ReviewFilingRequestMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

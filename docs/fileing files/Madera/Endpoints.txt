@@ -1,0 +1,6 @@
+https://aux-pub-efm-madera-ca.ecourt.com/ws/soap/niem/CourtRecord
+
+https://aux-pub-efm-madera-ca.ecourt.com/ws/soap/niem/FilingReview
+
+login: legalhub
+password: [va<8<jC50Y0

@@ -1,0 +1,100 @@
+(function ($, win) {
+
+Drupal.behaviors.hideSubmitBlockit = {
+  attach: function(context) {
+    var timeoutId = null;
+    $('form', context).once('hideSubmitButton', function () {
+      var $form = $(this);
+
+      // Bind to input elements.
+      var clickedButtonId = '';
+      $('button.form-submit', $form).click(function (e) {
+        var el = $(this);
+        clickedButtonId = el.attr('id');
+        el.after('<input type="hidden" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
+        return true;
+      });
+
+      // Bind to form submit.
+      $('form', context).submit(function (e) {
+          if ($('#debug-shared-directory-page').length > 0) {
+              hideSubmitResetButtons(null, $form);
+              return true;
+          }
+          
+        if (typeof Drupal.settings.hide_submit === 'undefined') {return true;}
+        var settings = Drupal.settings.hide_submit;
+        var $inp;
+        if (!e.isPropagationStopped()) {
+          if (settings.hide_submit_method == 'disable') {
+            $('button.form-submit', $form).attr('disabled', 'disabled').each(function (i) {
+              var $button = $(this);
+              if (settings.hide_submit_css) {
+                $button.addClass(settings.hide_submit_css);
+              }
+              if (settings.hide_submit_abtext) {
+                if (settings.hide_submit_atext) {
+                  $button.text($button.text() + ' ' + settings.hide_submit_abtext);
+                } else {
+                  $button.html('<span class="hide-submit-text glyphicon glyphicon-refresh glyphicon-spin"></span> ' + $button.text() + ' ' + settings.hide_submit_abtext);
+                }
+              }
+              $inp = $button;
+            });
+
+            if ($inp && settings.hide_submit_atext) {
+              $inp.after('<span class="hide-submit-text"><button class="btn btn-primary hide-submit-text" disabled="disabled"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> ' + Drupal.checkPlain(settings.hide_submit_atext) + '</button></span>');
+            }
+          }
+          else {
+            var pdiv = '<div style="display: inline;" class="hide-submit-text"><button type="button" class="btn btn-primary" disabled="disabled"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> ' + Drupal.checkPlain(settings.hide_submit_hide_text) + '</button></div>';
+            $('#' + clickedButtonId).before(pdiv);
+            if (settings.hide_submit_hide_fx) {
+              $('button.form-submit', $form).addClass(settings.hide_submit_css).fadeOut();
+            }
+            else {
+              $('button.form-submit', $form).addClass(settings.hide_submit_css).hide();
+            }
+          }
+          // Add a timeout to rerset the buttons (if needed).
+          if (settings.hide_submit_reset_time) {
+            timeoutId = window.setTimeout(function() {
+              hideSubmitResetButtons(null, $form);
+            }, settings.hide_submit_reset_time);
+          }
+        }
+        return true;
+      });
+    });
+
+    // Bind to clientsideValidationFormHasErrors to support clientside validation.
+    $(document).bind('clientsideValidationFormHasErrors', function(event, form) {
+      //hideSubmitResetButtons(event, form.form);
+    });
+
+    // Reset all buttons.
+    function hideSubmitResetButtons(event, form) {
+      // Clear timer.
+      window.clearTimeout(timeoutId);
+      timeoutId = null;
+
+      var settings = Drupal.settings.hide_submit;
+      if (settings.hide_submit_method == 'disable') {
+        $('button.' + Drupal.checkPlain(settings.hide_submit_css), form)
+          .removeClass(Drupal.checkPlain(settings.hide_submit_hide_css))
+          .removeAttr('disabled');
+        $('.hide-submit-text', form).remove();
+      }
+      else {
+        $('button.' + Drupal.checkPlain(settings.hide_submit_css), form)
+          .stop()
+          .removeClass(Drupal.checkPlain(settings.hide_submit_hide_css))
+          .show();
+        $('.hide-submit-text', form).remove();
+      }
+    }
+  }
+};
+
+})(jQuery, window);
+

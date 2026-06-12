@@ -1,0 +1,41 @@
+=== Shadow-Validation Report: Generated Types vs Existing Parsers ===
+
+--- GetPolicy ---
+Existing parser -> CourtPolicy
+  PolicyVersionId:      43
+  PolicyLastUpdateDate: 2026-05-04 15:45:08
+  CodeListUrls.Count:   19
+  DocumentListUrl:      present
+  CourtLocationsUrl:    present
+  AttorneyListUrl:      present
+Generated types -> CourtPolicyResponseMessageType
+  PolicyVersionID.ID:            43
+  PolicyLastUpdateDate.Items.Count: 1
+  RuntimePolicyParams present:   True
+  CourtCodelist.Count:           22
+PARITY: CodeListUrls=19 vs CourtCodelist=22
+
+--- GetRecordingStatus ---
+Existing parser -> FilingStatusResult
+  FilingStatus:    Accepted
+  EfmReferenceId:  26MA00003739
+  EfspReferenceId: AUTOTEST-ef8d234e4bb0415ba1eaffb3daf13706
+  CaseDocketId:    MFL018522
+  CaseTrackingId:  (null)
+  CaseName:        TBD
+Generated types -> RecordingStatusResponseMessageType
+  Filing.Count:   1
+  [0].CaseNumber:         MFL018522
+  [0].CaseName:           TBD
+  [0].RecordingStatus1:   PROCESSING
+  [0].FilingStatus.Code:  ACCEPTED
+
+--- CalculateFees ---
+Existing parser -> FeeCalculation
+  TotalAmount:       3.5
+  LineItems.Count:   1
+Generated types -> FeesCalculationResponseMessageType
+  FeesCalculationAmount.Value: 3.5
+  AllowanceCharge.Count:       1
+PARITY: TotalAmount=3.5 vs FeesCalcAmount=3.5
+

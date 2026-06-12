@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt" xmlns:ns11="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:CaseAssignmentType" xmlns:ns13="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns14="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns15="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns16="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns17="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns18="com.journaltech.niem.test" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns7="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header />
+   <SOAP-ENV:Body>
+      <ns17:ReviewFilingRequestMessage>
+         <ns2:SendingMDELocationID>
+            <ns1:IdentificationID>YOUR_ENDPOINT_HERE</ns1:IdentificationID>
+            <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+         </ns2:SendingMDELocationID>
+         <ns6:CoreFilingMessage xsi:type="ns13:CoreFilingMessageExtType">
+            <ns1:DocumentFiledDate id="ref1">
+               <ns1:DateTime>2021-02-24T10:51:38-08:00</ns1:DateTime>
+            </ns1:DocumentFiledDate>
+            <ns1:DocumentIdentification>
+               <ns1:IdentificationID>YOUR_IDENTIFICATIONID_HERE</ns1:IdentificationID>
+            </ns1:DocumentIdentification>
+            <ns1:Case xsi:type="ns5:CivilCaseTypeExt">
+               <ns1:CaseDocketID>DOCKET_ID_HERE</ns1:CaseDocketID>
+               <ns5:Complaint xmlns:st="http://niem.gov/niem/structures/2.0" st:id="1109439" />
+               <ns5:CaseAugmentationExt>
+                  <ns3:CaseCourt>
+                     <ns1:OrganizationIdentification>
+                        <ns1:IdentificationID>efm-placer-court-prod.ecourt.com</ns1:IdentificationID>
+                        <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+                     </ns1:OrganizationIdentification>
+                     <ns3:CourtName>Placer County Superior Court</ns3:CourtName>
+                  </ns3:CaseCourt>
+               </ns5:CaseAugmentationExt>
+            </ns1:Case>
+            <ns6:FilingLeadDocument xmlns:st="http://niem.gov/niem/structures/2.0" complaintType="1109439" st:id="doc0" xsi:type="ns13:DocumentExtType">
+               <ns1:DocumentBinary>
+                  <ns1:BinaryFormatStandardName xsi:type="ns7:TextType">application/pdf</ns1:BinaryFormatStandardName>
+                  <ns1:BinaryLocationURI>YOUR_URL_HERE</ns1:BinaryLocationURI>
+               </ns1:DocumentBinary>
+               <ns1:DocumentDescriptionText>501160</ns1:DocumentDescriptionText>
+               <ns1:DocumentFileControlID>5268</ns1:DocumentFileControlID>
+               <ns1:DocumentIdentification>
+                  <ns1:IdentificationID>501160</ns1:IdentificationID>
+                  <ns1:IdentificationSourceText>PLA</ns1:IdentificationSourceText>
+               </ns1:DocumentIdentification>
+               <ns9:DocumentFilingMetaData>
+                  <ns9:documentFilingMetaDataItem>
+                     <ns9:docValueMetaDataItem>
+                        <ns8:code>FILING_PARTY</ns8:code>
+                        <ns8:classType>caseParticipant</ns8:classType>
+                        <ns8:subType>filed-by</ns8:subType>
+                        <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+                     </ns9:docValueMetaDataItem>
+                     <ns9:idReferences>
+                        <ns9:id>1495022</ns9:id>
+                        <ns9:additionalInfoTags>
+                           <ns9:tagType>E_SERVICE</ns9:tagType>
+                           <ns9:tagValue>0</ns9:tagValue>
+                        </ns9:additionalInfoTags>
+                     </ns9:idReferences>
+                  </ns9:documentFilingMetaDataItem>
+                  <ns9:documentFilingMetaDataItem>
+                     <ns9:docValueMetaDataItem>
+                        <ns8:code>NEW_ATTORNEY</ns8:code>
+                        <ns8:classType>caseAssignment</ns8:classType>
+                        <ns8:valueRestriction>new-data</ns8:valueRestriction>
+                     </ns9:docValueMetaDataItem>
+                     <ns9:caseAssignmentValue>
+                        <ns2:EntityPerson id="ref2">
+                           <ns1:PersonName>
+                              <ns1:PersonGivenName>Joseph</ns1:PersonGivenName>
+                              <ns1:PersonMiddleName>W.</ns1:PersonMiddleName>
+                              <ns1:PersonSurName>Strella</ns1:PersonSurName>
+                           </ns1:PersonName>
+                           <ns1:PersonOtherIdentification>
+                              <ns1:IdentificationID>178947</ns1:IdentificationID>
+                              <ns1:IdentificationCategoryText>BAR</ns1:IdentificationCategoryText>
+                           </ns1:PersonOtherIdentification>
+                        </ns2:EntityPerson>
+                        <ns2:EntityOrganization id="ref3">
+                           <ns1:OrganizationName>Clapp Moroney</ns1:OrganizationName>
+                        </ns2:EntityOrganization>
+                        <ns1:ContactInformation>
+                           <ns1:ContactTelephoneNumber>
+                              <ns10:TelephoneNumberInformation>
+                                 <ns1:TelephoneNumberFullID>6509895400</ns1:TelephoneNumberFullID>
+                                 <ns10:TelephoneNumberFullType>BUS</ns10:TelephoneNumberFullType>
+                              </ns10:TelephoneNumberInformation>
+                           </ns1:ContactTelephoneNumber>
+                           <ns1:ContactEmailID>YOUR_EMAIL_HERE</ns1:ContactEmailID>
+                           <sa1:ContactMailingAddress xmlns:sa1="http://niem.gov/niem/niem-core/2.0">
+                              <sta1:StructuredAddress xmlns:sta1="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+                                 <sta1:LocationType>BUS</sta1:LocationType>
+                                 <sa1:LocationCountryName>US</sa1:LocationCountryName>
+                                 <sa1:AddressDeliveryPoint xsi:type="sa1:StreetType">
+                                    <sa1:StreetFullText>1111</sa1:StreetFullText>
+                                 </sa1:AddressDeliveryPoint>
+                                 <sa1:LocationCityName>San Bruno</sa1:LocationCityName>
+                                 <sa1:LocationStateName>CA</sa1:LocationStateName>
+                                 <sa1:LocationState>CA</sa1:LocationState>
+                                 <sa1:LocationPostalCode>94066</sa1:LocationPostalCode>
+                              </sta1:StructuredAddress>
+                           </sa1:ContactMailingAddress>
+                        </ns1:ContactInformation>
+                        <ns11:eService>true</ns11:eService>
+                        <ns12:AssignmentRole>ATT</ns12:AssignmentRole>
+                     </ns9:caseAssignmentValue>
+                  </ns9:documentFilingMetaDataItem>
+                  <ns9:documentFilingMetaDataItem>
+                     <ns9:docValueMetaDataItem>
+                        <ns8:code>REPRESENTING</ns8:code>
+                        <ns8:classType>caseParticipant</ns8:classType>
+                        <ns8:subType>refers-to</ns8:subType>
+                        <ns8:valueRestriction>existing-data</ns8:valueRestriction>
+                     </ns9:docValueMetaDataItem>
+                     <ns9:idReferences>
+                        <ns9:id>1495022</ns9:id>
+                     </ns9:idReferences>
+                  </ns9:documentFilingMetaDataItem>
+               </ns9:DocumentFilingMetaData>
+            </ns6:FilingLeadDocument>
+            <ns13:appClientUsername>zhazell</ns13:appClientUsername>
+            <ns13:appClientParentUsername>zhazell</ns13:appClientParentUsername>
+         </ns6:CoreFilingMessage>
+         <ns14:PaymentMessage xsi:type="ns16:PaymentMessageTypeExt">
+            <ns16:paymentAuthorizationInfo>
+               <ns16:customerProfileId>0</ns16:customerProfileId>
+               <ns16:customerPaymentProfileId>0</ns16:customerPaymentProfileId>
+               <ns16:paymentType>ACH</ns16:paymentType>
+            </ns16:paymentAuthorizationInfo>
+         </ns14:PaymentMessage>
+      </ns17:ReviewFilingRequestMessage>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

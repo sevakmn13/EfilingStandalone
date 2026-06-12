@@ -1,0 +1,847 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"/>
+	<soap:Body>
+		<ns61:CaseResponseMessage xmlns:ns1="http://niem.gov/niem/structures/2.0" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns11="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns14="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns15="urn:com.journaltech:ecourt:ecf:extension:CourtEventDocumentTypeExt" xmlns:ns16="urn:com.journaltech:ecourt:ecf:extension:CourtEventTypeExt" xmlns:ns17="urn:com.journaltech:ecourt:ecf:extension:ContactValue" xmlns:ns18="urn:com.journaltech:ecourt:ecf:extension:CourtEventJudgment" xmlns:ns19="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingMessage-4.0" xmlns:ns2="http://niem.gov/niem/niem-core/2.0" xmlns:ns20="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:BankruptcyCase-4.0" xmlns:ns21="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CitationCase-4.0" xmlns:ns22="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppellateCase-4.0" xmlns:ns23="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DomesticCase-4.0" xmlns:ns24="http://niem.gov/niem/domains/screening/2.0" xmlns:ns25="urn:com.journaltech:ecourt:ecf:extension:RecordDocketingMessageTypeExt" xmlns:ns26="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns27="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns28="urn:com.journaltech:ecourt:ecf:extension:FilingIdentityType" xmlns:ns29="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ReviewFilingCallbackMessage-4.0" xmlns:ns3="http://niem.gov/niem/ansi-nist/2.0" xmlns:ns30="urn:com.journaltech:ecourt:ecf:extension:FilingStatusReason" xmlns:ns31="urn:com.journaltech:ecourt:ecf:extension:ReviewedDocumentType" xmlns:ns32="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingStatus" xmlns:ns33="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationTypeExt" xmlns:ns34="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns35="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns36="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns37="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentReceiptMessage-4.0" xmlns:ns38="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:JuvenileCase-4.0" xmlns:ns39="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceReceiptMessage-4.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CriminalCase-4.0" xmlns:ns40="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseQueryMessage-4.0" xmlns:ns41="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListQueryMessage-4.0" xmlns:ns42="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns43="urn:com.journaltech:ecourt:ecf:extension:FilingListQueryMessageTypeExt" xmlns:ns44="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationResponseMessage-4.0" xmlns:ns45="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationResponseMessageTypeExt" xmlns:ns46="urn:com.journaltech:ecourt:ecf:extension:FilingListResponseMessageTypeExt" xmlns:ns47="urn:com.journaltech:ecourt:ecf:extension:DocumentResponseMessageTypeExt" xmlns:ns48="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListResponseMessage-4.0" xmlns:ns49="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyResponseMessage-4.0" xmlns:ns5="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns50="http://www.w3.org/2000/09/xmldsig#" xmlns:ns51="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationResponseMessage-4.0" xmlns:ns53="urn:com.journaltech:ecourt:ecf:extension:CodeValue" xmlns:ns54="urn:com.journaltech:ecourt:ecf:extension:ZipCodeValue" xmlns:ns55="urn:com.journaltech:ecourt:ecf:extension:AttorneyValue" xmlns:ns56="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppInfo-4.0" xmlns:ns57="http://niem.gov/niem/appinfo/2.0" xmlns:ns58="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationQueryMessage-4.0" xmlns:ns59="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationQueryMessageTypeExt" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns60="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListResponseMessage-4.0" xmlns:ns61="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseResponseMessage-4.0" xmlns:ns62="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusResponseMessage-4.0" xmlns:ns63="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns64="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:ns65="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyQueryMessage-4.0" xmlns:ns66="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentResponseMessage-4.0" xmlns:ns67="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusQueryMessage-4.0" xmlns:ns68="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:MessageReceiptMessage-4.0" xmlns:ns69="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationQueryMessage-4.0" xmlns:ns7="urn:com.journaltech:ecourt:ecf:extension:NANPTelephoneNumberExt" xmlns:ns70="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListQueryMessage-4.0" xmlns:ns71="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentQueryMessage-4.0" xmlns:ns72="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingCallbackMessage-4.0" xmlns:ns73="urn:com.journaltech:ecourt:ecf:extension:ServiceInformationQueryMessageTypeExt" xmlns:ns74="urn:com.journaltech:ecourt:ecf:extension:CaseQueryMessageTypeExt" xmlns:ns75="urn:com.journaltech:ecourt:ecf:extension:ServiceInformationResponseMessageTypeExt" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt" xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt">
+			<ns5:CaseCourt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+			<ns6:Error>
+				<ns6:ErrorCode>0</ns6:ErrorCode>
+				<ns6:ErrorText>No Error</ns6:ErrorText>
+			</ns6:Error>
+			<ns14:CivilCaseExt ns1:id="3897209">
+				<ns2:ActivityStatus>
+					<ns2:StatusText>EF</ns2:StatusText>
+					<ns2:StatusDescriptionText>E-Filed</ns2:StatusDescriptionText>
+				</ns2:ActivityStatus>
+				<ns2:CaseTitleText>RAYMOND WERSHING vs NATIONAL FOOTBALL LEAGUE, et al.</ns2:CaseTitleText>
+				<ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+				<ns2:CaseTrackingID>3897209</ns2:CaseTrackingID>
+				<ns2:CaseDocketID>19STLC01573</ns2:CaseDocketID>
+				<ns6:CaseAugmentation>
+					<ns12:CaseParticipantExt ns1:id="14973392">
+						<ns2:EntityPerson ns1:id="14736826" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+							<ns2:PersonName>
+								<ns2:PersonGivenName>Denise</ns2:PersonGivenName>
+								<ns2:PersonMiddleName>P</ns2:PersonMiddleName>
+								<ns2:PersonSurName>Ashworth</ns2:PersonSurName>
+								<ns2:PersonNameSuffixText/>
+							</ns2:PersonName>
+							<ns2:PersonOtherIdentification>
+								<ns2:IdentificationID>123447</ns2:IdentificationID>
+								<ns2:IdentificationCategoryText>BAR</ns2:IdentificationCategoryText>
+							</ns2:PersonOtherIdentification>
+						</ns2:EntityPerson>
+						<ns6:CaseParticipantRoleCode>ATT</ns6:CaseParticipantRoleCode>
+						<ns2:ContactInformation>
+							<ns2:ContactMeans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:AddressType">
+								<ns2:StructuredAddress xsi:type="ns9:StructuredAddressExt">
+									<ns2:AddressDeliveryPoint xsi:type="ns2:StreetType">
+										<ns2:StreetFullText>101 Severn Ct</ns2:StreetFullText>
+									</ns2:AddressDeliveryPoint>
+									<ns2:LocationCityName>Cary</ns2:LocationCityName>
+									<ns2:LocationState xsi:type="ns2:ProperNameTextType">NC</ns2:LocationState>
+									<ns2:LocationCountryName>US</ns2:LocationCountryName>
+									<ns2:LocationPostalCode>27511</ns2:LocationPostalCode>
+									<ns9:LocationType>M</ns9:LocationType>
+								</ns2:StructuredAddress>
+							</ns2:ContactMeans>
+							<ns2:ContactTelephoneNumber>
+								<ns2:TelephoneNumberRepresentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns7:NANPTelephoneNumberExt">
+									<ns2:TelephoneLineID>408-938-3467</ns2:TelephoneLineID>
+									<ns7:TelephoneType>W</ns7:TelephoneType>
+								</ns2:TelephoneNumberRepresentation>
+							</ns2:ContactTelephoneNumber>
+							<ns2:ContactEmailID>aol@aol.com</ns2:ContactEmailID>
+						</ns2:ContactInformation>
+						<ns12:primaryId>14973392</ns12:primaryId>
+						<ns12:referenceId>317110</ns12:referenceId>
+						<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:firstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+					</ns12:CaseParticipantExt>
+					<ns12:CaseParticipantExt ns1:id="14973393">
+						<ns2:EntityPerson ns1:id="14736827" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+							<ns2:PersonName>
+								<ns2:PersonGivenName>Jerald</ns2:PersonGivenName>
+								<ns2:PersonMiddleName>Scott</ns2:PersonMiddleName>
+								<ns2:PersonSurName>Bennett</ns2:PersonSurName>
+								<ns2:PersonNameSuffixText/>
+							</ns2:PersonName>
+							<ns2:PersonOtherIdentification>
+								<ns2:IdentificationID>123450</ns2:IdentificationID>
+								<ns2:IdentificationCategoryText>BAR</ns2:IdentificationCategoryText>
+							</ns2:PersonOtherIdentification>
+						</ns2:EntityPerson>
+						<ns6:CaseParticipantRoleCode>ATT</ns6:CaseParticipantRoleCode>
+						<ns2:ContactInformation>
+							<ns2:ContactMeans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:AddressType">
+								<ns2:StructuredAddress xsi:type="ns9:StructuredAddressExt">
+									<ns2:AddressDeliveryPoint xsi:type="ns2:StreetType">
+										<ns2:StreetFullText>3730 12th St</ns2:StreetFullText>
+										<ns2:StreetFullText/>
+									</ns2:AddressDeliveryPoint>
+									<ns2:LocationCityName>Riverside</ns2:LocationCityName>
+									<ns2:LocationState xsi:type="ns2:ProperNameTextType">CA</ns2:LocationState>
+									<ns2:LocationCountryName>US</ns2:LocationCountryName>
+									<ns2:LocationPostalCode>92501</ns2:LocationPostalCode>
+									<ns9:LocationType>M</ns9:LocationType>
+								</ns2:StructuredAddress>
+							</ns2:ContactMeans>
+							<ns2:ContactTelephoneNumber>
+								<ns2:TelephoneNumberRepresentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns7:NANPTelephoneNumberExt">
+									<ns2:TelephoneLineID>(951) 434-1151</ns2:TelephoneLineID>
+									<ns7:TelephoneType>W</ns7:TelephoneType>
+								</ns2:TelephoneNumberRepresentation>
+							</ns2:ContactTelephoneNumber>
+							<ns2:ContactEmailID>scott@jscottbennettattorney.com</ns2:ContactEmailID>
+						</ns2:ContactInformation>
+						<ns12:primaryId>14973393</ns12:primaryId>
+						<ns12:referenceId>317173</ns12:referenceId>
+						<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:firstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+						<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+					</ns12:CaseParticipantExt>
+				</ns6:CaseAugmentation>
+				<ns13:AmountInControversy>15000</ns13:AmountInControversy>
+				<ns13:JurisdictionalGroundsCode>O10K</ns13:JurisdictionalGroundsCode>
+				<ns14:Complaint ns1:id="4034005">
+					<ns2:CaseTitleText>Complaint filed by Raymond Wershing on 12/17/2019</ns2:CaseTitleText>
+					<ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+					<ns2:CaseTrackingID>4034005</ns2:CaseTrackingID>
+					<ns2:CaseDocketID>82930</ns2:CaseDocketID>
+					<ns6:CaseAugmentation>
+						<ns12:CaseParticipantExt ns1:id="14973388">
+							<ns2:EntityPerson ns1:id="14736822" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>Raymond</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Wershing</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>PLAIN</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973388</ns12:primaryId>
+							<ns12:referenceId>317106</ns12:referenceId>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973389">
+							<ns2:EntityOrganization ns1:id="14736823" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:OrganizationType">
+								<ns2:OrganizationName>National Football League</ns2:OrganizationName>
+								<ns2:OrganizationPrimaryContactInformation>
+									<ns2:ContactResponder ns1:id="14736823" xsi:type="ns6:PersonType">
+										<ns2:PersonName>
+											<ns2:PersonGivenName/>
+											<ns2:PersonMiddleName/>
+											<ns2:PersonSurName/>
+											<ns2:PersonNameSuffixText/>
+										</ns2:PersonName>
+									</ns2:ContactResponder>
+								</ns2:OrganizationPrimaryContactInformation>
+							</ns2:EntityOrganization>
+							<ns6:CaseParticipantRoleCode>DEF</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973389</ns12:primaryId>
+							<ns12:referenceId>317107</ns12:referenceId>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:status>NAMED</ns12:status>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973390">
+							<ns2:EntityPerson ns1:id="14736824" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>Robert</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Goddell</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>DEF</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973390</ns12:primaryId>
+							<ns12:referenceId>317108</ns12:referenceId>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:status>NAMED</ns12:status>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973391">
+							<ns2:EntityPerson ns1:id="14736825" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>George</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Halas</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>DEF</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973391</ns12:primaryId>
+							<ns12:referenceId>317109</ns12:referenceId>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:status>NAMED</ns12:status>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+					</ns6:CaseAugmentation>
+					<ns13:AmountInControversy>15000</ns13:AmountInControversy>
+					<ns13:JurisdictionalGroundsCode>O10K</ns13:JurisdictionalGroundsCode>
+					<ns14:CaseAugmentationExt>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T11:04:50.360-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>COMPLAINT_FILED</ns2:ActivityDescriptionText>
+						</ns5:CaseCourtEvent>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+							<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299088" xsi:type="ns15:CourtEventDocumentTypeExt">
+								<ns2:DocumentDescriptionText>Civil Case Cover Sheet</ns2:DocumentDescriptionText>
+								<ns2:DocumentEffectiveDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentEffectiveDate>
+								<ns2:DocumentFiledDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentFiledDate>
+								<ns2:DocumentIdentification>
+									<ns2:IdentificationID xsi:type="ns2:TextType">MISC020</ns2:IdentificationID>
+								</ns2:DocumentIdentification>
+								<ns2:DocumentStatus>
+									<ns2:StatusText>F</ns2:StatusText>
+								</ns2:DocumentStatus>
+								<ns15:DocumentDisposition xsi:nil="true"/>
+								<ns15:EfmReferenceId>393042</ns15:EfmReferenceId>
+							</ns6:CourtEventDocument>
+						</ns5:CaseCourtEvent>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+							<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299087" xsi:type="ns15:CourtEventDocumentTypeExt">
+								<ns2:DocumentDescriptionText>Summons on Complaint</ns2:DocumentDescriptionText>
+								<ns2:DocumentEffectiveDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentEffectiveDate>
+								<ns2:DocumentFiledDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentFiledDate>
+								<ns2:DocumentIdentification>
+									<ns2:IdentificationID xsi:type="ns2:TextType">ISS030</ns2:IdentificationID>
+								</ns2:DocumentIdentification>
+								<ns2:DocumentStatus>
+									<ns2:StatusText>IF</ns2:StatusText>
+								</ns2:DocumentStatus>
+								<ns15:DocumentDisposition xsi:nil="true"/>
+								<ns15:nameExtension>on Complaint</ns15:nameExtension>
+								<ns15:EfmReferenceId>393041</ns15:EfmReferenceId>
+							</ns6:CourtEventDocument>
+						</ns5:CaseCourtEvent>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+							<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299086" xsi:type="ns15:CourtEventDocumentTypeExt">
+								<ns2:DocumentDescriptionText>Complaint</ns2:DocumentDescriptionText>
+								<ns2:DocumentEffectiveDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentEffectiveDate>
+								<ns2:DocumentFiledDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentFiledDate>
+								<ns2:DocumentIdentification>
+									<ns2:IdentificationID xsi:type="ns2:TextType">COM040</ns2:IdentificationID>
+								</ns2:DocumentIdentification>
+								<ns2:DocumentStatus>
+									<ns2:StatusText>F</ns2:StatusText>
+								</ns2:DocumentStatus>
+								<ns15:DocumentDisposition xsi:nil="true"/>
+								<ns15:EfmReferenceId>393040</ns15:EfmReferenceId>
+							</ns6:CourtEventDocument>
+						</ns5:CaseCourtEvent>
+					</ns14:CaseAugmentationExt>
+				</ns14:Complaint>
+				<ns14:Complaint ns1:id="4034006">
+					<ns2:CaseTitleText>Cross-Complaint filed by National Football League, et al. on 12/17/2019</ns2:CaseTitleText>
+					<ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+					<ns2:CaseTrackingID>4034006</ns2:CaseTrackingID>
+					<ns2:CaseDocketID/>
+					<ns6:CaseAugmentation>
+						<ns12:CaseParticipantExt ns1:id="14973394">
+							<ns2:EntityOrganization ns1:id="14736823" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:OrganizationType">
+								<ns2:OrganizationName>National Football League</ns2:OrganizationName>
+								<ns2:OrganizationPrimaryContactInformation>
+									<ns2:ContactResponder ns1:id="14736823" xsi:type="ns6:PersonType">
+										<ns2:PersonName>
+											<ns2:PersonGivenName/>
+											<ns2:PersonMiddleName/>
+											<ns2:PersonSurName/>
+											<ns2:PersonNameSuffixText/>
+										</ns2:PersonName>
+									</ns2:ContactResponder>
+								</ns2:OrganizationPrimaryContactInformation>
+							</ns2:EntityOrganization>
+							<ns6:CaseParticipantRoleCode>XCMPLNT</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973394</ns12:primaryId>
+							<ns12:referenceId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973395">
+							<ns2:EntityPerson ns1:id="14736822" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>Raymond</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Wershing</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>XDEF</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973395</ns12:primaryId>
+							<ns12:referenceId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:status>NAMED</ns12:status>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973396">
+							<ns2:EntityPerson ns1:id="14736824" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>Robert</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Goddell</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>XCMPLNT</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973396</ns12:primaryId>
+							<ns12:referenceId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+						<ns12:CaseParticipantExt ns1:id="14973397">
+							<ns2:EntityPerson ns1:id="14736825" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+								<ns2:PersonName>
+									<ns2:PersonGivenName>George</ns2:PersonGivenName>
+									<ns2:PersonMiddleName/>
+									<ns2:PersonSurName>Halas</ns2:PersonSurName>
+									<ns2:PersonNameSuffixText/>
+								</ns2:PersonName>
+							</ns2:EntityPerson>
+							<ns6:CaseParticipantRoleCode>XCMPLNT</ns6:CaseParticipantRoleCode>
+							<ns2:ContactInformation>
+								<ns2:ContactEmailID/>
+							</ns2:ContactInformation>
+							<ns12:primaryId>14973397</ns12:primaryId>
+							<ns12:referenceId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmErroneouslySued xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmTrueName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionRequestType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmFeeExemptionType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:firstAppearancePaid>true</ns12:firstAppearancePaid>
+							<ns12:efspFirstAppearancePaid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:efmInterpreterLanguage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							<ns12:nonMonApplication>ANY</ns12:nonMonApplication>
+						</ns12:CaseParticipantExt>
+					</ns6:CaseAugmentation>
+					<ns13:JurisdictionalGroundsCode>O10K</ns13:JurisdictionalGroundsCode>
+					<ns14:CaseAugmentationExt>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>COMPLAINT_FILED</ns2:ActivityDescriptionText>
+						</ns5:CaseCourtEvent>
+						<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+							<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:ActivityDateRepresentation>
+							<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+							<ns6:CourtEventDocument complaintType="4034006" ns1:id="64299091" xsi:type="ns15:CourtEventDocumentTypeExt">
+								<ns2:DocumentDescriptionText>Cross-Complaint</ns2:DocumentDescriptionText>
+								<ns2:DocumentEffectiveDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentEffectiveDate>
+								<ns2:DocumentFiledDate>
+									<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+								</ns2:DocumentFiledDate>
+								<ns2:DocumentIdentification>
+									<ns2:IdentificationID xsi:type="ns2:TextType">COM070</ns2:IdentificationID>
+								</ns2:DocumentIdentification>
+								<ns2:DocumentStatus>
+									<ns2:StatusText>F</ns2:StatusText>
+								</ns2:DocumentStatus>
+								<ns15:DocumentDisposition xsi:nil="true"/>
+								<ns15:EfmReferenceId>393111</ns15:EfmReferenceId>
+							</ns6:CourtEventDocument>
+						</ns5:CaseCourtEvent>
+					</ns14:CaseAugmentationExt>
+				</ns14:Complaint>
+				<ns14:CaseTypeText>LC</ns14:CaseTypeText>
+				<ns14:CaseAugmentationExt>
+					<ns5:CaseCourt>
+						<ns5:CourtName>Central District Stanley Mosk Courthouse Department 94</ns5:CourtName>
+					</ns5:CaseCourt>
+					<ns5:CaseCourt>
+						<ns2:OrganizationIdentification>
+							<ns2:IdentificationID>LA_CEN</ns2:IdentificationID>
+							<ns2:IdentificationSourceText>Central District</ns2:IdentificationSourceText>
+						</ns2:OrganizationIdentification>
+						<ns2:OrganizationLocation>
+							<ns2:LocationDescriptionText>ParentLocationName</ns2:LocationDescriptionText>
+							<ns2:LocationName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PersonNameTextType">Stanley Mosk Courthouse</ns2:LocationName>
+						</ns2:OrganizationLocation>
+						<ns2:OrganizationLocation>
+							<ns2:LocationDescriptionText>ParentLocationCode</ns2:LocationDescriptionText>
+							<ns2:LocationName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PersonNameTextType">LA</ns2:LocationName>
+						</ns2:OrganizationLocation>
+						<ns2:OrganizationLocation>
+							<ns2:LocationDescriptionText>LocationName</ns2:LocationDescriptionText>
+							<ns2:LocationName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PersonNameTextType">Department 94</ns2:LocationName>
+						</ns2:OrganizationLocation>
+						<ns2:OrganizationLocation>
+							<ns2:LocationDescriptionText>LocationCode</ns2:LocationDescriptionText>
+							<ns2:LocationName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PersonNameTextType">LA_CEN_SMC_D_94</ns2:LocationName>
+						</ns2:OrganizationLocation>
+					</ns5:CaseCourt>
+					<ns5:CaseCourtEvent ns1:id="courtHearing-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns16:CourtEventTypeExt">
+						<ns2:ActivityIdentification>
+							<ns2:IdentificationID>HRG090</ns2:IdentificationID>
+						</ns2:ActivityIdentification>
+						<ns2:ActivityStatus>
+							<ns2:StatusText>EVENT</ns2:StatusText>
+						</ns2:ActivityStatus>
+						<ns5:CourtEventSchedule>
+							<ns2:ScheduleActivityText>StartDate</ns2:ScheduleActivityText>
+							<ns2:ScheduleDate>
+								<ns2:DateTime>2022-12-20T08:30:00.000-08:00</ns2:DateTime>
+							</ns2:ScheduleDate>
+						</ns5:CourtEventSchedule>
+						<ns5:CourtEventSchedule>
+							<ns2:ScheduleActivityText>EndDate</ns2:ScheduleActivityText>
+							<ns2:ScheduleDate>
+								<ns2:DateTime>2022-12-20T08:30:00.000-08:00</ns2:DateTime>
+							</ns2:ScheduleDate>
+						</ns5:CourtEventSchedule>
+						<ns16:CourtEventLocation>
+							<ns2:LocationDescriptionText>LA_CEN_SMC_D_94</ns2:LocationDescriptionText>
+							<ns2:LocationName>Department 94</ns2:LocationName>
+						</ns16:CourtEventLocation>
+						<ns16:CmsReferenceId>9540913</ns16:CmsReferenceId>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent ns1:id="courtHearing-1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns16:CourtEventTypeExt">
+						<ns2:ActivityIdentification>
+							<ns2:IdentificationID>TRL010</ns2:IdentificationID>
+						</ns2:ActivityIdentification>
+						<ns2:ActivityStatus>
+							<ns2:StatusText>EVENT</ns2:StatusText>
+						</ns2:ActivityStatus>
+						<ns5:CourtEventSchedule>
+							<ns2:ScheduleActivityText>StartDate</ns2:ScheduleActivityText>
+							<ns2:ScheduleDate>
+								<ns2:DateTime>2021-06-15T08:30:00.000-07:00</ns2:DateTime>
+							</ns2:ScheduleDate>
+						</ns5:CourtEventSchedule>
+						<ns5:CourtEventSchedule>
+							<ns2:ScheduleActivityText>EndDate</ns2:ScheduleActivityText>
+							<ns2:ScheduleDate>
+								<ns2:DateTime>2021-06-15T08:30:00.000-07:00</ns2:DateTime>
+							</ns2:ScheduleDate>
+						</ns5:CourtEventSchedule>
+						<ns16:CourtEventLocation>
+							<ns2:LocationDescriptionText>LA_CEN_SMC_D_94</ns2:LocationDescriptionText>
+							<ns2:LocationName>Department 94</ns2:LocationName>
+						</ns16:CourtEventLocation>
+						<ns16:CmsReferenceId>9540912</ns16:CmsReferenceId>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+							<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+						</ns2:ActivityDateRepresentation>
+						<ns2:ActivityDescriptionText>CASE_FILED</ns2:ActivityDescriptionText>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+							<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+						</ns2:ActivityDateRepresentation>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument complaintType="4034006" ns1:id="64299091" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>Cross-Complaint</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentFiledDate>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">COM070</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>F</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+							<ns15:EfmReferenceId>393111</ns15:EfmReferenceId>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:nil="true"/>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument ns1:id="64299090" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>First Amended Standing Order</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate xsi:nil="true"/>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">ADM113</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>F</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:nil="true"/>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument ns1:id="64299089" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>Notice of Case Assignment - Limited Civil Case</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate xsi:nil="true"/>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">NTC040L</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>F</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+							<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+						</ns2:ActivityDateRepresentation>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299088" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>Civil Case Cover Sheet</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentFiledDate>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">MISC020</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>F</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+							<ns15:EfmReferenceId>393042</ns15:EfmReferenceId>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+							<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+						</ns2:ActivityDateRepresentation>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299087" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>Summons on Complaint</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentFiledDate>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">ISS030</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>IF</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+							<ns15:nameExtension>on Complaint</ns15:nameExtension>
+							<ns15:EfmReferenceId>393041</ns15:EfmReferenceId>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseCourtEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:CourtEventType">
+						<ns2:ActivityDateRepresentation xsi:type="ns2:DateType">
+							<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+						</ns2:ActivityDateRepresentation>
+						<ns2:ActivityDescriptionText>DOCUMENT_ENTRY</ns2:ActivityDescriptionText>
+						<ns6:CourtEventDocument complaintType="4034005" ns1:id="64299086" xsi:type="ns15:CourtEventDocumentTypeExt">
+							<ns2:DocumentDescriptionText>Complaint</ns2:DocumentDescriptionText>
+							<ns2:DocumentEffectiveDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentEffectiveDate>
+							<ns2:DocumentFiledDate>
+								<ns2:DateRepresentation xmlns:ns77="http://niem.gov/niem/proxy/xsd/2.0" xsi:type="ns77:dateTime">2019-12-17T00:00:00.000-08:00</ns2:DateRepresentation>
+							</ns2:DocumentFiledDate>
+							<ns2:DocumentIdentification>
+								<ns2:IdentificationID xsi:type="ns2:TextType">COM040</ns2:IdentificationID>
+							</ns2:DocumentIdentification>
+							<ns2:DocumentStatus>
+								<ns2:StatusText>F</ns2:StatusText>
+							</ns2:DocumentStatus>
+							<ns15:DocumentDisposition xsi:nil="true"/>
+							<ns15:EfmReferenceId>393040</ns15:EfmReferenceId>
+						</ns6:CourtEventDocument>
+					</ns5:CaseCourtEvent>
+					<ns5:CaseOtherEntity>
+						<ns2:EntityPerson ns1:id="14736821" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:PersonType">
+							<ns2:PersonName>
+								<ns2:PersonGivenName>Wendy</ns2:PersonGivenName>
+								<ns2:PersonMiddleName/>
+								<ns2:PersonSurName>Chang</ns2:PersonSurName>
+								<ns2:PersonNameSuffixText/>
+							</ns2:PersonName>
+						</ns2:EntityPerson>
+						<ns2:EntityOrganization ns1:id="14736821" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns6:OrganizationType">
+							<ns2:OrganizationName>Central District</ns2:OrganizationName>
+							<ns2:OrganizationPrimaryContactInformation>
+								<ns2:ContactResponder ns1:id="14736821" xsi:type="ns6:PersonType">
+									<ns2:PersonName>
+										<ns2:PersonGivenName>Wendy</ns2:PersonGivenName>
+										<ns2:PersonMiddleName/>
+										<ns2:PersonSurName>Chang</ns2:PersonSurName>
+										<ns2:PersonNameSuffixText/>
+									</ns2:PersonName>
+								</ns2:ContactResponder>
+							</ns2:OrganizationPrimaryContactInformation>
+						</ns2:EntityOrganization>
+					</ns5:CaseOtherEntity>
+					<ns14:incidentAddress>
+						<ns2:StructuredAddress>
+							<ns2:LocationPostalCode>90012</ns2:LocationPostalCode>
+						</ns2:StructuredAddress>
+					</ns14:incidentAddress>
+					<ns14:citation ns1:id=""/>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973388"/>
+						<ns14:relatedParticipant ns1:ref="14973392"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973389"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973389"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973390"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973390"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973391"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973391"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973394"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973396"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedParticipants>
+						<ns14:associationType>REPRESENTEDBY</ns14:associationType>
+						<ns14:participant ns1:ref="14973397"/>
+						<ns14:relatedParticipant ns1:ref="14973393"/>
+					</ns14:relatedParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299091"/>
+						<ns14:relatedParticipant ns1:ref="14973391"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299091"/>
+						<ns14:relatedParticipant ns1:ref="14973389"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299091"/>
+						<ns14:relatedParticipant ns1:ref="14973390"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299091"/>
+						<ns14:relatedParticipant ns1:ref="14973388"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299088"/>
+						<ns14:relatedParticipant ns1:ref="14973388"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299088"/>
+						<ns14:relatedParticipant ns1:ref="14973390"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299088"/>
+						<ns14:relatedParticipant ns1:ref="14973389"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299088"/>
+						<ns14:relatedParticipant ns1:ref="14973391"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299087"/>
+						<ns14:relatedParticipant ns1:ref="14973388"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299087"/>
+						<ns14:relatedParticipant ns1:ref="14973391"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299087"/>
+						<ns14:relatedParticipant ns1:ref="14973389"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299087"/>
+						<ns14:relatedParticipant ns1:ref="14973390"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>FILEDBY</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedParticipant ns1:ref="14973388"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedParticipant ns1:ref="14973389"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedParticipant ns1:ref="14973390"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocumentParticipants>
+						<ns14:associationType>REFERS_TO</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedParticipant ns1:ref="14973391"/>
+					</ns14:relatedDocumentParticipants>
+					<ns14:relatedDocuments>
+						<ns14:associationType>DOCREL</ns14:associationType>
+						<ns14:document ns1:ref="64299088"/>
+						<ns14:relatedDocument ns1:ref="64299086"/>
+					</ns14:relatedDocuments>
+					<ns14:relatedDocuments>
+						<ns14:associationType>DOCREL</ns14:associationType>
+						<ns14:document ns1:ref="64299087"/>
+						<ns14:relatedDocument ns1:ref="64299086"/>
+					</ns14:relatedDocuments>
+					<ns14:relatedDocuments>
+						<ns14:associationType>DOCREL</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedDocument ns1:ref="64299088"/>
+					</ns14:relatedDocuments>
+					<ns14:relatedDocuments>
+						<ns14:associationType>DOCREL</ns14:associationType>
+						<ns14:document ns1:ref="64299086"/>
+						<ns14:relatedDocument ns1:ref="64299087"/>
+					</ns14:relatedDocuments>
+				</ns14:CaseAugmentationExt>
+				<ns14:conditionallySealed>false</ns14:conditionallySealed>
+			</ns14:CivilCaseExt>
+		</ns61:CaseResponseMessage>
+	</soap:Body>
+</soap:Envelope>

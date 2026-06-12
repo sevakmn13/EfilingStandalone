@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:ns1="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0"
+                   xmlns:ns2="http://niem.gov/niem/niem-core/2.0" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0"
+                   xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseQueryMessage-4.0"
+                   xmlns:ns5="urn:com.journaltech:ecourt:ecf:extension:CaseQueryMessageTypeExt"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <ns4:CaseQueryMessage xsi:type="ns5:CaseQueryMessageTypeExt">
+            <ns1:SendingMDELocationID/>
+            <ns1:SendingMDEProfileCode/>
+            <ns1:QuerySubmitter/>
+            <ns3:CaseCourt>
+                <ns2:OrganizationIdentification>
+                    <ns2:IdentificationID>efm-lasc-pub.journaltech.com</ns2:IdentificationID>
+                    <ns2:IdentificationSourceText>lasc</ns2:IdentificationSourceText>
+                </ns2:OrganizationIdentification>
+                <ns3:CourtName>Los Angeles Superior Court</ns3:CourtName>
+            </ns3:CaseCourt>
+            <ns2:CaseDocketID>20STCV41668</ns2:CaseDocketID>
+            <ns4:CaseQueryCriteria>
+                <ns4:IncludeParticipantsIndicator>true</ns4:IncludeParticipantsIndicator>
+                <ns4:IncludeDocketEntryIndicator>true</ns4:IncludeDocketEntryIndicator>
+                <ns4:IncludeCalendarEventIndicator>true</ns4:IncludeCalendarEventIndicator>
+                <ns4:DocketEntryTypeCodeFilterText/>
+                <ns4:CalendarEventTypeCodeFilterText/>
+            </ns4:CaseQueryCriteria>
+            <ns5:pageSize>10</ns5:pageSize>
+              <ns5:PartyCriteria>
+      	        <ns5:offset>0</ns5:offset>
+              	<ns5:metadataFilter>CASE_PARTICIPANT_ATTORNEY</ns5:metadataFilter>
+            </ns5:PartyCriteria>
+        </ns4:CaseQueryMessage>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

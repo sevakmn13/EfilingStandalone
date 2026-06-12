@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://niem.gov/niem/niem-core/2.0" xmlns:ns2="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns3="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyResponseMessage-4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyQueryMessage-4.0">
+  <SOAP-ENV:Body>
+    <ns4:CourtPolicyQueryMessage xsi:type="ns3:CourtPolicyQueryMessageType">
+      <ns2:SendingMDELocationID>
+        <ns1:IdentificationID>efm-lasc.stage.pub.journaltech.com</ns1:IdentificationID>
+      </ns2:SendingMDELocationID>
+    </ns4:CourtPolicyQueryMessage>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

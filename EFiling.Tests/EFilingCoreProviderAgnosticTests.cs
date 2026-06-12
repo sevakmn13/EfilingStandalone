@@ -49,7 +49,7 @@ public class EFilingCoreProviderAgnosticTests
     private const string RepoRootSentinel = "docs/fileing files";
 
     /// <summary>Relative path from repo root to the <c>EFiling.Core</c> source directory.</summary>
-    private const string EFilingCoreRelative = "src/EFiling/EFiling.Core";
+    private const string EFilingCoreRelative = "EFiling.Core";
 
     /// <summary>
     /// Known pre-existing Bar 5 violations pending relocation. Each entry is a

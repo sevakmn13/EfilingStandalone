@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  [SyntheticFixture] NFRC #3 — Delayed (Judicial Disposition)
+  ============================================================================
+  Hand-synthesized 2026-05-16 for NFRC audit Phase 5.7 (Q22-B/C closure).
+
+  AUTHORITATIVE SOURCES used to construct this envelope:
+    - JTI WSDL: FilingReviewMDEPort.wsdl (per-doc shape at ReviewedDocumentTypeExt
+      :9307-9335; envelope shape at ReviewFilingCallbackMessageExtType :1156-1183)
+    - OASIS LegalXML ECF 4.0 base: ECF-4.0-CommonTypes.xsd (ReviewedDocumentType
+      :457-470; ElectronicFilingCallbackMessageType :245-260)
+    - LASC NFRC #2 - Financials Sample.xml (byte-identical to vendor CDN):
+      base envelope/wrapper structure inherited verbatim — NFRC #3 is a strict
+      superset of NFRC #2 per vendor doctrine
+    - Vendor HTML: Notify Filing Review Complete _ EFM Documentation.html:169-184
+      ("typically generated and returned to EFSPs after a judicial officer has
+      rendered some type of decision")
+
+  NFRC #3 -SPECIFIC DELTAS (beyond NFRC #2):
+    1. Per-doc DocumentDispositionType populated on pleading-paper docs.
+       Values per vendor convention (xs:string, no schema enum): GRA / DEN / ORD / OAI.
+    2. Per-doc DocumentDispositionDate populated (NIEM DateType wrapper).
+    3. Per-doc StatusText transitions from prior-stage value (RP for proposed)
+       to F (Filed) or FG (Filed and Granted) once the judicial officer rules.
+    4. Court-issued judicial doc (judge's signed Order) added as new
+       ReviewedConnectedDocument with court-gen identifiers.
+    5. Envelope-level FilingStatusCode stays at ACCEPTED (Q15 design decision —
+       the schema enum doesn't include "filed"; vendor-prose 'F' refers to
+       per-doc StatusText, not envelope-level state).
+
+  SCENARIO MODELED:
+    SF (Subsequent Filing) — "Stipulation and Order" pleading paper submitted
+    against existing case 4033996. The filer submitted a Proposed Order at
+    NFRC #1 (status RP). Judicial officer signed off; this NFRC #3 reports the
+    disposition: lead Stipulation+Order is Granted (GRA), transitioned to FG;
+    new court-issued Signed Order PDF added as court-gen doc (ORD).
+
+  COVERAGE:
+    - Lead doc (filer-submitted): RP → FG transition + GRA disposition + NIEM
+      wrapper DocumentDispositionDate
+    - Connected doc #1 (filer-submitted, Memorandum): no disposition (not a
+      pleading paper) — verifies parser doesn't pollute non-pleading docs
+    - Connected doc #2 (court-issued, Signed Order): ORD disposition + court-gen
+      identifiers + NIEM-wrapper date
+    - Connected doc #3 (court-issued, RECEIPT): NFRC #2 superset preservation
+    - Connected doc #4 (court-issued, Endorsed Filed-Stamped Copy): direct-text
+      DocumentDispositionDate (no NIEM wrapper) — verifies parser fallback shape
+    - FeesCalculation block: NFRC #2 superset preservation (no new fees on #3)
+
+  USAGE: anchor for Parse_FullSyntheticNfrc3Fixture_AllFieldsExtracted parser
+  test (asserts every NFRC-#3-specific field is extracted) and as a base
+  reference for any future controller-level NFRC #3 integration tests. NOT a
+  captured Madera payload — Madera staging never emitted NFRC #3 across 25
+  observed callbacks (NFRC audit § 15.4.1 C1, Q22-A still vendor-blocked).
+  ============================================================================
+-->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"/>
+	<soap:Body>
+		<ns67:NotifyFilingReviewCompleteRequestMessage xmlns:ns1="http://niem.gov/niem/structures/2.0" xmlns:ns2="http://niem.gov/niem/niem-core/2.0" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns13="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns25="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ReviewFilingCallbackMessage-4.0" xmlns:ns27="urn:com.journaltech:ecourt:ecf:extension:ReviewedDocumentType" xmlns:ns28="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingStatus" xmlns:ns29="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationTypeExt" xmlns:ns30="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns31="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns67="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0">
+			<ns4:SendingMDELocationID>
+				<ns2:IdentificationID>YOUR_ENDPOINT_HERE</ns2:IdentificationID>
+			</ns4:SendingMDELocationID>
+			<ns25:ReviewFilingCallbackMessageExt>
+				<ns2:DocumentIdentification>
+					<ns2:IdentificationID>EFSP-SYNTH-NFRC3-001</ns2:IdentificationID>
+					<ns2:IdentificationCategoryText>FILING_ASSEMBLY_MDE</ns2:IdentificationCategoryText>
+				</ns2:DocumentIdentification>
+				<ns2:DocumentIdentification>
+					<ns2:IdentificationID>EFM-SYNTH-NFRC3-77777</ns2:IdentificationID>
+					<ns2:IdentificationCategoryText>FILING_REVIEW_MDE</ns2:IdentificationCategoryText>
+				</ns2:DocumentIdentification>
+				<ns2:DocumentIdentification>
+					<ns2:IdentificationID>CMS-CASE-4033996-NFRC3</ns2:IdentificationID>
+					<ns2:IdentificationCategoryText>COURT_RECORD_MDE</ns2:IdentificationCategoryText>
+				</ns2:DocumentIdentification>
+				<ns13:CivilCaseExt ns1:id="77658">
+					<ns2:CaseTitleText>WILLIAM HOLLIDAY vs STARBUCKS</ns2:CaseTitleText>
+					<ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+					<ns2:CaseDocketID>4033996</ns2:CaseDocketID>
+					<ns13:Complaint ns1:id="82683">
+						<ns2:CaseTrackingID>82683</ns2:CaseTrackingID>
+						<ns2:CaseDocketID>4033996</ns2:CaseDocketID>
+					</ns13:Complaint>
+				</ns13:CivilCaseExt>
+				<ns4:FilingStatus>
+					<!--
+					  Envelope-level FilingStatusCode stays at ACCEPTED on NFRC #3 — Q15
+					  design decision per audit plan § 15.1: vendor prose's "filing status
+					  is now filed ('F')" describes per-doc StatusText, not envelope
+					  FilingStatusCode (whose 7-value enum doesn't include "filed").
+					-->
+					<ns4:FilingStatusCode>ACCEPTED</ns4:FilingStatusCode>
+				</ns4:FilingStatus>
+				<!--
+				  ===================================================================
+				  Lead document — filer-submitted Stipulation and Order pleading paper.
+				  At NFRC #1 status was RP (Proposed - Received); this NFRC #3 reports
+				  the judicial decision: granted (GRA), transitioned to FG (Filed and
+				  Granted). DocumentDispositionDate uses NIEM DateType wrapper shape.
+				  ===================================================================
+				-->
+				<ns27:ReviewedLeadDocument ns1:id="500001">
+					<ns2:DocumentBinary>
+						<ns2:BinaryLocationURI>https://example-efm.s3.amazonaws.com/synth/stipulation-order.pdf?X-Amz-Expires=604800</ns2:BinaryLocationURI>
+					</ns2:DocumentBinary>
+					<ns2:DocumentDescriptionText>Stipulation and Order</ns2:DocumentDescriptionText>
+					<ns2:DocumentFileControlID>500001</ns2:DocumentFileControlID>
+					<ns2:DocumentFiledDate>
+						<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+					</ns2:DocumentFiledDate>
+					<ns2:DocumentIdentification>
+						<ns2:IdentificationID>STIP030</ns2:IdentificationID>
+					</ns2:DocumentIdentification>
+					<ns2:DocumentReceivedDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentStatus>
+						<ns2:StatusText>FG</ns2:StatusText>
+						<ns2:StatusDate>
+							<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+						</ns2:StatusDate>
+					</ns2:DocumentStatus>
+					<ns27:DocumentFilingStatus>
+						<ns28:DocumentFilingStatusCode>ACCEPTED</ns28:DocumentFilingStatusCode>
+						<ns2:StatusDescriptionText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns27:DocumentFilingStatus>
+					<ns2:DocumentDispositionType>GRA</ns2:DocumentDispositionType>
+					<ns2:DocumentDispositionDate>
+						<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+					</ns2:DocumentDispositionDate>
+				</ns27:ReviewedLeadDocument>
+				<!--
+				  ===================================================================
+				  Connected doc #1 — filer-submitted Memorandum of Points and
+				  Authorities. NOT a pleading paper, so no DocumentDispositionType /
+				  DocumentDispositionDate. Status remains F (Filed) from prior NFRCs.
+				  Verifies parser does NOT pollute non-pleading docs with disposition
+				  fields when those fields are absent.
+				  ===================================================================
+				-->
+				<ns27:ReviewedConnectedDocument ns1:id="500002">
+					<ns2:DocumentBinary>
+						<ns2:BinaryLocationURI>https://example-efm.s3.amazonaws.com/synth/memo-points.pdf?X-Amz-Expires=604800</ns2:BinaryLocationURI>
+					</ns2:DocumentBinary>
+					<ns2:DocumentDescriptionText>Memorandum of Points and Authorities</ns2:DocumentDescriptionText>
+					<ns2:DocumentFileControlID>500002</ns2:DocumentFileControlID>
+					<ns2:DocumentFiledDate>
+						<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-10T09:15:00.000-08:00</ns2:DateRepresentation>
+					</ns2:DocumentFiledDate>
+					<ns2:DocumentIdentification>
+						<ns2:IdentificationID>MISC020</ns2:IdentificationID>
+					</ns2:DocumentIdentification>
+					<ns2:DocumentReceivedDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentStatus>
+						<ns2:StatusText>F</ns2:StatusText>
+						<ns2:StatusDate>
+							<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-10T09:15:00.000-08:00</ns2:DateRepresentation>
+						</ns2:StatusDate>
+					</ns2:DocumentStatus>
+					<ns27:DocumentFilingStatus>
+						<ns28:DocumentFilingStatusCode>ACCEPTED</ns28:DocumentFilingStatusCode>
+						<ns2:StatusDescriptionText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns27:DocumentFilingStatus>
+				</ns27:ReviewedConnectedDocument>
+				<!--
+				  ===================================================================
+				  Connected doc #2 — court-issued Signed Order. NEW court-generated
+				  artifact introduced at NFRC #3 (the judge's signed PDF). Court-gen
+				  identifiers: structure-id-less (per B0b heuristic), distinct
+				  DocumentFileControlID. DocumentDispositionType=ORD (Ordered).
+				  ===================================================================
+				-->
+				<ns27:ReviewedConnectedDocument>
+					<ns2:DocumentBinary>
+						<ns2:BinaryLocationURI>https://example-efm.s3.amazonaws.com/synth/signed-order.pdf?X-Amz-Expires=604800</ns2:BinaryLocationURI>
+					</ns2:DocumentBinary>
+					<ns2:DocumentDescriptionText>Signed Order Granting Stipulation</ns2:DocumentDescriptionText>
+					<ns2:DocumentFileControlID>500900</ns2:DocumentFileControlID>
+					<ns2:DocumentFiledDate>
+						<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+					</ns2:DocumentFiledDate>
+					<ns2:DocumentIdentification>
+						<ns2:IdentificationID>ORD001</ns2:IdentificationID>
+					</ns2:DocumentIdentification>
+					<ns2:DocumentReceivedDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentStatus>
+						<ns2:StatusText>F</ns2:StatusText>
+						<ns2:StatusDate>
+							<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+						</ns2:StatusDate>
+					</ns2:DocumentStatus>
+					<ns27:DocumentFilingStatus>
+						<ns28:DocumentFilingStatusCode>ACCEPTED</ns28:DocumentFilingStatusCode>
+						<ns2:StatusDescriptionText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns27:DocumentFilingStatus>
+					<ns2:DocumentDispositionType>ORD</ns2:DocumentDispositionType>
+					<ns2:DocumentDispositionDate>
+						<ns2:DateRepresentation xmlns:ns82="http://niem.gov/niem/proxy/xsd/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns82:dateTime">2026-05-15T14:30:00.000-08:00</ns2:DateRepresentation>
+					</ns2:DocumentDispositionDate>
+				</ns27:ReviewedConnectedDocument>
+				<!--
+				  ===================================================================
+				  Connected doc #3 — RECEIPT (court-generated). Carried forward from
+				  NFRC #2 per superset rule. No disposition fields.
+				  ===================================================================
+				-->
+				<ns27:ReviewedConnectedDocument>
+					<ns2:DocumentBinary>
+						<ns2:BinaryLocationURI>https://example-efm.s3.amazonaws.com/synth/receipt.pdf?X-Amz-Expires=604800</ns2:BinaryLocationURI>
+					</ns2:DocumentBinary>
+					<ns2:DocumentDescriptionText>RECEIPT</ns2:DocumentDescriptionText>
+					<ns2:DocumentFileControlID>500901</ns2:DocumentFileControlID>
+					<ns2:DocumentFiledDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentIdentification>
+						<ns2:IdentificationID>RECEIPT</ns2:IdentificationID>
+					</ns2:DocumentIdentification>
+					<ns2:DocumentReceivedDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentStatus>
+						<ns2:StatusText/>
+						<ns2:StatusDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns2:DocumentStatus>
+					<ns27:DocumentFilingStatus>
+						<ns28:DocumentFilingStatusCode>ACCEPTED</ns28:DocumentFilingStatusCode>
+						<ns2:StatusDescriptionText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns27:DocumentFilingStatus>
+				</ns27:ReviewedConnectedDocument>
+				<!--
+				  ===================================================================
+				  Connected doc #4 — Endorsed Filed-Stamped Copy. Court-issued.
+				  Uses the DIRECT-TEXT shape for DocumentDispositionDate (no NIEM
+				  wrapper) — exercises the parser's backward-compat fallback path.
+				  Real JTI deployments may emit either shape depending on age of the
+				  EFM stack; parser must tolerate both.
+				  ===================================================================
+				-->
+				<ns27:ReviewedConnectedDocument>
+					<ns2:DocumentBinary>
+						<ns2:BinaryLocationURI>https://example-efm.s3.amazonaws.com/synth/endorsed-stamped.pdf?X-Amz-Expires=604800</ns2:BinaryLocationURI>
+					</ns2:DocumentBinary>
+					<ns2:DocumentDescriptionText>Endorsed Filed-Stamped Copy</ns2:DocumentDescriptionText>
+					<ns2:DocumentFileControlID>500902</ns2:DocumentFileControlID>
+					<ns2:DocumentFiledDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentIdentification>
+						<ns2:IdentificationID>STAMP01</ns2:IdentificationID>
+					</ns2:DocumentIdentification>
+					<ns2:DocumentReceivedDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					<ns2:DocumentStatus>
+						<ns2:StatusText>F</ns2:StatusText>
+					</ns2:DocumentStatus>
+					<ns27:DocumentFilingStatus>
+						<ns28:DocumentFilingStatusCode>ACCEPTED</ns28:DocumentFilingStatusCode>
+						<ns2:StatusDescriptionText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</ns27:DocumentFilingStatus>
+					<ns2:DocumentDispositionType>OAI</ns2:DocumentDispositionType>
+					<ns2:DocumentDispositionDate>2026-05-15</ns2:DocumentDispositionDate>
+				</ns27:ReviewedConnectedDocument>
+				<!--
+				  ===================================================================
+				  FeesCalculation block — carried forward from NFRC #2 (superset rule).
+				  No new fees on NFRC #3 in typical Stipulation+Order workflows.
+				  ===================================================================
+				-->
+				<ns25:FeesCalculation>
+					<ns29:FeesCalculationAmount>386.92</ns29:FeesCalculationAmount>
+					<ns31:AllowanceCharge>
+						<ns30:AllowanceChargeReasonCode name="Limited Civil Complaint - ($10K up to $25K)-GC 70613(a), 70602.5">160</ns30:AllowanceChargeReasonCode>
+						<ns30:AllowanceChargeReason>Limited Civil Complaint - ($10K up to $25K)-GC 70613(a), 70602.5</ns30:AllowanceChargeReason>
+						<ns30:Amount>370</ns30:Amount>
+						<ns30:AccountingCostCode/>
+					</ns31:AllowanceCharge>
+					<ns4:Error>
+						<ns4:ErrorCode>0</ns4:ErrorCode>
+						<ns4:ErrorText>No Error</ns4:ErrorText>
+					</ns4:Error>
+				</ns25:FeesCalculation>
+			</ns25:ReviewFilingCallbackMessageExt>
+		</ns67:NotifyFilingReviewCompleteRequestMessage>
+	</soap:Body>
+</soap:Envelope>

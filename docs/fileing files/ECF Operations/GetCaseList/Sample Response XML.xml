@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"/>
+    <soap:Body>
+        <ns60:CaseListResponseMessage xmlns:ns9="urn:com.journaltech:ecourt:ecf:extension:TelephoneNumberExt" xmlns:ns8="urn:com.journaltech:ecourt:ecf:extension:NANPTelephoneNumberExt" xmlns:ns72="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListQueryMessage-4.0" xmlns:ns71="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentResponseMessage-4.0" xmlns:ns70="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingCallbackMessage-4.0" xmlns:ns7="urn:com.journaltech:ecourt:ecf:extension:StructuredAddressExt" xmlns:ns69="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:MessageReceiptMessage-4.0" xmlns:ns68="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DocumentQueryMessage-4.0" xmlns:ns67="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyQueryMessage-4.0" xmlns:ns66="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationQueryMessage-4.0" xmlns:ns65="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusQueryMessage-4.0" xmlns:ns64="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:ns63="urn:oasis:names:tc:legalxml-courtfiling:wsdl:WebServicesProfile-Definitions-4.0" xmlns:ns62="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingStatusResponseMessage-4.0" xmlns:ns61="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseResponseMessage-4.0" xmlns:ns60="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListResponseMessage-4.0" xmlns:ns6="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CriminalCase-4.0" xmlns:ns59="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationQueryMessageTypeExt" xmlns:ns58="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationQueryMessage-4.0" xmlns:ns57="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppInfo-4.0" xmlns:ns56="http://niem.gov/niem/appinfo/2.0" xmlns:ns55="urn:com.journaltech:ecourt:ecf:extension:ZipCodeValue" xmlns:ns54="urn:com.journaltech:ecourt:ecf:extension:AttorneyValue" xmlns:ns52="urn:com.journaltech:ecourt:ecf:extension:CodeValue" xmlns:ns51="urn:com.journaltech:ecourt:ecf:extension:DocumentResponseMessageTypeExt" xmlns:ns50="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceInformationResponseMessage-4.0" xmlns:ns5="http://niem.gov/niem/ansi-nist/2.0" xmlns:ns49="http://www.w3.org/2000/09/xmldsig#" xmlns:ns48="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CourtPolicyResponseMessage-4.0" xmlns:ns47="urn:com.journaltech:ecourt:ecf:extension:FilingListResponseMessageTypeExt" xmlns:ns46="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationResponseMessageTypeExt" xmlns:ns45="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FeesCalculationResponseMessage-4.0" xmlns:ns44="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:FilingListResponseMessage-4.0" xmlns:ns43="urn:com.journaltech:ecourt:ecf:extension:FilingListQueryMessageTypeExt" xmlns:ns42="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseQueryMessage-4.0" xmlns:ns41="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CaseListQueryMessage-4.0" xmlns:ns40="urn:com.journaltech:ecourt:ecf:extension:PaymentMessageExt" xmlns:ns4="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CommonTypes-4.0" xmlns:ns39="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ServiceReceiptMessage-4.0" xmlns:ns38="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:JuvenileCase-4.0" xmlns:ns37="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentReceiptMessage-4.0" xmlns:ns36="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:PaymentMessage-4.0" xmlns:ns35="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns34="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns33="urn:com.journaltech:ecourt:ecf:extension:FeesCalculationTypeExt" xmlns:ns32="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingStatus" xmlns:ns31="urn:com.journaltech:ecourt:ecf:extension:ReviewedDocumentType" xmlns:ns30="urn:com.journaltech:ecourt:ecf:extension:FilingStatusReason" xmlns:ns3="http://niem.gov/niem/domains/jxdm/4.0" xmlns:ns29="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:ReviewFilingCallbackMessage-4.0" xmlns:ns28="urn:com.journaltech:ecourt:ecf:extension:FilingIdentityType" xmlns:ns27="urn:com.journaltech:ecourt:ecf:extension:CoreFilingMessageExtType" xmlns:ns26="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CoreFilingMessage-4.0" xmlns:ns25="urn:com.journaltech:ecourt:ecf:extension:RecordDocketingMessageTypeExt" xmlns:ns24="http://niem.gov/niem/domains/screening/2.0" xmlns:ns23="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:DomesticCase-4.0" xmlns:ns22="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:BankruptcyCase-4.0" xmlns:ns21="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:AppellateCase-4.0" xmlns:ns20="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CitationCase-4.0" xmlns:ns2="http://niem.gov/niem/niem-core/2.0" xmlns:ns19="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:RecordDocketingMessage-4.0" xmlns:ns18="urn:com.journaltech:ecourt:ecf:extension:CourtEventJudgment" xmlns:ns17="urn:com.journaltech:ecourt:ecf:extension:ContactValue" xmlns:ns16="urn:com.journaltech:ecourt:ecf:extension:CourtEventTypeExt" xmlns:ns15="urn:com.journaltech:ecourt:ecf:extension:CourtEventDocumentTypeExt" xmlns:ns14="urn:com.journaltech:ecourt:ecf:extension:CivilCaseTypeExt" xmlns:ns13="urn:oasis:names:tc:legalxml-courtfiling:schema:xsd:CivilCase-4.0" xmlns:ns12="urn:com.journaltech:ecourt:ecf:extension:CaseParticipantExt" xmlns:ns11="urn:com.journaltech:ecourt:ecf:extension:DocumentFilingMetaData" xmlns:ns10="urn:com.journaltech:ecourt:ecf:extension:DocumentValue" xmlns:ns1="http://niem.gov/niem/structures/2.0">
+            <ns3:CaseCourt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <ns4:Error>
+                <ns4:ErrorCode>0</ns4:ErrorCode>
+                <ns4:ErrorText>No Error</ns4:ErrorText>
+            </ns4:Error>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>LAVARINI, DONATELLA vs ALLE, JOHN E</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2353219</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">LAM17K05335</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>STONE STREET CAPITAL INC VS WELL CAPITAL CORP               </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994979</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC220375</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DRIVER EDDY CONSTRUCTION COMPANY VS RICHARD J. NIEZGODZKI   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995047</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC223777</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ORLYNN DEON SHELDEN VS N MATTHEW GROSSMAN ET AL             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995232</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC232943</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>PALMER CITY CENTER LP VS INTERNATIONAL WATERSCAPES INC      </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995395</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC239439</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HECTOR MUNIZ VS MIGUEL GOMEZ                                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995477</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC242084</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JASBIR SINGH VS SURESH VARMA                                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995539</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC243855</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>E.H. BUTLAND DEVELOPMENT CORP., VS. EDWIN A. CABICO, ET AL  </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995641</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC246437</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DEBORAH L PEDIGO VS MERRILL LYNCH PIERCE FENNER &amp; SMITH ETAL</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995742</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC248597</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>TRISTRAM BUCKLEY VS HOLLYWOOD PARTNERS COM INC              </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995861</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC251414</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ILSHIN INVESTMENT CO LTD., ET AL  VS INTERLIGHT PICTURES INC</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994877</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC214077</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DAG PRINTING CORPORATION VS JOHN MOLDOVAN                   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994999</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC221400</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>SONIA PAREKH VS MARK W BIRKHEAD                             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995151</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC229064</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JON GASTER VS TRUSTAR ENTERTAINMENT                         </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995337</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC237364</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JOHN HONEY VS BIO TOUCH INC                                 </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995446</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC241013</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>FAIRWORTH, INC. vs THERING &amp; ASSOCIATES, PLLC</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2510869</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">17STLC01578</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>THOMAS EDEN VS JULIE MOSELY                                 </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994982</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC220534</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>LEONARDO UMANSKY VS BLAIR T BRYANT                          </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995057</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC224363</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DENIS MISTRY ET AL VS FARMERS INSURANCE GROUP ET AL         </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995240</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC233368</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HILTON CHODOROW VS DONALD I REIFLER                         </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995400</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC239576</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>LINDA WANG VS CHARLES XUE                                   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995511</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC243102</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>RICHARD K GOTTLIEB VS MICHAEL KEST                          </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995625</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC246040</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ZHIMING HAN VS SILK ROAD ENTERTAINMENT INC ET AL            </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995721</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC248231</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ALFONSO GARCIA VS LUIS GONZALEZ                             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995801</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC250132</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>WILLIAM CHANG VS YUH YOW TSAI                               </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995994</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC254446</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>INDRA S JHAVERI VS STEVEN TEITELBAUM                        </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995485</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC242306</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>PAUL E HIGHTOWER VS TIMA SERVICE &amp; ENGINEERING INC          </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995541</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC243918</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>CALIFORNIA DEPT OF EDUCATION VS TEMPLO CALVARIO LEGALIZATION</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995648</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC246627</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>BETTY S WOOD VS MERRILL LYNCH PIERCE FENNER &amp; SMITH ET AL   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995743</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC248598</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JOSEPH BALINT VS STATE FARM FIRE AND CASUALTY CO            </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995886</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC251989</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>LARRY SAROKIN VS MICHAEL J G GLEISSNER ET AL                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996225</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC259284</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>GARY LAFF ET AL VS FINANCIAL INDEMNITY COMPANY ET AL        </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996304</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC260670</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>MIDWAY MOTORS LEASING VS RAQUEL SMALL                       </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996418</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC262546</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>RODRIGO OLEAS VS GONZALO AVILA ET AL                        </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996506</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263571</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>REGAL PROPERTIES LTD ET AL VS FARMERS INS GRP OF CO ET AL   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996540</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263889</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HOLLYWOOD ARDMORE COOPERATIVE INC VS WILLIAM WEBB ET AL     </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996092</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC256583</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>GEORGE ULMER ET AL VS FOREST CONSTRUCITON CO INC ET AL      </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996255</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC259781</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>BRAD YOUNG VS FRANCISCO AGUIRRE ET AL                       </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996373</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC261799</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>WESTWOOD AMBASSADOR OWNERS ASSO VS FARMERS GROUP INC ET AL  </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996474</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263249</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HERMINIA AGDIGOS ET AL VS FARMERS INS GROUP OF CO ET AL     </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996532</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263841</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>YOUSSEF K YOUSSEF VS STATE FARM FIRE &amp; CASUALTY CO ET AL    </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996569</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264111</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>CHAKI RACHDOUNI VS STATE FARM INSURANCE COMPANY             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996633</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264580</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JOHN BOWLES ET AL VS STATE FARM FIRE AND CASUALTY COMPANY   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996661</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264671</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>TANYA FISHER VS FARMERS GROUP INC ET AL                     </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996682</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264745</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JETHRO MOSLEY ET AL VS FIRE INSURANCE EXCHANGE ET AL        </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996764</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC265106</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ULYSSES BURNS ET AL VS FARMERS INSURANCE GRP OF CO ET AL    </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996544</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263910</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>FOUNTAIN PARK COOPERATIVE INC VS FARMERS GROUP INC ET AL    </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996605</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264359</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>MICHAEL THOMAS MAHER ET AL VS ALLSTATE INSURANCE COMPANY    </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996645</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264620</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>NSHAN KETCHEDJIAN ET AL VS FARMERS GROUP INC ET AL          </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996670</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264687</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DIAON MICKEVICH VS STATE FARM INSURANCE COMPANY             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996705</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC264875</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HARRY BAUER ET AL VS FARMERS GROUP INC ET AL                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996823</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC265478</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>KLAUS CONRAD ET AL VS GEICO ET AL                           </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996831</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC265491</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>TAMARA WALDMAN ET AL VS FARMERS GROUP INC ET AL             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996839</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC265504</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ART WEINSTOCK ET AL VS REPUBLIC INSURANCE GROUP ET AL       </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996847</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC265513</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JON PASTORIA ET AL VS NATIONWIDE INSURANCE ET AL            </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2997017</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC267658</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>DEBORAH CAZDEN VS LAROOCA INSPECTIONS SYSTEMS INC           </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996080</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC256401</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>RICHARD ALLEN HAMP ET AL VS LA CASA CAMINO REAL ET AL       </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996248</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC259645</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>COUNTRY WALK CONDOMINIUM HOMEOWNERS ASSO VS FARMERS GROUP IN</ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996371</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC261795</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>PARVANEH PARTIELLY ET AL VS SHAHRAM AFSHANI ET AL           </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996426</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC262703</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>MARK MCHENRY ET AL VS STATE FARM FIRE &amp; CASUALTY CO ET AL   </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2996527</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC263762</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>WILLIAM THORNTON VS US BANK NATIONAL ASSOCIATION            </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2991549</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">30-2014-00727237</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>CHRISTOPHER G WESTON VS JACKSON VINCENT LORD                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994993</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC221085</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>STANLEY ALEXANDER VS GOLDEN EAGLE INSURANCE BUSINESS CORPOR </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995062</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC224771</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>CARLOS JACKSON VS STACEY SNIDER ET AL                       </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995280</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC235359</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HAZAR CHICORIAN VS VAROUJIAN JOHN KARPETIAN                 </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995406</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC239724</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>MICHAEL CHRIS REEDER VS LARRY WILKINSON                     </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994863</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC213075</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>MYUNG CHUL LIM VS YI KYU KANG                               </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994994</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC221092</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JAMIE DRAKE VS KERSTI RITA CLARK                            </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995064</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC224949</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>HILLS FOOD CO UNLIMITED VS STUART A BENSON                  </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995283</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC235510</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ANTHONY MACK ET AL VS SEARS ROEBUCK AND COMPANY             </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995413</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC239869</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ANGELA MEI LING WANG VS YUCHERNG STEVE WANG                 </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994874</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC213807</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>JONATHAN COTA VS UNITED CAPITOL INSURANCE COMPANY           </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2994996</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC221181</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>FARROKH FARZIN VS YVONNE YEO                                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995084</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC225915</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>INDOSUEZ FOH PARTNERS VS MONROE HOLDINGS LLC                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995312</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC236456</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+            <ns2:Case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns14:CivilCaseTypeExt">
+                <ns2:CaseTitleText>ANDREW MANLEY VS DEBRA REESE                                </ns2:CaseTitleText>
+                <ns2:CaseCategoryText>3701</ns2:CaseCategoryText>
+                <ns2:CaseTrackingID>2995414</ns2:CaseTrackingID>
+                <ns2:CaseDocketID xsi:type="ns2:TextType">BC239872</ns2:CaseDocketID>
+                <ns14:CaseTypeText>CU</ns14:CaseTypeText>
+                <ns14:CaseAugmentationExt xsi:nil="true"/>
+            </ns2:Case>
+        </ns60:CaseListResponseMessage>
+    </soap:Body>
+</soap:Envelope>
